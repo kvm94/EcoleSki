@@ -3,23 +3,42 @@ package be.marra.ecoleSki;
 import java.util.Date;
 
 public class Semaine {
+
+	//-------------------------Attributs-------------------------//
 	
-	private Date dateDebut;
-	private Date dateFin;
-	private String descriptif;
+	private Date 	dateDebut;
+	private Date 	dateFin;
+	private String 	descriptif;
 	private boolean congeScolaire;
+
+	//-------------------------Constructeurs-------------------------//
+	
+	public Semaine() {
+		this.dateDebut 		= null;
+		this.dateFin 		= null;
+		this.descriptif 	= null;
+		this.congeScolaire 	= false;
+	}
 	
 	public Semaine(Date dateDebut, Date dateFin, String descriptif, boolean congeScolaire) {
-		super();
-		this.dateDebut = dateDebut;
-		this.dateFin = dateFin;
-		this.descriptif = descriptif;
-		this.congeScolaire = congeScolaire;
+		this.dateDebut 		= dateDebut;
+		this.dateFin 		= dateFin;
+		this.descriptif 	= descriptif;
+		this.congeScolaire 	= congeScolaire;
 	}
+
 	
+	//-------------------------Méthodes-------------------------//
+	
+	/**
+	 * Vérifie si les dates sont valides.
+	 */
 	public void checkDate(){
-		
+
 	}
+
+	
+	//-------------------------Accesseurs-------------------------//
 	
 	public Date getDateDebut() {
 		return dateDebut;
@@ -45,5 +64,5 @@ public class Semaine {
 	public void setCongeScolaire(boolean congeScolaire) {
 		this.congeScolaire = congeScolaire;
 	}
-	
+
 }
