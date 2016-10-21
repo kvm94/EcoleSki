@@ -5,12 +5,36 @@ public class Accreditation {
 	//-------------------------Enumérations-------------------------//
 
 	protected static enum E_Categorie{
-	    Enfant,  Adulte;
+	    Enfant(0),  
+	    Adulte(1);
+		
+		private final int value;
+		
+		private E_Categorie(int value){
+			this.value = value;
+		}
+		
+		public int getValue(){
+			return value;
+		}
 	}
 	  
 	protected static enum E_Sport
 	{
-	    Ski,  Snowboard,  Telemark,  SkiFond;
+	    Ski(0),
+	    Snowboard(1),
+	    Telemark(2),
+	    SkiFond(3);
+		
+		private final int value;
+		
+		private E_Sport(int value){
+			this.value = value;
+		}
+		
+		public int getValue(){
+			return value;
+		}
 	}
 	
 	

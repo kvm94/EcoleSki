@@ -10,7 +10,27 @@ public class Cours {
 	
 	protected static enum E_Niveaux
 	{
-		PetitSpirou,  Bronze,  Argent,  Or,  Platine,  Diamant,  nv1,  nv1_nv4,  nv2_nv4,  Competition,  HorsPiste;
+		PetitSpirou(0),
+		Bronze(1),
+		Argent(2),
+		Or(3),
+		Platine(4),
+		Diamant(5), 
+		nv1(6),
+		nv1_nv4(7),
+		nv2_nv4(8),
+		Competition(9),
+		HorsPiste(10);
+		
+		private final int value;
+		
+		private E_Niveaux(int value){
+			this.value = value;
+		}
+		
+		public int getValue(){
+			return value;
+		}
 	}
 	
 	
