@@ -26,5 +26,9 @@ public class DAOFactory extends AbstractDAOFactory{
 	public DAO<Cours> getCoursDAO(){
 		return new CoursDAO(conn);
 	}
+	
+	public DAO<Accreditation> getAccreditationDAO(){
+		return new AccreditationDAO(conn);
+	}
 
 }

@@ -9,6 +9,7 @@ public abstract class AbstractDAOFactory {
 	public abstract DAO<Client> getClientDAO();
 	public abstract DAO<Reservation> getReservationDAO();
 	public abstract DAO<Cours> getCoursDAO();
+	public abstract DAO<Accreditation> getAccreditationDAO();
 	
 	public static AbstractDAOFactory getFactory(int type){
 		switch(type){
