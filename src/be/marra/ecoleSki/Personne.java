@@ -1,8 +1,8 @@
 package be.marra.ecoleSki;
 
-import java.util.Date;
+import java.time.LocalDate;
 
-@SuppressWarnings("deprecation")
+
 public abstract class Personne
 {
 	
@@ -10,7 +10,7 @@ public abstract class Personne
 	
 	private String nom;
 	private String prenom;
-	private Date dateNaissance;
+	private LocalDate dateNaissance;
 
 
 	//-------------------------Constructeurs-------------------------//
@@ -18,13 +18,13 @@ public abstract class Personne
 	public Personne() {
 		this.nom = null;
 		this.prenom = null;
-		this.dateNaissance = new Date();
+		this.setDateNaissance(null);
 	}
 	
 	public Personne(String nom, String prenom, int jour, int mois, int annee) {
 		this.nom = nom;
 		this.prenom = prenom;
-		this.dateNaissance = new Date(annee, mois, jour);
+		this.setDateNaissance(LocalDate.of(annee, mois, jour));
 	}
 
 	//-------------------------Méthodes-------------------------//
@@ -35,9 +35,9 @@ public abstract class Personne
 	 */
 	public int age()
 	{
-		Date now = new Date();
+		LocalDate now = LocalDate.now();
 		int age = now.getYear() - this.dateNaissance.getYear();
-		if ((now.getMonth()  == this.dateNaissance.getMonth()) || ((now.getMonth() == this.dateNaissance.getMonth()) && (now.getDay() == this.dateNaissance.getDay()))) {
+		if ((now.getMonth()  == this.dateNaissance.getMonth()) || ((now.getMonth() == this.dateNaissance.getMonth()) && (now.getDayOfMonth()) == this.dateNaissance.getDayOfMonth())) {
 			age--;
 		}
 		return age;
@@ -66,13 +66,11 @@ public abstract class Personne
 		this.prenom = prenom;
 	}
 
-	public Date getDateNaissance()
-	{
-		return this.dateNaissance;
+	public LocalDate getDateNaissance() {
+		return dateNaissance;
 	}
 
-	public void setDateNaissance(Date dateNaissance)
-	{
+	public void setDateNaissance(LocalDate dateNaissance) {
 		this.dateNaissance = dateNaissance;
 	}
 }
