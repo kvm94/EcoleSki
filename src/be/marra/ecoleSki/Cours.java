@@ -39,6 +39,7 @@ public class Cours {
 	private E_Categorie categorie;
 	private E_Sport 	sport;
 	private E_Niveaux 	niveaux;
+	private Moniteur	moniteur;
 	private Time 		heure;
 	private double 		prix;
 	private int 		minEleve;
@@ -56,12 +57,14 @@ public class Cours {
 		this.minEleve = 0;
 		this.maxEleve = 0;
 		this.collectif = false;
+		this.moniteur = null;
 	}
 	
-	public Cours(E_Categorie categorie, E_Sport sport, E_Niveaux niveaux, Time heure, double prix, int minEleve, int maxEleve, boolean collectif) {
+	public Cours(E_Categorie categorie, E_Sport sport, E_Niveaux niveaux, Moniteur moniteur, Time heure, double prix, int minEleve, int maxEleve, boolean collectif) {
 		this.categorie = categorie;
 		this.sport = sport;
 		this.niveaux = niveaux;
+		this.moniteur = moniteur;
 		this.heure = heure;
 		this.prix = prix;
 		this.minEleve = minEleve;
