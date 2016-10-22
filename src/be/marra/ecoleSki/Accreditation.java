@@ -40,9 +40,9 @@ public class Accreditation {
 	
 	//-------------------------Attributs-------------------------//
 	
-	E_Categorie cat;
-	E_Sport 	sport;
-  
+	private int 		id;
+	private E_Categorie cat;
+	private E_Sport 	sport;
 	
 	//-------------------------Constructeurs-------------------------//
 	
@@ -54,6 +54,13 @@ public class Accreditation {
 	
 	public Accreditation(E_Categorie cat, E_Sport sport)
 	{
+		this.cat 	= cat;
+		this.sport 	= sport;
+	}
+	
+	public Accreditation(int id, E_Categorie cat, E_Sport sport)
+	{
+		this.id 	= id;
 		this.cat 	= cat;
 		this.sport 	= sport;
 	}
@@ -79,5 +86,13 @@ public class Accreditation {
 	public void setSport(E_Sport sport)
 	{
 		this.sport = sport;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }
