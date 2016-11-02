@@ -124,4 +124,29 @@ public class AccreditationDAO extends DAO<Accreditation>{
 		}
 		return accreditation;
 	}
+	
+	/**
+	 * Récupère l'id d'une accréditation dans la base de données. 
+	 * @param L'accréditation. 
+	 * @return L'id de l'accréditation.
+	 */
+	/*public int getId(Accreditation obj){
+		int id = 0;
+		try{
+			ResultSet result = this.connect.createStatement(
+					ResultSet.TYPE_FORWARD_ONLY,
+					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT id_accreditation FROM Accreditation WHERE "
+							+ "categorie = " + obj.getCat().getValue()
+							+ "and sport = " + obj.getSport().getValue());
+			
+			while(result.next()){
+				id =result.getInt("id_accreditation");
+			}	
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		return id;
+	}*/
+	
 }

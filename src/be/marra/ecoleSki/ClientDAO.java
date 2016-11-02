@@ -128,4 +128,35 @@ public class ClientDAO extends DAO<Client>{
 		}
 		return client;
 	}
+	
+	/**
+	 * Cherche un client dans la base de données.
+	 * @param String mdp, String nom, String prenom
+	 * @return Le client recherchée.
+	 */
+	public Client find(String mdp, String nom, String prenom){
+		Client client = new Client();
+		try{
+			ResultSet result = this.connect.createStatement(
+					ResultSet.TYPE_FORWARD_ONLY,
+					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Client WHERE nom = " + nom + ", prenom = " + prenom + ", mdp = " + mdp);
+			
+			while(result.next()){
+				client.setId(result.getInt("id_client"));
+				client.setNom(result.getString("nom"));
+				client.setPrenom(result.getString("prenom"));
+				client.setPasswd(result.getString("mdp"));
+				
+				//Conversion de la date Long en type Date
+				long input = result.getLong("dateNaissance");
+				LocalDate output = LocalDate.ofEpochDay(input);
+				client.setDateNaissance(output);
+				
+			}	
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		return client;
+	}
 }

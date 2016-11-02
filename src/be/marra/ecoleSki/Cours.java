@@ -36,6 +36,7 @@ public class Cours {
 	
 	//-------------------------Attributs-------------------------//
 	
+	private int 		id;
 	private E_Categorie categorie;
 	private E_Sport 	sport;
 	private E_Niveaux 	niveaux;
@@ -45,6 +46,11 @@ public class Cours {
 	private int 		minEleve;
 	private int 		maxEleve;
 	private boolean 	collectif;
+	
+	//Base de données//
+	
+	private AbstractDAOFactory adf;
+	DAO<Cours> CoursDAO;
 
 	//-------------------------Constructeurs-------------------------//
 	
@@ -57,23 +63,36 @@ public class Cours {
 		this.minEleve = 0;
 		this.maxEleve = 0;
 		this.collectif = false;
-		this.moniteur = null;
+		this.setMoniteur(null);
+		
+		initDB();
 	}
 	
 	public Cours(E_Categorie categorie, E_Sport sport, E_Niveaux niveaux, Moniteur moniteur, Time heure, double prix, int minEleve, int maxEleve, boolean collectif) {
 		this.categorie = categorie;
 		this.sport = sport;
 		this.niveaux = niveaux;
-		this.moniteur = moniteur;
+		this.setMoniteur(moniteur);
 		this.heure = heure;
 		this.prix = prix;
 		this.minEleve = minEleve;
 		this.maxEleve = maxEleve;
 		this.collectif = collectif;
+		
+		initDB();
 	}
 
 	
 	//-------------------------Méthodes-------------------------//
+	
+	private void initDB(){
+		adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
+		CoursDAO = adf.getCoursDAO();
+	}
+	
+	public void setIdMoniteur(int id){
+		moniteur.setId(id);
+	}
 	
 	/**
 	 * Vérifie si l'accréditation requise pour le cours est ok.
@@ -168,6 +187,22 @@ public class Cours {
 
 	public void setCollectif(boolean collectif) {
 		this.collectif = collectif;
+	}
+
+	public Moniteur getMoniteur() {
+		return moniteur;
+	}
+
+	public void setMoniteur(Moniteur moniteur) {
+		this.moniteur = moniteur;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	

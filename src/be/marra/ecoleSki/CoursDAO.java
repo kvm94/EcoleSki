@@ -1,35 +1,203 @@
 package be.marra.ecoleSki;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.time.LocalDate;
+
+import be.marra.ecoleSki.Accreditation.E_Categorie;
+import be.marra.ecoleSki.Accreditation.E_Sport;
+import be.marra.ecoleSki.Cours.E_Niveaux;
 
 public class CoursDAO extends DAO<Cours>{
-	
+
 	public CoursDAO(Connection conn){
 		super(conn);
 	}
 
+	/**
+	 * Ajoute un cours dans la base de données.
+	 * @param Le cours à ajouter.
+	 * @return True si l'opération c'est bien effectuée.
+	 */
+	@SuppressWarnings("deprecation")
 	public boolean create(Cours obj){		
-		return false;
+		boolean check = false;
+
+		try{
+			PreparedStatement statement = connect.prepareStatement(
+					"INSERT INTO Cours (id_moniteur, categorie, sport, niveaux, heure, min, prix, minEleve, maxEleve, collectif) VALUES(?,?,?,?,?,?,?,?,?,?)");
+			statement.setInt(1,obj.getMoniteur().getId());
+			statement.setInt(2,obj.getCategorie().getValue());
+			statement.setInt(3,obj.getSport().getValue());
+			statement.setInt(4,obj.getNiveaux().getValue());
+			statement.setInt(5,obj.getHeure().getHours());
+			statement.setInt(6,obj.getHeure().getMinutes());
+			statement.setDouble(7,obj.getPrix());
+			statement.setInt(8,obj.getMinEleve());
+			statement.setInt(9,obj.getMaxEleve());
+
+			if(obj.isCollectif()){
+				statement.setInt(10, 1);
+			}
+			else
+				statement.setInt(10, 0);
+
+			statement.executeUpdate();
+			check = true;
+		}
+		catch (Exception e){
+			e.printStackTrace();  
+		}
+		return check;
 	}
 
+	/**
+	 * Supprime un cours de la base de données.
+	 * @param Le cours à supprimer.
+	 * @eturn True si l'opération c'est bien déroulée.
+	 */
 	public boolean delete(Cours obj){
-		return false;
+		boolean check = false;
+
+		try{
+			PreparedStatement statement = connect.prepareStatement(
+					"DELETE FROM Cours WHERE id_cours= ?");
+			statement.setInt(1,obj.getId());
+
+			statement.executeUpdate();
+			check = true;
+		}
+		catch (Exception e){
+			e.printStackTrace();  
+		}
+		return check;
 	}
 
+	/**
+	 * Met à jour un cours de la base de données.
+	 * @param Le cours à mettre à jour.
+	 * @return True si l'opération c'est bien déroulée.
+	 */
+	@SuppressWarnings("deprecation")
 	public boolean update(Cours obj){
-		return false;
+		boolean check = false;
+
+		try{
+			PreparedStatement statement = connect.prepareStatement(
+					"UPDATE Cours set "
+							+ "id_moniteur = ?,"
+							+ "categorie= ?,"
+							+ "sport =?,"
+							+ "niveaux=?,"
+							+ "heure=?,"
+							+ "min=?,"
+							+ "prix=?,"
+							+ "minEleve=?,"
+							+ "maxEleve=?,"
+							+ "collectif=? "
+							+ "WHERE id_cours = " + obj.getId());
+
+			statement.setInt(1,obj.getMoniteur().getId());
+			statement.setInt(2,obj.getCategorie().getValue());
+			statement.setInt(3,obj.getSport().getValue());
+			statement.setInt(4,obj.getNiveaux().getValue());
+			statement.setInt(5,obj.getHeure().getHours());
+			statement.setInt(6,obj.getHeure().getMinutes());
+			statement.setDouble(7,obj.getPrix());
+			statement.setInt(8,obj.getMinEleve());
+			statement.setInt(9,obj.getMaxEleve());
+
+			if(obj.isCollectif()){
+				statement.setInt(10, 1);
+			}
+			else
+				statement.setInt(10, 0);
+
+			statement.executeUpdate();
+			check = true;
+		}
+		catch (Exception e){
+			e.printStackTrace();  
+		}
+		return check;
 	}
 
+	/**
+	 * Cherche un cours dans la base de données.
+	 * @param L'id du cours.
+	 * @return Le cours recherchée.
+	 */
+	@SuppressWarnings("deprecation")
 	public Cours find(int id){
 		Cours cours = new Cours();
 		try{
 			ResultSet result = this.connect.createStatement(
-					ResultSet.TYPE_SCROLL_INSENSITIVE,
-					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Cours WHERE numCours = " + id);
-			if(result.first()){
-				//moniteur.set Eleve(/*id, result.getString("nomEleve"), result.getString("prenomEleve")*/);
+					ResultSet.TYPE_FORWARD_ONLY,
+					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Cours WHERE id_cours = " + id);
+
+			while(result.next()){
+				cours.setId(result.getInt("id_cours"));
+				cours.setIdMoniteur(result.getInt("id_moniteur"));	
+				
+				switch(result.getInt("categorie")){
+					case 0: cours.setCategorie(E_Categorie.Enfant);
+					break;
+					case 1: cours.setCategorie(E_Categorie.Adulte);
+					break;
+				}
+
+				switch(result.getInt("sport")){
+					case 0: cours.setSport(E_Sport.Ski);
+					break;
+					case 1: cours.setSport(E_Sport.Snowboard);
+					break;
+					case 2: cours.setSport(E_Sport.Telemark);
+					break;
+					case 3: cours.setSport(E_Sport.SkiFond);
+					break;
+				}
+				
+				switch(result.getInt("niveaux")){
+					case 0: cours.setNiveaux(E_Niveaux.PetitSpirou);
+					break;
+					case 1: cours.setNiveaux(E_Niveaux.Bronze);
+					break;
+					case 2: cours.setNiveaux(E_Niveaux.Argent);
+					break;
+					case 3: cours.setNiveaux(E_Niveaux.Or);
+					break;
+					case 4: cours.setNiveaux(E_Niveaux.Platine);
+					break;
+					case 5: cours.setNiveaux(E_Niveaux.Diamant);
+					break;
+					case 6: cours.setNiveaux(E_Niveaux.nv1);
+					break;
+					case 7: cours.setNiveaux(E_Niveaux.nv1_nv4);
+					break;
+					case 8: cours.setNiveaux(E_Niveaux.nv2_nv4);
+					break;
+					case 9: cours.setNiveaux(E_Niveaux.Competition);
+					break;
+					case 10: cours.setNiveaux(E_Niveaux.HorsPiste);
+					break;
+				}
+				
+				Time heure = new Time(0);
+				heure.setHours(result.getInt("heure"));
+				heure.setMinutes(result.getInt("min"));
+				cours.setHeure(heure);
+				
+				cours.setPrix(result.getDouble("prix"));
+				cours.setMinEleve(result.getInt("minEleve"));
+				cours.setMaxEleve(result.getInt("maxEleve"));
+				
+				if(result.getInt("collectif") == 1)
+					cours.setCollectif(true);
+				else
+					cours.setCollectif(false);
 			}	
 		}
 		catch(SQLException e){

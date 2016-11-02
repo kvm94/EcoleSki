@@ -8,17 +8,25 @@ public class Client extends Personne {
 	private String	passwd;
 	private Panier 	pan;
 	
+	//Base de données//
+		private AbstractDAOFactory adf;
+		DAO<Client> clientDAO;
+	
 	  
 	//-------------------------Constructeurs-------------------------//
 	
 	public Client(){
 	    super();
 	    this.pan = new Panier();
+	    
+	    initDB();
 	}
 	
 	public Client(String nom, String prenom, int jour, int mois, int annee){
 	    super(nom, prenom, jour, mois, annee);
 	    this.pan = new Panier();
+	    
+	    initDB();
 	}
 	
 	public Client(int id, String nom, String prenom, int jour, int mois, int annee, String passwd){
@@ -26,6 +34,8 @@ public class Client extends Personne {
 	    this.setId(id);
 	    this.setPasswd(passwd);
 	    this.pan = new Panier();
+	    
+	    initDB();
 	}
 	
 	
@@ -36,7 +46,10 @@ public class Client extends Personne {
 	 */
 	public void viderPanier() {}
 	
-	
+	private void initDB(){
+		adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
+		clientDAO = adf.getClientDAO();
+	}
 	//-------------------------Accesseurs-------------------------//
 	
 	public Panier getPan(){

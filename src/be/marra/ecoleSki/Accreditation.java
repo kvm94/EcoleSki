@@ -44,6 +44,11 @@ public class Accreditation {
 	private E_Categorie cat;
 	private E_Sport 	sport;
 	
+	//Base de données//
+	private AbstractDAOFactory adf;
+	DAO<Accreditation> accreditationDAO;
+	
+	
 	//-------------------------Constructeurs-------------------------//
 	
 	public Accreditation()
@@ -56,6 +61,8 @@ public class Accreditation {
 	{
 		this.cat 	= cat;
 		this.sport 	= sport;
+		
+		initDB();
 	}
 	
 	public Accreditation(int id, E_Categorie cat, E_Sport sport)
@@ -63,8 +70,30 @@ public class Accreditation {
 		this.id 	= id;
 		this.cat 	= cat;
 		this.sport 	= sport;
+		
+		initDB();
 	}
-  
+	
+	//-------------------------Méthodes-------------------------//
+	
+	private void initDB(){
+		adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
+		accreditationDAO = adf.getAccreditationDAO();
+	}
+	
+	public void init(int id){
+		Accreditation a = accreditationDAO.find(id);
+		this.id = id;
+		this.sport = a.sport;
+		this.cat = a.cat;
+	}
+	
+	public void init(){
+		Accreditation a = accreditationDAO.find(id);
+		this.sport = a.sport;
+		this.cat = a.cat;
+	}
+	
 	
 	//-------------------------Accesseurs-------------------------//
 	
