@@ -120,6 +120,7 @@ public class ClientDAO extends DAO<Client>{
 				long input = result.getLong("dateNaissance");
 				LocalDate output = LocalDate.ofEpochDay(input);
 				client.setDateNaissance(output);
+				client.setIdPan(result.getInt("id_client"));
 				
 			}	
 		}

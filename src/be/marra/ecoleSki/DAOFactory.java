@@ -30,5 +30,9 @@ public class DAOFactory extends AbstractDAOFactory{
 	public DAO<Accreditation> getAccreditationDAO(){
 		return new AccreditationDAO(conn);
 	}
+	
+	public DAO<Semaine> getSemaineDAO(){
+		return new SemaineDAO(conn);
+	}
 
 }

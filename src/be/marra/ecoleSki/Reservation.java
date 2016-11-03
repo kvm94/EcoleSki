@@ -12,13 +12,18 @@ public class Reservation {
 	
 	//-------------------------Attributs-------------------------//
 	
+	private int 		id;
 	private E_Statut 	statut;
 	private Time 		heure;
 	private double 		prix;
 	private Eleve 		eleve;
 	private Cours 		cours;
 	private Semaine 	semaine;
-
+	private Client		client;
+	
+	//Base de données//
+	private AbstractDAOFactory adf;
+	DAO<Reservation> resDAO;
 	
 	//-------------------------Constructeurs-------------------------//
 	
@@ -30,6 +35,9 @@ public class Reservation {
 		this.eleve = null;
 		this.cours = null;
 		this.semaine = null;
+		this.client = null;
+		
+		initDB();
 	}
 	
 	public Reservation(E_Statut statut, Time heure, double prix)
@@ -40,9 +48,12 @@ public class Reservation {
 		this.eleve = new Eleve();
 		this.cours = new Cours();
 		this.semaine = new Semaine();
+		this.client =  new Client();
+		
+		initDB();
 	}
 
-	public Reservation(E_Statut statut, Time heure, double prix, Eleve eleve, Cours cours, Semaine semaine)
+	public Reservation(E_Statut statut, Time heure, double prix, Eleve eleve, Cours cours, Semaine semaine, Client client)
 	{
 		this.statut = statut;
 		this.heure = heure;
@@ -50,6 +61,9 @@ public class Reservation {
 		this.eleve = eleve;
 		this.cours = cours;
 		this.semaine = semaine;
+		this.client = client;
+		
+		initDB();
 	}
 
 	
@@ -58,7 +72,27 @@ public class Reservation {
 	public void appliquerReduction() {}
 
 	public void afficher() {}
-
+	
+	private void initDB(){
+		adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
+		resDAO = adf.getReservationDAO();
+	}
+	
+	public void setIdClient(int id){
+		client.setId(id);
+	}
+	
+	public void setIdSemaine(int id){
+		semaine.setId(id);
+	}
+	
+	public void setIdEleve(int id){
+		eleve.setId(id);
+	}
+	
+	public void setIdCours(int id){
+		cours.setId(id);
+	}
 	
 	//-------------------------Accesseurs-------------------------//
 	
@@ -120,5 +154,21 @@ public class Reservation {
 
 	public void setSemaine(Semaine semaine) {
 		this.semaine = semaine;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
 	}
 }

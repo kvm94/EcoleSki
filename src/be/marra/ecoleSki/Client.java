@@ -75,4 +75,5 @@ public class Client extends Personne {
 	public void setPasswd(String passwd) {
 		this.passwd = passwd;
 	}
+
 }

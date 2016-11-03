@@ -15,7 +15,6 @@ public class Panier {
 		//Initialise le panier avec la base de données.
 		initTotal();
 	}
-
 	
 	//-------------------------Méthodes-------------------------//
 	
@@ -48,4 +47,6 @@ public class Panier {
 	 * Consulte une réservation.
 	 */
 	public void consulterReservation() {}
+
+
 }
