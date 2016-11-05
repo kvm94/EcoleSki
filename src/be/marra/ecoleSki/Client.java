@@ -3,12 +3,11 @@ package be.marra.ecoleSki;
 import be.marra.ecoleSki.DAO.AbstractDAOFactory;
 import be.marra.ecoleSki.DAO.DAO;
 
-public class Client extends Personne {
+public class Client extends Utilisateur {
 	
 	//-------------------------Attributs-------------------------//
 	
 	private int 	id;
-	private String	passwd;
 	private Panier 	pan;
 	
 	//Base de données//
@@ -19,7 +18,7 @@ public class Client extends Personne {
 	//-------------------------Constructeurs-------------------------//
 	
 	public Client(){
-	    super();
+	    super(null, null, 1,1,1);
 	    this.pan = new Panier();
 	    
 	    initDB();
@@ -53,6 +52,21 @@ public class Client extends Personne {
 		adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
 		clientDAO = adf.getClientDAO();
 	}
+	
+	@Override
+	public boolean inscription(){
+		if(clientDAO.create(this)){
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	@Override
+	public void connexion(){
+		
+	}
+	
 	//-------------------------Accesseurs-------------------------//
 	
 	public Panier getPan(){
@@ -69,14 +83,6 @@ public class Client extends Personne {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public String getPasswd() {
-		return passwd;
-	}
-
-	public void setPasswd(String passwd) {
-		this.passwd = passwd;
 	}
 
 }

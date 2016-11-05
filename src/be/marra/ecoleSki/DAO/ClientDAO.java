@@ -5,6 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
+
 import be.marra.ecoleSki.*;
 
 public class ClientDAO extends DAO<Client>{
@@ -24,26 +28,32 @@ public class ClientDAO extends DAO<Client>{
 	 */
 	public boolean create(Client obj){		
 		boolean check = false;
-
-		try{
-			PreparedStatement statement = connect.prepareStatement(
-					"INSERT INTO Client (mdp,nom, prenom, dateNaissance) VALUES(?,?,?,?)");
-			statement.setString(1,obj.getPasswd());
-			statement.setString(2,obj.getNom());
-			statement.setString(3,obj.getPrenom());
-			
-			//Conversion de la date en INTEGER pour la base de données SQLite.
-			LocalDate date = obj.getDateNaissance();
-			long output = date.toEpochDay();
-			
-			statement.setLong(4, output);
-			
-			statement.executeUpdate();
-			check = true;
+		ArrayList<Client> c = find(obj.getNom(), obj.getPrenom());
+		
+		if(c.size() < 1){
+			try{
+				PreparedStatement statement = connect.prepareStatement(
+						"INSERT INTO Client (mdp,nom, prenom, dateNaissance) VALUES(?,?,?,?)");
+				statement.setString(1,obj.getPasswd());
+				statement.setString(2,obj.getNom());
+				statement.setString(3,obj.getPrenom());
+				
+				//Conversion de la date en INTEGER pour la base de données SQLite.
+				LocalDate date = obj.getDateNaissance();
+				long output = date.toEpochDay();
+				
+				statement.setLong(4, output);
+				
+				statement.executeUpdate();
+				check = true;
+			}
+			catch (Exception e){
+				e.printStackTrace();  
+			}
 		}
-		catch (Exception e){
-			e.printStackTrace();  
-		}
+		else
+			JOptionPane.showMessageDialog(null, "L'utilisateur existe déjà!");
+		
 		return check;
 	}
 
@@ -132,16 +142,17 @@ public class ClientDAO extends DAO<Client>{
 	/**
 	 * Cherche un client dans la base de données.
 	 * @param String mdp, String nom, String prenom
-	 * @return Le client recherchée.
+	 * @return La liste des client trouvé.
 	 */
-	public Client find(String mdp, String nom, String prenom){
-		Client client = new Client();
+	public ArrayList<Client> find(String nom, String prenom){
+		ArrayList<Client> clients = new ArrayList<Client>();
 		try{
 			ResultSet result = this.connect.createStatement(
 					ResultSet.TYPE_FORWARD_ONLY,
-					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Client WHERE nom = " + nom + ", prenom = " + prenom + ", mdp = " + mdp);
+					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Client WHERE nom = '" + nom + "'and prenom = '" + prenom + "'");
 			
 			while(result.next()){
+				Client client = new Client();
 				client.setId(result.getInt("id_client"));
 				client.setNom(result.getString("nom"));
 				client.setPrenom(result.getString("prenom"));
@@ -152,11 +163,13 @@ public class ClientDAO extends DAO<Client>{
 				LocalDate output = LocalDate.ofEpochDay(input);
 				client.setDateNaissance(output);
 				
+				clients.add(client);
+				
 			}	
 		}
 		catch(SQLException e){
 			e.printStackTrace();
 		}
-		return client;
+		return clients;
 	}
 }

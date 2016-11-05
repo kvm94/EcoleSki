@@ -73,4 +73,5 @@ public abstract class Personne
 	public void setDateNaissance(LocalDate dateNaissance) {
 		this.dateNaissance = dateNaissance;
 	}
+
 }

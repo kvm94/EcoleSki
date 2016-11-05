@@ -1,15 +1,16 @@
 package be.marra.ecoleSki;
 
+import java.util.ArrayList;
+
 import be.marra.ecoleSki.DAO.AbstractDAOFactory;
 import be.marra.ecoleSki.DAO.DAO;
 
-public class Moniteur extends Personne {
+public class Moniteur extends Utilisateur {
 	
 	//-------------------------Attributs-------------------------//
 	
-	private Accreditation acre;
+	private ArrayList<Accreditation> listeAccre;
 	private int id;
-	private String passwd;
 
 	//Base de données//
 	private AbstractDAOFactory adf;
@@ -18,22 +19,22 @@ public class Moniteur extends Personne {
 	//-------------------------Constructeurs-------------------------//
 	
 	public Moniteur() {
-		super();
-		this.acre = null;
+		super(null, null, 1, 1, 1);
+		this.listeAccre = new ArrayList<Accreditation>();
 		
 		initDB();
 	}
 	
-	public Moniteur(String nom, String prenom, int jour, int mois, int annee, Accreditation acre) {
+	public Moniteur(String nom, String prenom, int jour, int mois, int annee) {
 		super(nom, prenom, jour, mois, annee);
-		this.acre = acre;
+		this.listeAccre = new ArrayList<Accreditation>();
 		
 		initDB();
 	}
 	
-	public Moniteur(String nom, String prenom, int jour, int mois, int annee, Accreditation acre, int id) {
+	public Moniteur(String nom, String prenom, int jour, int mois, int annee, int id) {
 		super(nom, prenom, jour, mois, annee);
-		this.acre = acre;
+		this.listeAccre = new ArrayList<Accreditation>();
 		this.setId(id);
 		
 		initDB();
@@ -46,21 +47,33 @@ public class Moniteur extends Personne {
 		moniteurDAO = adf.getMoniteurDAO();
 	}
 	
-	public void setIdAcre(int id){
-		acre.setId(id);
+	public void setIdAcre(int id, int pos){
+		listeAccre.get(pos).setId(id);
 	}
 
+	@Override
+	public boolean inscription(){
+		if(moniteurDAO.create(this))
+			return true;
+		else
+			return false;
+	}
+	
+	@Override
+	public void connexion(){
+		
+	}
 	
 	//-------------------------Accesseurs-------------------------//
 	
-	public Accreditation getAcre()
+	public Accreditation getAcre(int pos)
 	{
-		return this.acre;
+		return listeAccre.get(pos);
 	}
 
-	public void setAcre(Accreditation acre)
+	public void addAccre(Accreditation accre)
 	{
-		this.acre = acre;
+		listeAccre.add(accre);
 	}
 
 	public int getId() {
@@ -69,13 +82,5 @@ public class Moniteur extends Personne {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public String getPasswd() {
-		return passwd;
-	}
-
-	public void setPasswd(String passwd) {
-		this.passwd = passwd;
 	}
 }
