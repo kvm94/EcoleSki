@@ -1,6 +1,7 @@
-package be.marra.ecoleSki;
+package be.marra.ecoleSki.DAO;
 
 import java.sql.Connection;
+import be.marra.ecoleSki.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

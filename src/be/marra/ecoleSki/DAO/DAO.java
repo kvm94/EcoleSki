@@ -1,4 +1,5 @@
-package be.marra.ecoleSki;
+package be.marra.ecoleSki.DAO;
+
 
 import java.sql.Connection;
 

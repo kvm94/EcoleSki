@@ -1,10 +1,13 @@
 package be.marra.ecoleSki;
 
+import be.marra.ecoleSki.DAO.AbstractDAOFactory;
+import be.marra.ecoleSki.DAO.DAO;
+
 public class Accreditation {
 	
 	//-------------------------Enumérations-------------------------//
 
-	protected static enum E_Categorie{
+	public static enum E_Categorie{
 	    Enfant(0),  
 	    Adulte(1);
 		
@@ -19,7 +22,7 @@ public class Accreditation {
 		}
 	}
 	  
-	protected static enum E_Sport
+	public static enum E_Sport
 	{
 	    Ski(0),
 	    Snowboard(1),

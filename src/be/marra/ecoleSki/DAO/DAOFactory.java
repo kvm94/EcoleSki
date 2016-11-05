@@ -1,7 +1,7 @@
-package be.marra.ecoleSki;
+package be.marra.ecoleSki.DAO;
 
 import java.sql.Connection;
-
+import be.marra.ecoleSki.*;
 
 public class DAOFactory extends AbstractDAOFactory{
 	protected static final Connection conn = ConnexionSQLITE.getInstance();

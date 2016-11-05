@@ -1,6 +1,8 @@
 package be.marra.ecoleSki;
 
 import java.time.LocalDate;
+import be.marra.ecoleSki.DAO.AbstractDAOFactory;
+import be.marra.ecoleSki.DAO.DAO;
 
 public class Semaine {
 

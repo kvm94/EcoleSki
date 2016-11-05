@@ -1,4 +1,6 @@
-package be.marra.ecoleSki;
+package be.marra.ecoleSki.DAO;
+
+import be.marra.ecoleSki.*;
 
 public abstract class AbstractDAOFactory {
 	public static final int DAO_FACTORY = 0;

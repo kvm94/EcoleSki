@@ -1,12 +1,11 @@
-package be.marra.ecoleSki;
+package be.marra.ecoleSki.DAO;
 
 import java.sql.Connection;
+import be.marra.ecoleSki.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
-import java.time.LocalDate;
-
 import be.marra.ecoleSki.Reservation.E_Statut;
 
 public class ReservationDAO extends DAO<Reservation>{

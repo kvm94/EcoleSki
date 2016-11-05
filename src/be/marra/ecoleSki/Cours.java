@@ -1,6 +1,8 @@
 package be.marra.ecoleSki;
 
 import java.sql.Time;
+import be.marra.ecoleSki.DAO.AbstractDAOFactory;
+import be.marra.ecoleSki.DAO.DAO;
 import be.marra.ecoleSki.Accreditation.E_Categorie;
 import be.marra.ecoleSki.Accreditation.E_Sport;
 
@@ -8,7 +10,7 @@ public class Cours {
 	
 	//-------------------------Enumérations-------------------------//
 	
-	protected static enum E_Niveaux
+	public static enum E_Niveaux
 	{
 		PetitSpirou(0),
 		Bronze(1),

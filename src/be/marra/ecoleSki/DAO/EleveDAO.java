@@ -1,10 +1,11 @@
-package be.marra.ecoleSki;
+package be.marra.ecoleSki.DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import be.marra.ecoleSki.*;
 
 public class EleveDAO extends DAO<Eleve>{
 	public EleveDAO(Connection conn){

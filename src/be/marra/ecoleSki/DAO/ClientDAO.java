@@ -1,10 +1,11 @@
-package be.marra.ecoleSki;
+package be.marra.ecoleSki.DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import be.marra.ecoleSki.*;
 
 public class ClientDAO extends DAO<Client>{
 	
@@ -119,9 +120,7 @@ public class ClientDAO extends DAO<Client>{
 				//Conversion de la date Long en type Date
 				long input = result.getLong("dateNaissance");
 				LocalDate output = LocalDate.ofEpochDay(input);
-				client.setDateNaissance(output);
-				client.setIdPan(result.getInt("id_client"));
-				
+				client.setDateNaissance(output);				
 			}	
 		}
 		catch(SQLException e){

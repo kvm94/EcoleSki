@@ -1,11 +1,13 @@
 package be.marra.ecoleSki;
 
 import java.sql.Time;
+import be.marra.ecoleSki.DAO.AbstractDAOFactory;
+import be.marra.ecoleSki.DAO.DAO;
 
 public class Reservation {
 	//-------------------------Enumération-------------------------//
 	
-	protected static enum E_Statut
+	public static enum E_Statut
 	{
 		Paye,  Reserve;
 	}

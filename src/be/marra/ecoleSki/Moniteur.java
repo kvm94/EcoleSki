@@ -1,5 +1,8 @@
 package be.marra.ecoleSki;
 
+import be.marra.ecoleSki.DAO.AbstractDAOFactory;
+import be.marra.ecoleSki.DAO.DAO;
+
 public class Moniteur extends Personne {
 	
 	//-------------------------Attributs-------------------------//
