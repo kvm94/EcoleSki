@@ -4,7 +4,7 @@ public abstract class Utilisateur extends Personne {
 	
 	//-------------------------Attributs-------------------------//
 	
-	private String	passwd;
+	protected String	passwd;
 	  
 	public Utilisateur(String nom, String prenom, int jour, int mois, int annee){
 		super(nom, prenom, jour, mois, annee);
@@ -13,7 +13,7 @@ public abstract class Utilisateur extends Personne {
 	//-------------------------Méthodes-------------------------//
 	
 	abstract public boolean inscription();
-	abstract public void connexion();
+	abstract public boolean connexion();
 	
 	//-------------------------Accesseurs-------------------------//
 

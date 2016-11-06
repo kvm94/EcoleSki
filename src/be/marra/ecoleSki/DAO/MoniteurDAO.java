@@ -173,4 +173,35 @@ public class MoniteurDAO extends DAO<Moniteur>{
 		}
 		return moniteurs;
 	}
+	
+	@Override
+	public ArrayList<Moniteur> find(String nom, String prenom, String mdp){
+		ArrayList<Moniteur> moniteurs = new ArrayList<Moniteur>();
+		try{
+			ResultSet result = this.connect.createStatement(
+					ResultSet.TYPE_FORWARD_ONLY,
+					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Moniteur WHERE nom = '" + nom + "' and prenom = '" + prenom + "' and mdp = '"+ mdp +"'");
+			
+			while(result.next()){
+				Moniteur moniteur = new Moniteur();
+				
+				moniteur.setId(result.getInt("id_moniteur"));
+				moniteur.setNom(result.getString("nom"));
+				moniteur.setPrenom(result.getString("prenom"));
+				moniteur.setPasswd(result.getString("mdp"));
+				//moniteur.setIdAcre(result.getInt("id_accreditation"));
+				
+				//Conversion de la date Long en type Date
+				long input = result.getLong("dateNaissance");
+				LocalDate output = LocalDate.ofEpochDay(input);
+				moniteur.setDateNaissance(output);
+				
+				moniteurs.add(moniteur);
+			}	
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		return moniteurs;
+	}
 }

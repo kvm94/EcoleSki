@@ -60,8 +60,24 @@ public class Moniteur extends Utilisateur {
 	}
 	
 	@Override
-	public void connexion(){
+	public boolean connexion(){
+		boolean check = false;
+		ArrayList<Moniteur> temp;
+	
+		temp = moniteurDAO.find(nom, prenom, passwd);
 		
+		if(temp.size() > 0){
+			setNom(nom);
+			setPrenom(prenom);
+			setPasswd(passwd);
+			setDateNaissance(temp.get(0).getDateNaissance());
+			setId(temp.get(0).getId());
+			check = true;
+		}
+		else
+			check = false;
+			
+		return check;
 	}
 	
 	//-------------------------Accesseurs-------------------------//

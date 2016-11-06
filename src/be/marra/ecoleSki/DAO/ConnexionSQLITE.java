@@ -14,7 +14,6 @@ public class ConnexionSQLITE {
             Class.forName("org.sqlite.JDBC");
 
             snglConnection = DriverManager.getConnection("jdbc:sqlite:data/database.db");
-            System.out.println("Connection done!");
         } catch (ClassNotFoundException e) {
             JOptionPane.showMessageDialog(null, "Impossible de trouver le driver pour la base de donnée!");
         } catch (SQLException e) {

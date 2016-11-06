@@ -5,7 +5,13 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
+import be.marra.ecoleSki.Client;
+import be.marra.ecoleSki.Moniteur;
+import be.marra.ecoleSki.Utilisateur;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -91,6 +97,7 @@ public class Authentification extends JFrame {
 		
 		//[start]Events
 		
+		//Event Bouton Inscription
 		btnInscription.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Inscription windowInscription = new Inscription(This);
@@ -98,12 +105,47 @@ public class Authentification extends JFrame {
 			}
 		});
 		
+		//Event bouton Connexion
 		btnConnexion.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
-				
+				Utilisateur u;
+				//Vérifie que tous les champs sont remplies.
+				if(!textField_nom.getText().isEmpty() && !textField_prenom.getText().isEmpty() && !passwordField.getText().isEmpty()){
+					
+					//Définis le type d'utilisateur.
+					if(choice.getSelectedItem() == "Client")
+						u = new Client();
+					else
+						u= new Moniteur();
+					
+					//Récupération des données saisies.
+					u.setNom(textField_nom.getText());
+					u.setPrenom(textField_prenom.getText());
+					u.setPasswd(passwordField.getText());
+					
+					//Vérifie si la connexion c'est bien passée.
+					if(u.connexion()){
+						//Vérifie si l'utilisateur est un client ou un moniteur.
+						if(u.getClass().getName().contains("Client")){ //On ouvre une fenêtre Client.
+							WClient wClient = new WClient();
+							wClient.setVisible(true);							
+						}
+						else //L'utilisateur est un moniteur, on ouvre une fenêtre moniteur.
+						{
+							WMoniteur wMoniteur = new WMoniteur();
+							wMoniteur.setVisible(true);
+						}
+						This.dispose();
+					}
+					else
+						JOptionPane.showMessageDialog(null, "Erreur de connexion!");
+				}
+				else
+					JOptionPane.showMessageDialog(null, "Champs manquants!");
 			}
 		});
-		
 		//[end]
 	}
+	//[end]
 }

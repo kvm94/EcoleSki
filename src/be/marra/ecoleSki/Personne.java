@@ -8,9 +8,9 @@ public abstract class Personne
 	
 	//-------------------------Attributs-------------------------//
 	
-	private String nom;
-	private String prenom;
-	private LocalDate dateNaissance;
+	protected String nom;
+	protected String prenom;
+	protected LocalDate dateNaissance;
 
 
 	//-------------------------Constructeurs-------------------------//

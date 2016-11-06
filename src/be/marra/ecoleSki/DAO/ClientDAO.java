@@ -141,7 +141,7 @@ public class ClientDAO extends DAO<Client>{
 	
 	/**
 	 * Cherche un client dans la base de données.
-	 * @param String mdp, String nom, String prenom
+	 * @param String nom, String prenom
 	 * @return La liste des client trouvé.
 	 */
 	public ArrayList<Client> find(String nom, String prenom){
@@ -150,6 +150,41 @@ public class ClientDAO extends DAO<Client>{
 			ResultSet result = this.connect.createStatement(
 					ResultSet.TYPE_FORWARD_ONLY,
 					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Client WHERE nom = '" + nom + "'and prenom = '" + prenom + "'");
+			
+			while(result.next()){
+				Client client = new Client();
+				client.setId(result.getInt("id_client"));
+				client.setNom(result.getString("nom"));
+				client.setPrenom(result.getString("prenom"));
+				client.setPasswd(result.getString("mdp"));
+				
+				//Conversion de la date Long en type Date
+				long input = result.getLong("dateNaissance");
+				LocalDate output = LocalDate.ofEpochDay(input);
+				client.setDateNaissance(output);
+				
+				clients.add(client);
+				
+			}	
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		return clients;
+	}
+	
+	/**
+	 * Cherche un client dans la base de données avec son mot de passe.
+	 * @param String mdp, String nom, String prenom
+	 * @return Les clients trouvé.
+	 */
+	@Override
+	public ArrayList<Client> find(String nom, String prenom, String mdp){
+		ArrayList<Client> clients = new ArrayList<Client>();
+		try{
+			ResultSet result = this.connect.createStatement(
+					ResultSet.TYPE_FORWARD_ONLY,
+					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Client WHERE nom = '" + nom + "'and prenom = '" + prenom + "' and mdp ='" + mdp + "'");
 			
 			while(result.next()){
 				Client client = new Client();
