@@ -28,22 +28,21 @@ public class CoursDAO extends DAO<Cours>{
 
 		try{
 			PreparedStatement statement = connect.prepareStatement(
-					"INSERT INTO Cours (id_moniteur, categorie, sport, niveaux, heure, min, prix, minEleve, maxEleve, collectif) VALUES(?,?,?,?,?,?,?,?,?,?)");
+					"INSERT INTO Cours (id_moniteur, categorie, sport, niveaux, heure, prix, minEleve, maxEleve, collectif) VALUES(?,?,?,?,?,?,?,?,?)");
 			statement.setInt(1,obj.getMoniteur().getId());
 			statement.setInt(2,obj.getCategorie().getValue());
 			statement.setInt(3,obj.getSport().getValue());
 			statement.setInt(4,obj.getNiveaux().getValue());
-			statement.setInt(5,obj.getHeure().getHours());
-			statement.setInt(6,obj.getHeure().getMinutes());
-			statement.setDouble(7,obj.getPrix());
-			statement.setInt(8,obj.getMinEleve());
-			statement.setInt(9,obj.getMaxEleve());
+			statement.setInt(5,obj.getHeure());
+			statement.setDouble(6,obj.getPrix());
+			statement.setInt(7,obj.getMinEleve());
+			statement.setInt(8,obj.getMaxEleve());
 
 			if(obj.isCollectif()){
-				statement.setInt(10, 1);
+				statement.setInt(9, 1);
 			}
 			else
-				statement.setInt(10, 0);
+				statement.setInt(9, 0);
 
 			statement.executeUpdate();
 			check = true;
@@ -93,7 +92,6 @@ public class CoursDAO extends DAO<Cours>{
 							+ "sport =?,"
 							+ "niveaux=?,"
 							+ "heure=?,"
-							+ "min=?,"
 							+ "prix=?,"
 							+ "minEleve=?,"
 							+ "maxEleve=?,"
@@ -104,17 +102,16 @@ public class CoursDAO extends DAO<Cours>{
 			statement.setInt(2,obj.getCategorie().getValue());
 			statement.setInt(3,obj.getSport().getValue());
 			statement.setInt(4,obj.getNiveaux().getValue());
-			statement.setInt(5,obj.getHeure().getHours());
-			statement.setInt(6,obj.getHeure().getMinutes());
-			statement.setDouble(7,obj.getPrix());
-			statement.setInt(8,obj.getMinEleve());
-			statement.setInt(9,obj.getMaxEleve());
+			statement.setInt(5,obj.getHeure());
+			statement.setDouble(6,obj.getPrix());
+			statement.setInt(7,obj.getMinEleve());
+			statement.setInt(8,obj.getMaxEleve());
 
 			if(obj.isCollectif()){
-				statement.setInt(10, 1);
+				statement.setInt(9, 1);
 			}
 			else
-				statement.setInt(10, 0);
+				statement.setInt(9, 0);
 
 			statement.executeUpdate();
 			check = true;
@@ -185,11 +182,7 @@ public class CoursDAO extends DAO<Cours>{
 					break;
 				}
 				
-				Time heure = new Time(0);
-				heure.setHours(result.getInt("heure"));
-				heure.setMinutes(result.getInt("min"));
-				cours.setHeure(heure);
-				
+				cours.setHeure(result.getInt("heure"));
 				cours.setPrix(result.getDouble("prix"));
 				cours.setMinEleve(result.getInt("minEleve"));
 				cours.setMaxEleve(result.getInt("maxEleve"));

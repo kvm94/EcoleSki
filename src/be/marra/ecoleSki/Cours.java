@@ -1,6 +1,5 @@
 package be.marra.ecoleSki;
 
-import java.sql.Time;
 import be.marra.ecoleSki.DAO.AbstractDAOFactory;
 import be.marra.ecoleSki.DAO.DAO;
 import be.marra.ecoleSki.Accreditation.E_Categorie;
@@ -43,7 +42,7 @@ public class Cours {
 	private E_Sport 	sport;
 	private E_Niveaux 	niveaux;
 	private Moniteur	moniteur;
-	private Time 		heure;
+	private int 		heure;
 	private double 		prix;
 	private int 		minEleve;
 	private int 		maxEleve;
@@ -60,7 +59,7 @@ public class Cours {
 		this.categorie = null;
 		this.sport = null;
 		this.niveaux = null;
-		this.heure = null;
+		this.heure = 0;
 		this.prix = 0;
 		this.minEleve = 0;
 		this.maxEleve = 0;
@@ -70,7 +69,7 @@ public class Cours {
 		initDB();
 	}
 	
-	public Cours(E_Categorie categorie, E_Sport sport, E_Niveaux niveaux, Moniteur moniteur, Time heure, double prix, int minEleve, int maxEleve, boolean collectif) {
+	public Cours(E_Categorie categorie, E_Sport sport, E_Niveaux niveaux, Moniteur moniteur, int heure, double prix, int minEleve, int maxEleve, boolean collectif) {
 		this.categorie = categorie;
 		this.sport = sport;
 		this.niveaux = niveaux;
@@ -151,11 +150,11 @@ public class Cours {
 		this.niveaux = niveaux;
 	}
 
-	public Time getHeure() {
+	public int getHeure() {
 		return heure;
 	}
 
-	public void setHeure(Time heure) {
+	public void setHeure(int heure) {
 		this.heure = heure;
 	}
 
