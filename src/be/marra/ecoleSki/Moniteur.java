@@ -3,20 +3,22 @@ package be.marra.ecoleSki;
 import java.util.ArrayList;
 
 import be.marra.ecoleSki.DAO.AbstractDAOFactory;
-import be.marra.ecoleSki.DAO.DAO;
+import be.marra.ecoleSki.DAO.MoniteurDAO;
 
 public class Moniteur extends Utilisateur {
 	
-	//-------------------------Attributs-------------------------//
+	//[start]Attributs
 	
 	private ArrayList<Accreditation> listeAccre;
 	private int id;
 
 	//Base de données//
 	private AbstractDAOFactory adf;
-	DAO<Moniteur> moniteurDAO;
+	MoniteurDAO moniteurDAO;
 	
-	//-------------------------Constructeurs-------------------------//
+	//[end]
+	
+	//[start]Constructeurs
 	
 	public Moniteur() {
 		super(null, null, 1, 1, 1);
@@ -40,17 +42,26 @@ public class Moniteur extends Utilisateur {
 		initDB();
 	}
 	
-	//-------------------------Méthodes-------------------------//
+	//[end]
 	
+	//[start]Méthodes
+	
+	/**
+	 * Initialise l'accès à la base de données.
+	 */
 	private void initDB(){
 		adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
-		moniteurDAO = adf.getMoniteurDAO();
+		moniteurDAO = (MoniteurDAO)adf.getMoniteurDAO();
 	}
 	
-	public void setIdAcre(int id, int pos){
+	/*public void setIdAcre(int id, int pos){
 		listeAccre.get(pos).setId(id);
-	}
+	}*/
 
+	/**
+	 * Inscrit lemoniteur dans la base de données.
+	 * @return True si l'inscription c'est effectué.
+	 */
 	@Override
 	public boolean inscription(){
 		if(moniteurDAO.create(this))
@@ -59,6 +70,10 @@ public class Moniteur extends Utilisateur {
 			return false;
 	}
 	
+	/**
+	 * Récupère les information du moniteur de la base de données.
+	 * @return True si la connexion c'est effectué.
+	 */
 	@Override
 	public boolean connexion(){
 		boolean check = false;
@@ -80,7 +95,9 @@ public class Moniteur extends Utilisateur {
 		return check;
 	}
 	
-	//-------------------------Accesseurs-------------------------//
+	//[end]
+	
+	//[start]Accesseurs
 	
 	public Accreditation getAcre(int pos)
 	{
@@ -99,4 +116,6 @@ public class Moniteur extends Utilisateur {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	//[end]
 }

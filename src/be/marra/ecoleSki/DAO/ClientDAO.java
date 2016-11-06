@@ -178,7 +178,7 @@ public class ClientDAO extends DAO<Client>{
 	 * @param String mdp, String nom, String prenom
 	 * @return Les clients trouvé.
 	 */
-	@Override
+
 	public ArrayList<Client> find(String nom, String prenom, String mdp){
 		ArrayList<Client> clients = new ArrayList<Client>();
 		try{

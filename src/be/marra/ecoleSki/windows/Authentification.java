@@ -128,12 +128,12 @@ public class Authentification extends JFrame {
 					if(u.connexion()){
 						//Vérifie si l'utilisateur est un client ou un moniteur.
 						if(u.getClass().getName().contains("Client")){ //On ouvre une fenêtre Client.
-							WClient wClient = new WClient();
+							WClient wClient = new WClient((Client)u);
 							wClient.setVisible(true);							
 						}
 						else //L'utilisateur est un moniteur, on ouvre une fenêtre moniteur.
 						{
-							WMoniteur wMoniteur = new WMoniteur();
+							WMoniteur wMoniteur = new WMoniteur((Moniteur)u);
 							wMoniteur.setVisible(true);
 						}
 						This.dispose();

@@ -8,7 +8,7 @@ public class Program
 {
 	public static void main(String[] args)
 	{
-		//Lance la fentêtre de connexion.
+		//Lance la fenêtre de connexion.
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

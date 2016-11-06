@@ -2,7 +2,7 @@ package be.marra.ecoleSki.DAO;
 
 
 import java.sql.Connection;
-import java.util.ArrayList;
+
 
 public abstract class DAO<T> {
 	protected Connection connect = null;
@@ -18,9 +18,5 @@ public abstract class DAO<T> {
 	public abstract boolean update(T obj);
 	
 	public abstract T find(int id);
-
-	public ArrayList<T> find(String nom, String prenom, String passwd) {
-		return null;
-	}
 	
 }

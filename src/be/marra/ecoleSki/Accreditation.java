@@ -85,16 +85,16 @@ public class Accreditation {
 	}
 	
 	public void init(int id){
-		Accreditation a = accreditationDAO.find(id);
-		this.id = id;
-		this.sport = a.sport;
-		this.cat = a.cat;
+		//Accreditation a = accreditationDAO.find(id);
+		//this.id = id;
+		//this.sport = a.sport;
+		//this.cat = a.cat;
 	}
 	
 	public void init(){
-		Accreditation a = accreditationDAO.find(id);
-		this.sport = a.sport;
-		this.cat = a.cat;
+		//Accreditation a = accreditationDAO.find(id);
+		//this.sport = a.sport;
+		//this.cat = a.cat;
 	}
 	
 	

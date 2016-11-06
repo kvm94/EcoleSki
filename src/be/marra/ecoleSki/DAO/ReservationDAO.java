@@ -6,6 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.util.ArrayList;
+
+
 import be.marra.ecoleSki.Reservation.E_Statut;
 
 public class ReservationDAO extends DAO<Reservation>{
@@ -150,5 +153,41 @@ public class ReservationDAO extends DAO<Reservation>{
 			e.printStackTrace();
 		}
 		return reservation;
+	}
+	
+	@SuppressWarnings("deprecation")
+	public ArrayList<Reservation> find(int statut, int id_client){
+
+		ArrayList<Reservation> reservations = new ArrayList<Reservation>();
+		try{
+			ResultSet result = this.connect.createStatement(
+					ResultSet.TYPE_FORWARD_ONLY,
+					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Reservation WHERE id_client = " + id_client + " and statut = " + statut);
+
+			while(result.next()){
+				
+				Reservation reservation = new Reservation();
+				reservation.setIdClient(result.getInt("id_client"));
+				reservation.setIdSemaine(result.getInt("id_semaine"));
+				reservation.setIdEleve(result.getInt("id_eleve"));
+				reservation.setIdCours(result.getInt("id_cours"));
+				reservation.setId(result.getInt("id_reservation"));
+				Time heure = new Time(0);
+				heure.setHours(result.getInt("heure"));
+				heure.setMinutes(result.getInt("min"));
+				reservation.setHeure(heure);
+				if(result.getInt("statut") == 1)
+					reservation.setStatut(E_Statut.Paye);
+				else
+					reservation.setStatut(E_Statut.Reserve);
+				reservation.setPrix(result.getDouble("prix"));
+				
+				reservations.add(reservation);
+			}	
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		return reservations;
 	}
 }

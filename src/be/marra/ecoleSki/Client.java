@@ -3,22 +3,23 @@ package be.marra.ecoleSki;
 import java.util.ArrayList;
 
 import be.marra.ecoleSki.DAO.AbstractDAOFactory;
-import be.marra.ecoleSki.DAO.DAO;
+import be.marra.ecoleSki.DAO.ClientDAO;
 
 public class Client extends Utilisateur {
 	
-	//-------------------------Attributs-------------------------//
+	//[start]Attributs
 	
 	private int 	id;
 	private Panier 	pan;
 	
 	//Base de données//
 		private AbstractDAOFactory adf;
-		DAO<Client> clientDAO;
+		ClientDAO clientDAO;
 	
+	//[end]
 	  
-	//-------------------------Constructeurs-------------------------//
-	
+	//[start]Constructeurs
+		
 	public Client(){
 	    super(null, null, 1,1,1);
 	    this.pan = new Panier();
@@ -42,19 +43,28 @@ public class Client extends Utilisateur {
 	    initDB();
 	}
 	
+	//[end]
 	
-	//-------------------------Méthodes-------------------------//
+	//[start]Méthodes
 	
 	/**
 	 * Vide le panier du client.
 	 */
 	public void viderPanier() {}
 	
+	/**
+	 * Initialise l'accès à la base de données.
+	 */
 	private void initDB(){
 		adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
-		clientDAO = adf.getClientDAO();
+		clientDAO = (ClientDAO)adf.getClientDAO();
 	}
 	
+	
+	/**
+	 * Inscrit le client dans la base de données.
+	 * @return True si l'inscription c'est effectué.
+	 */
 	@Override
 	public boolean inscription(){
 		if(clientDAO.create(this)){
@@ -64,6 +74,10 @@ public class Client extends Utilisateur {
 			return false;
 	}
 	
+	/**
+	 * Récupère les information du client de la base de données.
+	 * @return True si la connexion c'est effectué.
+	 */
 	@Override
 	public boolean connexion(){
 		boolean check = false;
@@ -85,7 +99,9 @@ public class Client extends Utilisateur {
 		return check;
 	}
 	
-	//-------------------------Accesseurs-------------------------//
+	//[end]
+	
+	//[start]Accesseurs
 	
 	public Panier getPan(){
 	    return this.pan;
@@ -103,4 +119,5 @@ public class Client extends Utilisateur {
 		this.id = id;
 	}
 
+	//[end]
 }

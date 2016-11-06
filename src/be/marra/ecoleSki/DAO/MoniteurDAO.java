@@ -174,7 +174,6 @@ public class MoniteurDAO extends DAO<Moniteur>{
 		return moniteurs;
 	}
 	
-	@Override
 	public ArrayList<Moniteur> find(String nom, String prenom, String mdp){
 		ArrayList<Moniteur> moniteurs = new ArrayList<Moniteur>();
 		try{

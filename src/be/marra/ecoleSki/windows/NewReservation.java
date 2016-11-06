@@ -7,23 +7,21 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
-import be.marra.ecoleSki.Moniteur;
+public class NewReservation extends JFrame {
 
-public class WMoniteur extends JFrame {
-
-	//[start]Attributs
+	//[start]Attributs 
 	
-	private static final long serialVersionUID = -8176783639941141116L;
+	private static final long serialVersionUID = 8739718088290315678L;
 	private JPanel contentPane;
 
 	//[end]
-
-	//[start]Création de la fenêtre.
 	
-	public WMoniteur(Moniteur m) {
-		setTitle("Moniteur");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public NewReservation(WClient wClient) {
+		
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -33,8 +31,22 @@ public class WMoniteur extends JFrame {
 		//Centre la fenêtre.
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		setLocation(dim.width/2 - getWidth()/2, dim.height/2 - getHeight()/2);
+		
+		//[start]Contenus
+		
+		//[end]
+		
+		//[start]Events
+		
+		//Réactive la fenêtre précédente lors de la fermeture.
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				wClient.setEnabled(true);
+			}
+		});
+		
+		//[end]
 	}
-	
-	//[end]
 
 }
