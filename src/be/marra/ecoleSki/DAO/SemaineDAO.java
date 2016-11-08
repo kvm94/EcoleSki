@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class SemaineDAO extends DAO<Semaine>{
 	
@@ -150,5 +151,55 @@ public class SemaineDAO extends DAO<Semaine>{
 			e.printStackTrace();
 		}
 		return semaine;
+	}
+	
+	public ArrayList<Semaine> find(){
+		ArrayList<Semaine> semaines = new ArrayList<Semaine>();
+		try{
+			ResultSet result = this.connect.createStatement(
+					ResultSet.TYPE_FORWARD_ONLY,
+					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Semaine");
+			
+			
+			
+			while(result.next()){
+				Semaine semaine = new Semaine();
+				semaine.setId(result.getInt("id_semaine"));
+								
+				//Conversion de la date Long en type Date
+				long input = result.getLong("dateDebut");
+				LocalDate output = LocalDate.ofEpochDay(input);
+				semaine.setDateDebut(output);
+				
+				//Conversion de la date Long en type Date
+				input = result.getLong("dateFin");
+				output = LocalDate.ofEpochDay(input);
+				semaine.setDateFin(output);
+				
+				semaine.setDescriptif(result.getString("descriptif"));
+				
+				if(result.getInt("conge") == 1)
+					semaine.setCongeScolaire(true);
+				else
+					semaine.setCongeScolaire(false);
+				
+				semaines.add(semaine);
+			}	
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		return semaines;
+	}
+	
+	public int count() throws SQLException{
+		ResultSet result = this.connect.createStatement(
+				ResultSet.TYPE_FORWARD_ONLY,
+				ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT COUNT(*) AS COUNT FROM Semaine");
+
+		result.next();
+		
+		return result.getInt(1);
+		 
 	}
 }

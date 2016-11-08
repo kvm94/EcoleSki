@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
 
 import be.marra.ecoleSki.*;
 import be.marra.ecoleSki.Accreditation.E_Categorie;
@@ -22,7 +21,7 @@ public class CoursDAO extends DAO<Cours>{
 	 * @param Le cours à ajouter.
 	 * @return True si l'opération c'est bien effectuée.
 	 */
-	@SuppressWarnings("deprecation")
+
 	public boolean create(Cours obj){		
 		boolean check = false;
 
@@ -80,7 +79,7 @@ public class CoursDAO extends DAO<Cours>{
 	 * @param Le cours à mettre à jour.
 	 * @return True si l'opération c'est bien déroulée.
 	 */
-	@SuppressWarnings("deprecation")
+
 	public boolean update(Cours obj){
 		boolean check = false;
 
@@ -127,7 +126,7 @@ public class CoursDAO extends DAO<Cours>{
 	 * @param L'id du cours.
 	 * @return Le cours recherchée.
 	 */
-	@SuppressWarnings("deprecation")
+
 	public Cours find(int id){
 		Cours cours = new Cours();
 		try{
