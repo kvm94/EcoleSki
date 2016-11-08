@@ -64,10 +64,20 @@ public class WClient extends JFrame {
 		
 		//[start]Events
 		
+		//Afficher la fenêtre d'une nouvelle réservation.
 		btnNouvelleRservation.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				NewReservation newReservation = new NewReservation(This);
 				newReservation.setVisible(true);
+				This.setEnabled(false);
+			}
+		});
+		
+		//Affiche la fenêtre du panier.
+		btnPanier.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				WPanier wPanier = new WPanier(This);
+				wPanier.setVisible(true);
 				This.setEnabled(false);
 			}
 		});
@@ -103,4 +113,6 @@ public class WClient extends JFrame {
 		}
 		
 	}
+	
+	//[end]
 }
