@@ -130,6 +130,13 @@ public class Reservation {
 		ReservationDAO resDAO = (ReservationDAO)adf.getReservationDAO();
 		
 		list = resDAO.find(statut.getValue(), id);
+		
+		for(int i =  0 ; i< list.size() ; i++){
+			list.get(i).getClient().charger();
+			list.get(i).getCours().charger();
+			list.get(i).getEleve().charger();
+			list.get(i).getSemaine().charger();
+		}
 
 		return list;
 	}

@@ -107,6 +107,21 @@ public class Cours {
 	public void setIdMoniteur(int id){
 		moniteur.setId(id);
 	}
+	
+	public void charger(){
+		Cours temp;
+		temp = coursDAO.find(id);
+		
+		this.categorie = temp.categorie;
+		this.collectif = temp.collectif;
+		this.heure = temp.heure;
+		this.maxEleve = temp.maxEleve;
+		this.minEleve = temp.minEleve;
+		this.moniteur = temp.moniteur;
+		this.niveaux = temp.niveaux;
+		this.prix = temp.prix;
+		this.sport = temp.sport;
+	}
 
 	/**
 	 * Vérifie si l'accréditation requise pour le cours est ok.

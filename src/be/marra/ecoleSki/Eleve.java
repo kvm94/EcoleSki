@@ -60,6 +60,16 @@ public class Eleve extends Personne {
 		eleveDAO.delete(this);
 	}
 	
+	public void charger(){
+		Eleve temp = eleveDAO.find(id);
+		
+		this.assurance = temp.assurance;
+		this.nom = temp.nom;
+		this.prenom = temp.prenom;
+		this.dateNaissance = temp.dateNaissance;
+		
+	}
+	
 	//[end]
 	
 	//[start]Accesseurs

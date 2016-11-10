@@ -51,6 +51,15 @@ public class Semaine {
 
 	}
 	
+	public void charger(){
+		Semaine temp = semaineDAO.find(id);
+		
+		this.dateDebut = temp.dateDebut;
+		this.dateFin = temp.dateFin;
+		this.congeScolaire = temp.congeScolaire;
+		this.descriptif = temp.descriptif;
+	}
+	
 	private void initDB(){
 		adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
 		semaineDAO = (SemaineDAO)adf.getSemaineDAO();

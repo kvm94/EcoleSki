@@ -64,6 +64,14 @@ public class Client extends Utilisateur {
 		pan.payer();
 	}
 	
+public void charger(){
+		Client temp =  clientDAO.find(id);
+		
+		this.dateNaissance = temp.dateNaissance;
+		this.nom = temp.nom;
+		this.prenom = temp.prenom;
+	}
+	
 	/**
 	 * Initialise l'accès à la base de données.
 	 */
