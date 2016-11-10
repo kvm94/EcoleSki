@@ -17,6 +17,8 @@ import javax.swing.JButton;
 import java.awt.List;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 
 public class WClient extends JFrame {
 
@@ -64,10 +66,19 @@ public class WClient extends JFrame {
 		
 		//[start]Events
 		
+		//Réinitialise la liste des réservation quand la fenêtre reprend le focus.
+		addWindowFocusListener(new WindowFocusListener() {
+			public void windowGainedFocus(WindowEvent e) {
+				initList(list);
+			}
+			public void windowLostFocus(WindowEvent e) {
+			}
+		});
+		
 		//Afficher la fenêtre d'une nouvelle réservation.
 		btnNouvelleRservation.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				NewReservation newReservation = new NewReservation(This);
+				NewReservation newReservation = new NewReservation(This, c);
 				newReservation.setVisible(true);
 				This.setEnabled(false);
 			}
@@ -76,9 +87,14 @@ public class WClient extends JFrame {
 		//Affiche la fenêtre du panier.
 		btnPanier.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				WPanier wPanier = new WPanier(This);
-				wPanier.setVisible(true);
-				This.setEnabled(false);
+				c.initPanier();
+				if(!c.getPan().isEmpty()){
+					WPanier wPanier = new WPanier(This, c);
+					wPanier.setVisible(true);
+					This.setEnabled(false);
+				}
+				else
+					JOptionPane.showMessageDialog(null, "Le panier est vide!");
 			}
 		});
 		
@@ -97,6 +113,8 @@ public class WClient extends JFrame {
 			ArrayList<Reservation> listeRes = new ArrayList<Reservation>();
 			listeRes = Reservation.loadByIdClient(E_Statut.Paye, c.getId());
 			Reservation temp;
+			
+			list.removeAll();
 			
 			if(!listeRes.isEmpty()){
 		

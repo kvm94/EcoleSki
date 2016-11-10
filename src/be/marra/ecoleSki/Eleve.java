@@ -56,6 +56,10 @@ public class Eleve extends Personne {
 		eleveDAO.getId(this);
 	}
 	
+	public void deleteFromDB(){
+		eleveDAO.delete(this);
+	}
+	
 	//[end]
 	
 	//[start]Accesseurs

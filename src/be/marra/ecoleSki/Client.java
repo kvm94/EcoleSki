@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import be.marra.ecoleSki.DAO.AbstractDAOFactory;
 import be.marra.ecoleSki.DAO.ClientDAO;
+import be.marra.ecoleSki.Reservation.E_Statut;
 
 public class Client extends Utilisateur {
 	
@@ -47,10 +48,21 @@ public class Client extends Utilisateur {
 	
 	//[start]Méthodes
 	
+	public void initPanier(){
+		pan.setReservations(Reservation.loadByIdClient(E_Statut.Reserve, id));
+		pan.initTotal();
+	}
+	
 	/**
 	 * Vide le panier du client.
 	 */
-	public void viderPanier() {}
+	public void viderPanier() {
+		pan.vider();
+	}
+	
+	public void payerPanier(){
+		pan.payer();
+	}
 	
 	/**
 	 * Initialise l'accès à la base de données.
@@ -59,7 +71,7 @@ public class Client extends Utilisateur {
 		adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
 		clientDAO = (ClientDAO)adf.getClientDAO();
 	}
-	
+
 	
 	/**
 	 * Inscrit le client dans la base de données.

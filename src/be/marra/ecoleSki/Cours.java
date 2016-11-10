@@ -100,6 +100,10 @@ public class Cours {
 		coursDAO.getId(this);
 	}
 	
+	public void deleteFromDB(){
+		coursDAO.delete(this);
+	}
+	
 	public void setIdMoniteur(int id){
 		moniteur.setId(id);
 	}

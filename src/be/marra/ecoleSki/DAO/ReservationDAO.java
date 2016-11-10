@@ -93,7 +93,7 @@ public class ReservationDAO extends DAO<Reservation>{
 							+ "heure=?,"
 							+ "min=?,"
 							+ "statut=?,"
-							+ "prix=?,"
+							+ "prix=? "
 							+ "WHERE id_reservation = " + obj.getId());
 
 			statement.setInt(1,obj.getClient().getId());
@@ -189,5 +189,25 @@ public class ReservationDAO extends DAO<Reservation>{
 			e.printStackTrace();
 		}
 		return reservations;
+	}
+	
+	//Retourne le nombre de réservation pour un cours.
+	public int nbrResCours(Cours cours){
+		int cpt = 0;
+		
+		try{
+			ResultSet result = this.connect.createStatement(
+					ResultSet.TYPE_FORWARD_ONLY,
+					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Reservation WHERE id_cours = " + cours.getId());
+
+			while(result.next()){
+				cpt++;
+			}	
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		
+		return cpt;
 	}
 }

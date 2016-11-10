@@ -106,6 +106,18 @@ public class Reservation {
 		resDAO.create(this);
 	}
 	
+	public void deleteFromDB(){
+		//Ne supprimer le cours que si il n'y a pas d'autre réservation le concernant.
+		if(resDAO.nbrResCours(cours) == 1)
+			cours.deleteFromDB();
+		eleve.deleteFromDB();
+		resDAO.delete(this);
+	}
+	
+	public void updateIntoDB(){
+		resDAO.update(this);
+	}
+	
 	/**
 	 * Charge la liste des réservations par rapport au statut de payement d'un client.
 	 * @param statut Payé ou Réservé.
@@ -121,6 +133,7 @@ public class Reservation {
 
 		return list;
 	}
+	
 	
 	//[end]
 	
