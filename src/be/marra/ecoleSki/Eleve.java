@@ -1,21 +1,22 @@
 package be.marra.ecoleSki;
 
 import be.marra.ecoleSki.DAO.AbstractDAOFactory;
-import be.marra.ecoleSki.DAO.DAO;
+import be.marra.ecoleSki.DAO.EleveDAO;
 
 public class Eleve extends Personne {
 	
-	//-------------------------Attributs-------------------------//
+	//[start]Attributs
 	
 	private int 	id;
 	private boolean assurance;
 	
 	//Base de données//
 	private AbstractDAOFactory adf;
-	DAO<Eleve> eleveDAO;
+	EleveDAO eleveDAO;
 
+	//[end]
 	
-	//-------------------------Constructeurs-------------------------//
+	//[start]Constructeurs
 	
 	public Eleve() {
 		super();
@@ -38,15 +39,26 @@ public class Eleve extends Personne {
 		initDB();
 	}
 
-	//-------------------------Méthode-------------------------//
+	//[end]
+	
+	//[start]Méthode
 	
 	private void initDB(){
 		adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
-		eleveDAO = adf.getEleveDAO();
+		eleveDAO = (EleveDAO)adf.getEleveDAO();
 	}
 	
+	/**
+	 * Fait appel à la classe DAO pour enregister un eleve dans la base de données.
+	 */
+	public void insertIntoDB(){
+		eleveDAO.create(this);
+		eleveDAO.getId(this);
+	}
 	
-	//-------------------------Accesseurs-------------------------//
+	//[end]
+	
+	//[start]Accesseurs
 	
 	public boolean isAssurance()
 	{
@@ -65,4 +77,6 @@ public class Eleve extends Personne {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	//[end]
 }

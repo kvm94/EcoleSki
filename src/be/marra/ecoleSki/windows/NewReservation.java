@@ -9,13 +9,17 @@ import javax.swing.border.EmptyBorder;
 
 import be.marra.ecoleSki.Accreditation.E_Categorie;
 import be.marra.ecoleSki.Accreditation.E_Sport;
+import be.marra.ecoleSki.Client;
 import be.marra.ecoleSki.Cours;
 import be.marra.ecoleSki.Cours.E_Niveaux;
 import be.marra.ecoleSki.Eleve;
+import be.marra.ecoleSki.Reservation;
+import be.marra.ecoleSki.Reservation.E_Statut;
 import be.marra.ecoleSki.Semaine;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -51,10 +55,11 @@ public class NewReservation extends JFrame {
 	private Choice choiceSemaine;
 	private Choice choiceHeure;
 	private boolean confirmed;
+	private double prixReservation;
 
 	//[end]
 
-	public NewReservation(WClient wClient) {
+	public NewReservation(WClient wClient, Client client) {
 		this.confirmed = false;
 		setResizable(false);
 		setTitle("Nouvelle r\u00E9servation");
@@ -202,7 +207,6 @@ public class NewReservation extends JFrame {
 		btnCalculPrix.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try{
-					double prixCalcul;
 					cours = new Cours();
 					E_Sport sport;
 					E_Niveaux niveaux = null;
@@ -314,12 +318,12 @@ public class NewReservation extends JFrame {
 					
 					cours.initPrix();
 					
-					prixCalcul = cours.getPrix();
+					prixReservation = cours.getPrix();
 					if(checkBox.isSelected())
-						prixCalcul += 15;
+						prixReservation += 15;
 						
 						
-					lblCalculPrix.setText(String.valueOf(prixCalcul) + "€");
+					lblCalculPrix.setText(String.valueOf(prixReservation) + "€");
 					
 					btnRserver.setEnabled(true);
 				}
@@ -331,9 +335,54 @@ public class NewReservation extends JFrame {
 
 		//Valide la réservation.
 		btnRserver.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
-				//Creer dans la base de données ELEVE, COOURS et RESERVATION
-				//Gere les cours disponible lors de la validation (min eleve, max eleve)
+				try{
+					//Creer dans la base de données ELEVE, COOURS et RESERVATION
+					//Gere les cours disponible lors de la validation (min eleve, max eleve)
+					Reservation reservation = new Reservation();
+					Time heure = new Time(0);
+					heure.setMinutes(0);
+					
+					switch(choiceHeure.getSelectedItem().toString()){
+					case "9h00 -> 12h00": 
+						heure.setHours(9);
+						break;
+					case "12h00 -> 13h00 (Cours particulier)": 
+						heure.setHours(12);
+						break;
+					case "12h00 -> 14h00 (Cours particulier)": 
+						heure.setHours(12);
+						break;
+					case "14h00 -> 17h00" : 
+						heure.setHours(14);
+						break;
+					default: 
+						heure.setHours(0);
+						break;
+					}
+					
+					
+					reservation.setClient(client);
+					reservation.setCours(cours);
+					reservation.setEleve(eleve);
+					reservation.setPrix(prixReservation);
+					reservation.setHeure(heure);
+					reservation.setStatut(E_Statut.Reserve);
+					reservation.setSemaine(getSemaine());
+					
+					reservation.insertIntoDB();
+					
+					JOptionPane.showMessageDialog(null, "Réservé!");
+					
+					wClient.setEnabled(true);
+					dispose();
+					
+				}
+				catch(Exception ex){
+					JOptionPane.showMessageDialog(null, "Erreur lors de la réservation!");
+				}
+							
 			}
 		});
 
@@ -405,6 +454,18 @@ public class NewReservation extends JFrame {
 
 		//[end]
 
+	}
+	
+	//Crée une smeaine en fonction de la combobox
+	private Semaine getSemaine(){
+		Semaine semaine;
+		int index;
+		
+		index = this.choiceSemaine.getSelectedIndex();
+		
+		semaine = semaines.get(index);		
+		
+		return semaine;
 	}
 
 	//Initialise les comboBox.

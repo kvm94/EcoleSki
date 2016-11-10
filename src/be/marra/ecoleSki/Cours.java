@@ -1,13 +1,13 @@
 package be.marra.ecoleSki;
 
 import be.marra.ecoleSki.DAO.AbstractDAOFactory;
-import be.marra.ecoleSki.DAO.DAO;
+import be.marra.ecoleSki.DAO.CoursDAO;
 import be.marra.ecoleSki.Accreditation.E_Categorie;
 import be.marra.ecoleSki.Accreditation.E_Sport;
 
 public class Cours {
 
-	//-------------------------Enumérations-------------------------//
+	//[start]Enumérations
 
 	public static enum E_Niveaux
 	{
@@ -34,8 +34,9 @@ public class Cours {
 		}
 	}
 
+	//[end]
 
-	//-------------------------Attributs-------------------------//
+	//[start]Attributs
 
 	private int 		id;
 	private E_Categorie categorie;
@@ -51,9 +52,11 @@ public class Cours {
 	//Base de données//
 
 	private AbstractDAOFactory adf;
-	DAO<Cours> CoursDAO;
+	CoursDAO coursDAO;
 
-	//-------------------------Constructeurs-------------------------//
+	//[end]
+	
+	//[start]Constructeurs
 
 	public Cours() {
 		this.categorie = null;
@@ -83,14 +86,20 @@ public class Cours {
 		initDB();
 	}
 
-
-	//-------------------------Méthodes-------------------------//
+	//[end]
+	
+	//[start]Méthodes
 
 	private void initDB(){
 		adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
-		CoursDAO = adf.getCoursDAO();
+		coursDAO = (CoursDAO)adf.getCoursDAO();
 	}
 
+	public void insertIntoDB(){
+		coursDAO.create(this);
+		coursDAO.getId(this);
+	}
+	
 	public void setIdMoniteur(int id){
 		moniteur.setId(id);
 	}
@@ -209,7 +218,9 @@ public class Cours {
 	}
 
 
-	//-------------------------Accesseurs-------------------------//
+	//[end]
+	
+	//[start]Accesseurs
 
 	public E_Categorie getCategorie() {
 		return categorie;
@@ -291,6 +302,6 @@ public class Cours {
 		this.id = id;
 	}
 
-
+	//[end]
 
 }

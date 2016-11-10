@@ -132,4 +132,19 @@ public class EleveDAO extends DAO<Eleve>{
 		}
 		return eleve;
 	}
+
+	public void getId(Eleve eleve){
+		try{
+			ResultSet result = this.connect.createStatement(
+					ResultSet.TYPE_FORWARD_ONLY,
+					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT id_eleve FROM ELEVE WHERE nom ='" + eleve.getNom() +"' and prenom = '" + eleve.getPrenom() + "'");
+			
+			while(result.next()){
+				eleve.setId(result.getInt("id_eleve"));
+			}	
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+	}
 }

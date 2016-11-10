@@ -197,4 +197,27 @@ public class CoursDAO extends DAO<Cours>{
 		}
 		return cours;
 	}
+	
+	public void getId(Cours cours){
+		try{
+			ResultSet result = this.connect.createStatement(
+					ResultSet.TYPE_FORWARD_ONLY,
+					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT id_cours FROM Cours WHERE "
+							+ "categorie = " + cours.getCategorie().getValue()
+							+ " and sport = " + cours.getSport().getValue()
+							+ " and niveaux = " + cours.getNiveaux().getValue()
+							+ " and heure = " + cours.getHeure()
+							+ " and prix = " + cours.getPrix()
+							+ " and minEleve = " + cours.getMinEleve()
+							+ " and maxEleve = " + cours.getMaxEleve()
+							);
+
+			while(result.next()){
+				cours.setId(result.getInt("id_cours"));
+			}	
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+	}
 }

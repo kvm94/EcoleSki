@@ -100,21 +100,10 @@ public class Reservation {
 		resDAO = (ReservationDAO)adf.getReservationDAO();
 	}
 	
-	
-	public void setIdClient(int id){
-		client.setId(id);
-	}
-	
-	public void setIdSemaine(int id){
-		semaine.setId(id);
-	}
-	
-	public void setIdEleve(int id){
-		eleve.setId(id);
-	}
-	
-	public void setIdCours(int id){
-		cours.setId(id);
+	public void insertIntoDB(){
+		cours.insertIntoDB();
+		eleve.insertIntoDB();
+		resDAO.create(this);
 	}
 	
 	/**
@@ -136,6 +125,22 @@ public class Reservation {
 	//[end]
 	
 	//[start]Accesseurs
+	
+	public void setIdClient(int id){
+		client.setId(id);
+	}
+	
+	public void setIdSemaine(int id){
+		semaine.setId(id);
+	}
+	
+	public void setIdEleve(int id){
+		eleve.setId(id);
+	}
+	
+	public void setIdCours(int id){
+		cours.setId(id);
+	}
 	
 	public E_Statut getStatut()
 	{
