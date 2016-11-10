@@ -19,6 +19,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class WClient extends JFrame {
 
@@ -28,6 +30,8 @@ public class WClient extends JFrame {
 	private JPanel contentPane;
 	private Client c;
 	private WClient This = this;
+	private ArrayList<Reservation> listRes;
+	private JButton btnAfficher;
 	
 	//[end]
 	
@@ -59,8 +63,13 @@ public class WClient extends JFrame {
 		contentPane.add(btnNouvelleRservation);
 		
 		List list = new List();
-		list.setBounds(10, 58, 414, 174);
+		list.setBounds(10, 58, 414, 168);
 		contentPane.add(list);
+		
+		btnAfficher = new JButton("Afficher");
+		btnAfficher.setBounds(300, 237, 89, 23);
+		contentPane.add(btnAfficher);
+		btnAfficher.setEnabled(false);
 		
 		//[end]
 		
@@ -98,10 +107,27 @@ public class WClient extends JFrame {
 			}
 		});
 		
+		//Affiche les détaille d'une réservation.
+		btnAfficher.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				WReservation wReservation = new WReservation(This, listRes.get(list.getSelectedIndex()));
+				wReservation.setVisible(true);
+				This.setEnabled(false);
+				btnAfficher.setEnabled(false);
+				
+			}
+		});
+		
+		//Active le bouton "afficher" lorsqu'un item de la liste est sélèctionné.
+		list.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				btnAfficher.setEnabled(true);
+			}
+		});
+		
 		//[end]
 		
-		initList(list);
-		
+		initList(list);		
 	}
 	
 	//[end]
@@ -110,16 +136,16 @@ public class WClient extends JFrame {
 	
 	private void initList(List list){
 		try{
-			ArrayList<Reservation> listeRes = new ArrayList<Reservation>();
-			listeRes = Reservation.loadByIdClient(E_Statut.Paye, c.getId());
+			this.listRes = new ArrayList<Reservation>();
+			this.listRes = Reservation.loadByIdClient(E_Statut.Paye, c.getId());
 			Reservation temp;
 			
 			list.removeAll();
 			
-			if(!listeRes.isEmpty()){
+			if(!this.listRes.isEmpty()){
 		
-				for(int i=0 ; i< listeRes.size() ; i++){
-					temp = listeRes.get(i);
+				for(int i=0 ; i< this.listRes.size() ; i++){
+					temp = this.listRes.get(i);
 					list.add(temp.toString());
 					
 				}

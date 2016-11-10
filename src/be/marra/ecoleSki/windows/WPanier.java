@@ -37,6 +37,7 @@ public class WPanier extends JFrame {
 	private JLabel lblPrix;
 	private JButton btnVider;
 	ArrayList<Reservation> listeRes;
+	private WPanier This = this;
 
 	public WPanier(WClient wClient, Client c) {
 		this.c = c;
@@ -117,6 +118,14 @@ public class WPanier extends JFrame {
 					btnAfficher.setEnabled(false);
 					btnVider.setEnabled(false);
 				}
+			}
+		});
+		
+		btnAfficher.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				WReservation wReservation = new WReservation(This, listeRes.get(list.getSelectedIndex())); 
+				wReservation.setVisible(true);
+				This.setEnabled(false);
 			}
 		});
 		
