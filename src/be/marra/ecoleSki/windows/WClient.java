@@ -143,11 +143,18 @@ public class WClient extends JFrame {
 			list.removeAll();
 			
 			if(!this.listRes.isEmpty()){
-		
+				String item = "";
 				for(int i=0 ; i< this.listRes.size() ; i++){
 					temp = this.listRes.get(i);
-					list.add(temp.toString());
 					
+					item += temp.getSemaine().getDateDebut().toString() + " -> " + temp.getSemaine().getDateFin().toString() + "   |   ";
+					item += temp.getHeure().toString() + "   |   ";
+					item += temp.getCours().getSport().toString() + "   |   ";
+					item += temp.getCours().getNiveaux().toString() + "   |   ";
+					
+					list.add(item);
+					
+					item = "";
 				}
 			}
 			

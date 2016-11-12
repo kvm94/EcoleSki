@@ -113,10 +113,8 @@ public class WPanier extends JFrame {
 				int reply = JOptionPane.showConfirmDialog(null, "Voulez-vous payer?");
 				if(reply == JOptionPane.YES_OPTION){
 					c.payerPanier();
-					initDisplay(list);
-					btnSupprimer.setEnabled(false);
-					btnAfficher.setEnabled(false);
-					btnVider.setEnabled(false);
+					wClient.setEnabled(true);
+					This.dispose();
 				}
 			}
 		});
@@ -176,9 +174,18 @@ public class WPanier extends JFrame {
 			
 			//Charge la liste
 			if(!this.listeRes.isEmpty()){
+				String item = "";
 				for(int i=0 ; i< this.listeRes.size() ; i++){
 					temp = this.listeRes.get(i);
-					list.add(temp.toString());
+					
+					item += temp.getSemaine().getDateDebut().toString() + " -> " + temp.getSemaine().getDateFin().toString() + "   |   ";
+					item += temp.getHeure().toString() + "   |   ";
+					item += temp.getCours().getSport().toString() + "   |   ";
+					item += temp.getCours().getNiveaux().toString() + "   |   ";
+					
+					list.add(item);
+					
+					item = "";
 					
 				}
 				
