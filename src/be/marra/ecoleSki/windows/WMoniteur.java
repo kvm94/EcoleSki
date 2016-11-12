@@ -10,6 +10,8 @@ import javax.swing.border.EmptyBorder;
 import be.marra.ecoleSki.Moniteur;
 import javax.swing.JButton;
 import com.toedter.calendar.JCalendar;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class WMoniteur extends JFrame {
 
@@ -17,6 +19,7 @@ public class WMoniteur extends JFrame {
 	
 	private static final long serialVersionUID = -8176783639941141116L;
 	private JPanel contentPane;
+	private WMoniteur This = this;
 
 	//[end]
 
@@ -51,5 +54,18 @@ public class WMoniteur extends JFrame {
 		//Centre la fenêtre.
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		setLocation(dim.width/2 - getWidth()/2, dim.height/2 - getHeight()/2);
+		
+		//[start]Evènements
+		
+		
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				setEnabled(false);
+				WAccreditation wAccreditation =  new WAccreditation(This, m);
+				wAccreditation.setVisible(true);
+			}
+		});
+		
+		//[end]
 	}
 }
