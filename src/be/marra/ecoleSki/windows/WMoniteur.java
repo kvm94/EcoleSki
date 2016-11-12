@@ -33,10 +33,6 @@ public class WMoniteur extends JFrame {
 		//Centre la fenêtre.
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		setLocation(dim.width/2 - getWidth()/2, dim.height/2 - getHeight()/2);
-		
-		//[start]Contenus
-		
-		//[end]
 	}
 	
 	//[end]
