@@ -3,18 +3,21 @@ package be.marra.ecoleSki;
 import java.util.ArrayList;
 
 import be.marra.ecoleSki.DAO.AbstractDAOFactory;
+import be.marra.ecoleSki.DAO.Accreditation_MoniteurDAO;
 import be.marra.ecoleSki.DAO.MoniteurDAO;
+import be.marra.ecoleSki.DAO.PAccreditation_Moniteur;
 
 public class Moniteur extends Utilisateur {
 	
 	//[start]Attributs
 	
-	private ArrayList<Accreditation> listeAccre;
+	private ArrayList<Accreditation> accreditations;
 	private int id;
 
 	//Base de données//
 	private AbstractDAOFactory adf;
 	MoniteurDAO moniteurDAO;
+	Accreditation_MoniteurDAO accreMonDAO;
 	
 	//[end]
 	
@@ -22,21 +25,21 @@ public class Moniteur extends Utilisateur {
 	
 	public Moniteur() {
 		super(null, null, 1, 1, 1);
-		this.listeAccre = new ArrayList<Accreditation>();
+		this.accreditations = new ArrayList<Accreditation>();
 		
 		initDB();
 	}
 	
 	public Moniteur(String nom, String prenom, int jour, int mois, int annee) {
 		super(nom, prenom, jour, mois, annee);
-		this.listeAccre = new ArrayList<Accreditation>();
+		this.accreditations = new ArrayList<Accreditation>();
 		
 		initDB();
 	}
 	
 	public Moniteur(String nom, String prenom, int jour, int mois, int annee, int id) {
 		super(nom, prenom, jour, mois, annee);
-		this.listeAccre = new ArrayList<Accreditation>();
+		this.accreditations = new ArrayList<Accreditation>();
 		this.setId(id);
 		
 		initDB();
@@ -52,6 +55,7 @@ public class Moniteur extends Utilisateur {
 	private void initDB(){
 		adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
 		moniteurDAO = (MoniteurDAO)adf.getMoniteurDAO();
+		accreMonDAO = (Accreditation_MoniteurDAO)adf.getAccreditation_MoniteurDAO();
 	}
 	
 	/*public void setIdAcre(int id, int pos){
@@ -95,18 +99,33 @@ public class Moniteur extends Utilisateur {
 		return check;
 	}
 	
+	public void ajoutAccreditation(Accreditation a){
+		PAccreditation_Moniteur temp; 
+		
+		accreditations.add(a);
+		a.insertIntoDB();
+		
+		temp = new PAccreditation_Moniteur(a.getId(), id);
+		accreMonDAO.create(temp);
+		
+	}
+	
+	public void initAccreditations(){
+		
+	}
+	
 	//[end]
 	
 	//[start]Accesseurs
 	
 	public Accreditation getAcre(int pos)
 	{
-		return listeAccre.get(pos);
+		return accreditations.get(pos);
 	}
 
 	public void addAccre(Accreditation accre)
 	{
-		listeAccre.add(accre);
+		accreditations.add(accre);
 	}
 
 	public int getId() {

@@ -132,7 +132,7 @@ public class AccreditationDAO extends DAO<Accreditation>{
 	 * @param L'accréditation. 
 	 * @return L'id de l'accréditation.
 	 */
-	/*public int getId(Accreditation obj){
+	public int getId(Accreditation obj){
 		int id = 0;
 		try{
 			ResultSet result = this.connect.createStatement(
@@ -149,6 +149,6 @@ public class AccreditationDAO extends DAO<Accreditation>{
 			e.printStackTrace();
 		}
 		return id;
-	}*/
+	}
 	
 }

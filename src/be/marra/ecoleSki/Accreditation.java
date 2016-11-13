@@ -1,7 +1,7 @@
 package be.marra.ecoleSki;
 
 import be.marra.ecoleSki.DAO.AbstractDAOFactory;
-import be.marra.ecoleSki.DAO.DAO;
+import be.marra.ecoleSki.DAO.AccreditationDAO;
 
 public class Accreditation {
 	
@@ -49,7 +49,7 @@ public class Accreditation {
 	
 	//Base de données//
 	private AbstractDAOFactory adf;
-	DAO<Accreditation> accreditationDAO;
+	AccreditationDAO accreditationDAO;
 	
 	
 	//-------------------------Constructeurs-------------------------//
@@ -81,20 +81,18 @@ public class Accreditation {
 	
 	private void initDB(){
 		adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
-		accreditationDAO = adf.getAccreditationDAO();
+		accreditationDAO = (AccreditationDAO)adf.getAccreditationDAO();
 	}
 	
-	public void init(int id){
-		//Accreditation a = accreditationDAO.find(id);
-		//this.id = id;
-		//this.sport = a.sport;
-		//this.cat = a.cat;
+	public void insertIntoDB(){
+		accreditationDAO.create(this);
+		id = accreditationDAO.getId(this);
 	}
 	
-	public void init(){
-		//Accreditation a = accreditationDAO.find(id);
-		//this.sport = a.sport;
-		//this.cat = a.cat;
+	public void deleteFromDB(){
+		accreditationDAO.delete(this);
+		this.cat 	= null;
+		this.sport 	= null;
 	}
 	
 	
