@@ -2,6 +2,8 @@ package be.marra.ecoleSki;
 
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import be.marra.ecoleSki.DAO.AbstractDAOFactory;
 import be.marra.ecoleSki.DAO.Accreditation_MoniteurDAO;
 import be.marra.ecoleSki.DAO.MoniteurDAO;
@@ -110,8 +112,32 @@ public class Moniteur extends Utilisateur {
 		
 	}
 	
-	public void initAccreditations(){
+	public void supprimerAccreditation(int index){
+		PAccreditation_Moniteur temp = new 	PAccreditation_Moniteur(accreditations.get(index).getId(), id);
+		accreMonDAO.delete(temp);
 		
+		accreditations.get(index).deleteFromDB();
+		
+		accreditations.remove(index);
+	}
+	
+	public void initAccreditations(){
+		try{
+			ArrayList<Integer> tabId = accreMonDAO.findIdAccreditation(id);
+			Accreditation a;
+			
+			accreditations.clear();
+			
+			for(int i=0; i< tabId.size() ; i++){
+				a = new Accreditation();
+				a.charger(tabId.get(i));
+				accreditations.add(a);
+			}
+		}
+		catch(Exception ex){
+			System.out.println(ex.getMessage());
+			JOptionPane.showMessageDialog(null, "Erreur lors de l'initialisation des accréditations!");
+		}
 	}
 	
 	//[end]
@@ -126,6 +152,10 @@ public class Moniteur extends Utilisateur {
 	public void addAccre(Accreditation accre)
 	{
 		accreditations.add(accre);
+	}
+	
+	public ArrayList<Accreditation> getAccreditations(){
+		return accreditations;
 	}
 
 	public int getId() {

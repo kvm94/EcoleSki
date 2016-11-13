@@ -139,7 +139,7 @@ public class AccreditationDAO extends DAO<Accreditation>{
 					ResultSet.TYPE_FORWARD_ONLY,
 					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT id_accreditation FROM Accreditation WHERE "
 							+ "categorie = " + obj.getCat().getValue()
-							+ "and sport = " + obj.getSport().getValue());
+							+ " and sport = " + obj.getSport().getValue());
 			
 			while(result.next()){
 				id =result.getInt("id_accreditation");

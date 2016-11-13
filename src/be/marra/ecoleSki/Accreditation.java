@@ -58,6 +58,7 @@ public class Accreditation {
 	{
 		this.cat 	= null;
 		this.sport 	= null;
+		initDB();
 	}
 	
 	public Accreditation(E_Categorie cat, E_Sport sport)
@@ -93,6 +94,15 @@ public class Accreditation {
 		accreditationDAO.delete(this);
 		this.cat 	= null;
 		this.sport 	= null;
+	}
+	
+	public void charger(int id){
+		Accreditation temp = new Accreditation();
+		temp = accreditationDAO.find(id);
+		
+		this.cat = temp.getCat();
+		this.sport = temp.getSport();
+		this.id = id;
 	}
 	
 	

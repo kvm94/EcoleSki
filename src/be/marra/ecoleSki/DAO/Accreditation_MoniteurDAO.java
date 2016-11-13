@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class Accreditation_MoniteurDAO extends DAO<PAccreditation_Moniteur>{
 
@@ -78,5 +79,24 @@ public class Accreditation_MoniteurDAO extends DAO<PAccreditation_Moniteur>{
 			e.printStackTrace();
 		}
 		return accreMon;
+	}
+	
+	public ArrayList<Integer> findIdAccreditation(int id_moniteur) {
+		ArrayList<Integer> tabId = null;
+		try{
+			ResultSet result = this.connect.createStatement(
+					ResultSet.TYPE_FORWARD_ONLY,
+					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT id_accreditation FROM Accreditation_Moniteur WHERE id_moniteur = " + id_moniteur);
+			
+			tabId = new ArrayList<Integer>();
+			
+			while(result.next()){
+				tabId.add(result.getInt("id_accreditation"));
+			}	
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		return tabId;
 	}
 }
