@@ -67,9 +67,10 @@ public class Moniteur extends Utilisateur {
 	/**
 	 * Inscrit lemoniteur dans la base de données.
 	 * @return True si l'inscription c'est effectué.
+	 * @throws Exception 
 	 */
 	@Override
-	public boolean inscription(){
+	public boolean inscription() throws Exception{
 		if(moniteurDAO.create(this))
 			return true;
 		else
@@ -101,15 +102,19 @@ public class Moniteur extends Utilisateur {
 		return check;
 	}
 	
-	public void ajoutAccreditation(Accreditation a){
-		PAccreditation_Moniteur temp; 
+	public void ajoutAccreditation(Accreditation a) throws Exception{
+		try{
+			PAccreditation_Moniteur temp; 
 		
-		accreditations.add(a);
-		a.insertIntoDB();
-		
-		temp = new PAccreditation_Moniteur(a.getId(), id);
-		accreMonDAO.create(temp);
-		
+			a.insertIntoDB();
+			
+			temp = new PAccreditation_Moniteur(a.getId(), id);
+			accreMonDAO.create(temp);
+			accreditations.add(a);
+		}
+		catch(Exception ex){
+			throw ex;
+		}
 	}
 	
 	public void supprimerAccreditation(int index){

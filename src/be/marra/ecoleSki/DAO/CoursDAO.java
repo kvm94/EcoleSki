@@ -25,30 +25,34 @@ public class CoursDAO extends DAO<Cours>{
 	public boolean create(Cours obj){		
 		boolean check = false;
 
-		try{
-			PreparedStatement statement = connect.prepareStatement(
-					"INSERT INTO Cours (id_moniteur, categorie, sport, niveaux, heure, prix, minEleve, maxEleve, collectif) VALUES(?,?,?,?,?,?,?,?,?)");
-			statement.setInt(1,obj.getMoniteur().getId());
-			statement.setInt(2,obj.getCategorie().getValue());
-			statement.setInt(3,obj.getSport().getValue());
-			statement.setInt(4,obj.getNiveaux().getValue());
-			statement.setInt(5,obj.getHeure());
-			statement.setDouble(6,obj.getPrix());
-			statement.setInt(7,obj.getMinEleve());
-			statement.setInt(8,obj.getMaxEleve());
+		//Si le cours existe on ne le rajoute pas.
+		if(!find(obj)){
+			try{
+				PreparedStatement statement = connect.prepareStatement(
+						"INSERT INTO Cours (id_moniteur, categorie, sport, niveaux, heure, prix, minEleve, maxEleve, collectif) VALUES(?,?,?,?,?,?,?,?,?)");
+				statement.setInt(1,obj.getMoniteur().getId());
+				statement.setInt(2,obj.getCategorie().getValue());
+				statement.setInt(3,obj.getSport().getValue());
+				statement.setInt(4,obj.getNiveaux().getValue());
+				statement.setInt(5,obj.getHeure());
+				statement.setDouble(6,obj.getPrix());
+				statement.setInt(7,obj.getMinEleve());
+				statement.setInt(8,obj.getMaxEleve());
 
-			if(obj.isCollectif()){
-				statement.setInt(9, 1);
+				if(obj.isCollectif()){
+					statement.setInt(9, 1);
+				}
+				else
+					statement.setInt(9, 0);
+
+				statement.executeUpdate();
+				check = true;
 			}
-			else
-				statement.setInt(9, 0);
-
-			statement.executeUpdate();
-			check = true;
+			catch (Exception e){
+				e.printStackTrace();  
+			}
 		}
-		catch (Exception e){
-			e.printStackTrace();  
-		}
+		
 		return check;
 	}
 
@@ -196,6 +200,31 @@ public class CoursDAO extends DAO<Cours>{
 			e.printStackTrace();
 		}
 		return cours;
+	}
+	
+	public boolean find(Cours cours){
+		boolean check = false;
+		try{
+			ResultSet result = this.connect.createStatement(
+					ResultSet.TYPE_FORWARD_ONLY,
+					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Cours WHERE"
+							+ " categorie = " + cours.getCategorie().getValue()
+							+ " and sport = " + cours.getSport().getValue()
+							+ " and niveaux = " + cours.getNiveaux().getValue()
+							+ " and heure = " + cours.getHeure()
+							+ " and prix = " + cours.getPrix()
+							+ " and minEleve = " + cours.getMinEleve()
+							+ " and maxEleve = " + cours.getMaxEleve()
+							);
+
+			while(result.next()){
+				check = true;
+			}	
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		return check;
 	}
 	
 	public void getId(Cours cours){

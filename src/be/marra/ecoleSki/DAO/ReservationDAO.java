@@ -21,34 +21,40 @@ public class ReservationDAO extends DAO<Reservation>{
 	 * Ajoute une réservation dans la base de données.
 	 * @param La réservation à ajouter.
 	 * @return True si l'opération c'est bien effectuée.
+	 * @throws Exception 
 	 */
 	@SuppressWarnings("deprecation")
-	public boolean create(Reservation obj){		
+	public boolean create(Reservation obj) throws Exception{		
 		boolean check = false;
 
-		try{
-			PreparedStatement statement = connect.prepareStatement(
-					"INSERT INTO Reservation (id_client, id_semaine, id_eleve, id_cours, heure, min, statut, prix) VALUES(?,?,?,?,?,?,?,?)");
-			statement.setInt(1,obj.getClient().getId());
-			statement.setInt(2,obj.getSemaine().getId());
-			statement.setInt(3,obj.getEleve().getId());
-			statement.setInt(4,obj.getCours().getId());
-			statement.setInt(5,obj.getHeure().getHours());
-			statement.setInt(6,obj.getHeure().getMinutes());
-			
-			if(obj.getStatut() == E_Statut.Paye)
-				statement.setInt(7, 1);
-			else
-				statement.setInt(7, 0);
-			
-			statement.setDouble(8,obj.getPrix());
+		if(!find(obj)){
+			try{
+				PreparedStatement statement = connect.prepareStatement(
+						"INSERT INTO Reservation (id_client, id_semaine, id_eleve, id_cours, heure, min, statut, prix) VALUES(?,?,?,?,?,?,?,?)");
+				statement.setInt(1,obj.getClient().getId());
+				statement.setInt(2,obj.getSemaine().getId());
+				statement.setInt(3,obj.getEleve().getId());
+				statement.setInt(4,obj.getCours().getId());
+				statement.setInt(5,obj.getHeure().getHours());
+				statement.setInt(6,obj.getHeure().getMinutes());
+				
+				if(obj.getStatut() == E_Statut.Paye)
+					statement.setInt(7, 1);
+				else
+					statement.setInt(7, 0);
+				
+				statement.setDouble(8,obj.getPrix());
 
-			statement.executeUpdate();
-			check = true;
+				statement.executeUpdate();
+				check = true;
+			}
+			catch (Exception e){
+				e.printStackTrace();  
+			}
 		}
-		catch (Exception e){
-			e.printStackTrace();  
-		}
+		else
+			throw new Exception("Il y a déjà une réservation pour cette élève! ");
+		
 		return check;
 	}
 
@@ -153,6 +159,27 @@ public class ReservationDAO extends DAO<Reservation>{
 			e.printStackTrace();
 		}
 		return reservation;
+	}
+	
+	@SuppressWarnings("deprecation")
+	public boolean find(Reservation res){
+		boolean check=false;
+		try{
+			ResultSet result = this.connect.createStatement(
+					ResultSet.TYPE_FORWARD_ONLY,
+					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Reservation WHERE "
+							+ "id_eleve = " + res.getEleve().getId()
+							+ " and id_semaine = " + res.getSemaine().getId()
+							+ " and heure = " + res.getHeure().getHours());
+			
+			while(result.next()){
+				check = true;
+			}	
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		return check;
 	}
 	
 	@SuppressWarnings("deprecation")

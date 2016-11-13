@@ -28,13 +28,17 @@ public class AccreditationDAO extends DAO<Accreditation>{
 		boolean check = false;
 
 		try{
-			PreparedStatement statement = connect.prepareStatement(
-					"INSERT INTO Accreditation (categorie,sport) VALUES(?,?)");
-			statement.setInt(1,obj.getCat().getValue());
-			statement.setInt(2,obj.getSport().getValue());
+			
+			if(!find(obj)){
+				PreparedStatement statement = connect.prepareStatement(
+						"INSERT INTO Accreditation (categorie,sport) VALUES(?,?)");
+				statement.setInt(1,obj.getCat().getValue());
+				statement.setInt(2,obj.getSport().getValue());
 
-			statement.executeUpdate();
-			check = true;
+				statement.executeUpdate();
+				check = true;
+			}
+			
 		}
 		catch (Exception e){
 			e.printStackTrace();  
@@ -125,6 +129,26 @@ public class AccreditationDAO extends DAO<Accreditation>{
 			e.printStackTrace();
 		}
 		return accreditation;
+	}
+	
+	public boolean find(Accreditation obj){
+		boolean check = false;
+		try{
+			
+			ResultSet result = this.connect.createStatement(
+					ResultSet.TYPE_FORWARD_ONLY,
+					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Accreditation WHERE categorie = " 
+					+ obj.getCat().getValue()
+					+ " and sport = " + obj.getSport().getValue());
+			
+			while(result.next()){
+				check = true;
+			}	
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		return check;
 	}
 	
 	/**

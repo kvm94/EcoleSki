@@ -122,24 +122,29 @@ public class WAccreditation extends JFrame {
 				E_Categorie categorie;
 				E_Sport sport;
 				
-				switch(choiceCategorie.getSelectedItem()){
-				case "Adulte": categorie = E_Categorie.Adulte;break;
-				case "Enfant" : categorie = E_Categorie.Enfant;break;
-				default: categorie =null; break;
+				try{
+					switch(choiceCategorie.getSelectedItem()){
+					case "Adulte": categorie = E_Categorie.Adulte;break;
+					case "Enfant" : categorie = E_Categorie.Enfant;break;
+					default: categorie =null; break;
+					}
+					
+					switch(choiceSport.getSelectedItem()){
+					case "Ski" : sport = E_Sport.Ski;break;
+					case "Snowboard" : sport = E_Sport.Snowboard;break;
+					case "Télémark" : sport = E_Sport.Telemark;break;
+					case "Ski de fond" : sport = E_Sport.SkiFond;break;
+					default : sport = null;
+					}
+					
+					a = new Accreditation(categorie, sport);
+					m.ajoutAccreditation(a);
+					
+					initList();
 				}
-				
-				switch(choiceSport.getSelectedItem()){
-				case "Ski" : sport = E_Sport.Ski;break;
-				case "Snowboard" : sport = E_Sport.Snowboard;break;
-				case "Télémark" : sport = E_Sport.Telemark;break;
-				case "Ski de fond" : sport = E_Sport.SkiFond;break;
-				default : sport = null;
+				catch(Exception ex){
+					JOptionPane.showMessageDialog(null, ex.getMessage());
 				}
-				
-				a = new Accreditation(categorie, sport);
-				m.ajoutAccreditation(a);
-				
-				initList();
 			}
 		});
 		

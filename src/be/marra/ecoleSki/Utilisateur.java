@@ -12,7 +12,7 @@ public abstract class Utilisateur extends Personne {
 	
 	//-------------------------Méthodes-------------------------//
 	
-	abstract public boolean inscription();
+	abstract public boolean inscription() throws Exception;
 	abstract public boolean connexion();
 	
 	//-------------------------Accesseurs-------------------------//

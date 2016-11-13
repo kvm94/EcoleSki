@@ -12,20 +12,25 @@ public class Accreditation_MoniteurDAO extends DAO<PAccreditation_Moniteur>{
 		super(conn);
 	}
 
-	public boolean create(PAccreditation_Moniteur obj) {
+	public boolean create(PAccreditation_Moniteur obj) throws Exception {
 		boolean check = false;
 
 		try{
-			PreparedStatement statement = connect.prepareStatement(
-					"INSERT INTO Accreditation_Moniteur (id_accreditation, id_moniteur) VALUES(?,?)");
-			statement.setInt(1,obj.getId_accreditation());
-			statement.setInt(2,obj.getId_moniteur());
+			
+			if(!find(obj)){
+				PreparedStatement statement = connect.prepareStatement(
+						"INSERT INTO Accreditation_Moniteur (id_accreditation, id_moniteur) VALUES(?,?)");
+				statement.setInt(1,obj.getId_accreditation());
+				statement.setInt(2,obj.getId_moniteur());
 
-			statement.executeUpdate();
-			check = true;
+				statement.executeUpdate();
+				check = true;
+			}
+			else
+				throw new Exception("Vous possédez déjà cette accréditation!");
 		}
 		catch (Exception e){
-			e.printStackTrace();  
+			throw e; 
 		}
 		return check;
 	}
@@ -79,6 +84,25 @@ public class Accreditation_MoniteurDAO extends DAO<PAccreditation_Moniteur>{
 			e.printStackTrace();
 		}
 		return accreMon;
+	}
+	
+	public Boolean find(PAccreditation_Moniteur obj) {
+		boolean check = false;
+		try{
+			ResultSet result = this.connect.createStatement(
+					ResultSet.TYPE_FORWARD_ONLY,
+					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Accreditation_Moniteur WHERE "
+							+ "id_accreditation = " + obj.getId_accreditation()
+							+ " and id_moniteur = " + obj.getId_moniteur());
+			
+			while(result.next()){
+				check = true;
+			}	
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		return check;
 	}
 	
 	public ArrayList<Integer> findIdAccreditation(int id_moniteur) {

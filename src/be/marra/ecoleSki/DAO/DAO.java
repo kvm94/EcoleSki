@@ -11,7 +11,7 @@ public abstract class DAO<T> {
 		this.connect = conn;
 	}
 	
-	public abstract boolean create(T obj);
+	public abstract boolean create(T obj) throws Exception;
 	
 	public abstract boolean delete(T obj);
 	

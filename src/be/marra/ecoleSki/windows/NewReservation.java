@@ -380,7 +380,7 @@ public class NewReservation extends JFrame {
 					
 				}
 				catch(Exception ex){
-					JOptionPane.showMessageDialog(null, "Erreur lors de la réservation!");
+					JOptionPane.showMessageDialog(null, ex.getMessage());
 				}
 							
 			}

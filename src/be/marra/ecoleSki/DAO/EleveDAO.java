@@ -20,30 +20,33 @@ public class EleveDAO extends DAO<Eleve>{
 	public boolean create(Eleve obj){		
 		boolean check = false;
 
-		try{
-			PreparedStatement statement = connect.prepareStatement(
-					"INSERT INTO Eleve (assurance,nom, prenom, dateNaissance) VALUES(?,?,?,?)");
-			if(obj.isAssurance()){
-				statement.setInt(1, 1);
+		if(!find(obj)){
+			try{
+				PreparedStatement statement = connect.prepareStatement(
+						"INSERT INTO Eleve (assurance,nom, prenom, dateNaissance) VALUES(?,?,?,?)");
+				if(obj.isAssurance()){
+					statement.setInt(1, 1);
+				}
+				else
+					statement.setInt(1, 0);
+				
+				statement.setString(2,obj.getNom());
+				statement.setString(3,obj.getPrenom());
+				
+				//Conversion de la date en INTEGER pour la base de données SQLite.
+				LocalDate date = obj.getDateNaissance();
+				long output = date.toEpochDay();
+				
+				statement.setLong(4, output);
+				
+				statement.executeUpdate();
+				check = true;
 			}
-			else
-				statement.setInt(1, 0);
-			
-			statement.setString(2,obj.getNom());
-			statement.setString(3,obj.getPrenom());
-			
-			//Conversion de la date en INTEGER pour la base de données SQLite.
-			LocalDate date = obj.getDateNaissance();
-			long output = date.toEpochDay();
-			
-			statement.setLong(4, output);
-			
-			statement.executeUpdate();
-			check = true;
+			catch (Exception e){
+				e.printStackTrace();  
+			}
 		}
-		catch (Exception e){
-			e.printStackTrace();  
-		}
+		
 		return check;
 	}
 
@@ -131,6 +134,23 @@ public class EleveDAO extends DAO<Eleve>{
 			e.printStackTrace();
 		}
 		return eleve;
+	}
+	
+	public boolean find(Eleve eleve){
+		boolean check = false;
+		try{
+			ResultSet result = this.connect.createStatement(
+					ResultSet.TYPE_FORWARD_ONLY,
+					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT id_eleve FROM ELEVE WHERE nom ='" + eleve.getNom() +"' and prenom = '" + eleve.getPrenom() + "'");
+			
+			while(result.next()){
+				check = true;
+			}	
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		return check;
 	}
 
 	public void getId(Eleve eleve){

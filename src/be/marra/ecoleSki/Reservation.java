@@ -100,7 +100,7 @@ public class Reservation {
 		resDAO = (ReservationDAO)adf.getReservationDAO();
 	}
 	
-	public void insertIntoDB(){
+	public void insertIntoDB() throws Exception{
 		cours.insertIntoDB();
 		eleve.insertIntoDB();
 		resDAO.create(this);

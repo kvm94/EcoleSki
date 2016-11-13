@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
-
 import be.marra.ecoleSki.*;
 
 public class MoniteurDAO extends DAO<Moniteur>{
@@ -23,7 +21,7 @@ public class MoniteurDAO extends DAO<Moniteur>{
 	 * @return True si l'opération c'est bien effectuée.
 	 * @throws Exception L'utilisateur éxiste déjà.
 	 */
-	public boolean create(Moniteur obj){		
+	public boolean create(Moniteur obj) throws Exception{		
 		boolean check = false;
 
 		ArrayList<Moniteur> m = find(obj.getNom(), obj.getPrenom());
@@ -49,7 +47,7 @@ public class MoniteurDAO extends DAO<Moniteur>{
 			}
 		}
 		else{
-			JOptionPane.showMessageDialog(null, "L'utilisateur existe déjà!");
+			throw new Exception("L'utilisateur existe déjà!");
 		}
 		return check;
 	}
