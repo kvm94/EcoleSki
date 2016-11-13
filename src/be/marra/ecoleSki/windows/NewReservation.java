@@ -77,8 +77,6 @@ public class NewReservation extends JFrame {
 
 		//[start]Contenus
 
-		initComboBox();
-
 		JLabel lblNewLabel = new JLabel("Nom \u00E9l\u00E8ve :");
 		lblNewLabel.setBounds(10, 11, 151, 14);
 		contentPane.add(lblNewLabel);
@@ -190,6 +188,7 @@ public class NewReservation extends JFrame {
 		btnConfirmer.setBounds(213, 125, 109, 23);
 		contentPane.add(btnConfirmer);
 
+		initComboBox();
 
 		//[end]
 
@@ -433,8 +432,8 @@ public class NewReservation extends JFrame {
 					}
 				}
 				catch(Exception ex){
-					//JOptionPane.showMessageDialog(null, "Date invalide!");
-					System.out.println(ex.getMessage());
+					JOptionPane.showMessageDialog(null, "Date invalide!");
+					//System.out.println(ex.getMessage());
 				}
 
 			}

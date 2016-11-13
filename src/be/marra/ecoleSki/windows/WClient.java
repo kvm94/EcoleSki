@@ -17,10 +17,10 @@ import javax.swing.JButton;
 import java.awt.List;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+import java.awt.event.WindowFocusListener;
+import java.awt.event.WindowEvent;
 
 public class WClient extends JFrame {
 
@@ -38,6 +38,7 @@ public class WClient extends JFrame {
 	//[start]Création de la fenêtre.
 	
 	public WClient(Client c) {
+		
 		setResizable(false);
 		this.c = c; 
 		setTitle("Client");
@@ -75,12 +76,11 @@ public class WClient extends JFrame {
 		
 		//[start]Events
 		
-		//Réinitialise la liste des réservation quand la fenêtre reprend le focus.
 		addWindowFocusListener(new WindowFocusListener() {
-			public void windowGainedFocus(WindowEvent e) {
+			public void windowGainedFocus(WindowEvent arg0) {
 				initList(list);
 			}
-			public void windowLostFocus(WindowEvent e) {
+			public void windowLostFocus(WindowEvent arg0) {
 			}
 		});
 		
@@ -134,7 +134,7 @@ public class WClient extends JFrame {
 	
 	//[start]Fonctions
 	
-	private void initList(List list){
+	public void initList(List list){
 		try{
 			this.listRes = new ArrayList<Reservation>();
 			this.listRes = Reservation.loadByIdClient(E_Statut.Paye, c.getId());
