@@ -21,34 +21,42 @@ public class ReservationDAO extends DAO<Reservation>{
 	 * Ajoute une réservation dans la base de données.
 	 * @param La réservation à ajouter.
 	 * @return True si l'opération c'est bien effectuée.
+	 * @throws Exception 
 	 */
 	@SuppressWarnings("deprecation")
-	public boolean create(Reservation obj){		
+	public boolean create(Reservation obj) throws Exception{		
 		boolean check = false;
 
-		try{
-			PreparedStatement statement = connect.prepareStatement(
-					"INSERT INTO Reservation (id_client, id_semaine, id_eleve, id_cours, heure, min, statut, prix) VALUES(?,?,?,?,?,?,?,?)");
-			statement.setInt(1,obj.getClient().getId());
-			statement.setInt(2,obj.getSemaine().getId());
-			statement.setInt(3,obj.getEleve().getId());
-			statement.setInt(4,obj.getCours().getId());
-			statement.setInt(5,obj.getHeure().getHours());
-			statement.setInt(6,obj.getHeure().getMinutes());
-			
-			if(obj.getStatut() == E_Statut.Paye)
-				statement.setInt(7, 1);
-			else
-				statement.setInt(7, 0);
-			
-			statement.setDouble(8,obj.getPrix());
+		if(!find(obj)){
+			try{
+				PreparedStatement statement = connect.prepareStatement(
+						"INSERT INTO Reservation (id_client, id_semaine, id_eleve, id_cours, heure, min, statut, prix, id_moniteur) VALUES(?,?,?,?,?,?,?,?,?)");
+				statement.setInt(1,obj.getClient().getId());
+				statement.setInt(2,obj.getSemaine().getId());
+				statement.setInt(3,obj.getEleve().getId());
+				statement.setInt(4,obj.getCours().getId());
+				statement.setInt(5,obj.getHeure().getHours());
+				statement.setInt(6,obj.getHeure().getMinutes());
+				
+				
+				if(obj.getStatut() == E_Statut.Paye)
+					statement.setInt(7, 1);
+				else
+					statement.setInt(7, 0);
+				
+				statement.setDouble(8,obj.getPrix());
+				statement.setInt(9,obj.getMoniteur().getId());
 
-			statement.executeUpdate();
-			check = true;
+				statement.executeUpdate();
+				check = true;
+			}
+			catch (Exception e){
+				e.printStackTrace();  
+			}
 		}
-		catch (Exception e){
-			e.printStackTrace();  
-		}
+		else
+			throw new Exception("Il y a déjà une réservation pour cette élève! ");
+		
 		return check;
 	}
 
@@ -93,8 +101,11 @@ public class ReservationDAO extends DAO<Reservation>{
 							+ "heure=?,"
 							+ "min=?,"
 							+ "statut=?,"
-							+ "prix=? "
-							+ "WHERE id_reservation = " + obj.getId());
+							+ "prix=? ,"
+							+ "id_moniteur = ?"
+							+ "WHERE id_semaine = " + obj.getSemaine().getId()
+							+ " and heure = " + obj.getHeure().getHours()
+							+ " and id_cours = " + obj.getCours().getId());
 
 			statement.setInt(1,obj.getClient().getId());
 			statement.setInt(2,obj.getSemaine().getId());
@@ -109,7 +120,7 @@ public class ReservationDAO extends DAO<Reservation>{
 				statement.setInt(7, 0);
 			
 			statement.setDouble(8,obj.getPrix());
-
+			statement.setInt(9,obj.getMoniteur().getId());
 			statement.executeUpdate();
 			check = true;
 		}
@@ -147,12 +158,34 @@ public class ReservationDAO extends DAO<Reservation>{
 				else
 					reservation.setStatut(E_Statut.Reserve);
 				reservation.setPrix(result.getDouble("prix"));
+				reservation.setIdMoniteur(result.getInt("id_moniteur"));
 			}	
 		}
 		catch(SQLException e){
 			e.printStackTrace();
 		}
 		return reservation;
+	}
+	
+	@SuppressWarnings("deprecation")
+	public boolean find(Reservation res){
+		boolean check=false;
+		try{
+			ResultSet result = this.connect.createStatement(
+					ResultSet.TYPE_FORWARD_ONLY,
+					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Reservation WHERE "
+							+ "id_eleve = " + res.getEleve().getId()
+							+ " and id_semaine = " + res.getSemaine().getId()
+							+ " and heure = " + res.getHeure().getHours());
+			
+			while(result.next()){
+				check = true;
+			}	
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		return check;
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -181,7 +214,70 @@ public class ReservationDAO extends DAO<Reservation>{
 				else
 					reservation.setStatut(E_Statut.Reserve);
 				reservation.setPrix(result.getDouble("prix"));
+				reservation.setIdMoniteur(result.getInt("id_moniteur"));
+				reservations.add(reservation);
+			}	
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		return reservations;
+	}
+	
+	@SuppressWarnings("deprecation")
+	public ArrayList<Reservation> find(){
+
+		ArrayList<Reservation> reservations = new ArrayList<Reservation>();
+		try{
+			ResultSet result = this.connect.createStatement(
+					ResultSet.TYPE_FORWARD_ONLY,
+					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Reservation");
+
+			while(result.next()){
 				
+				Reservation reservation = new Reservation();
+				reservation.setIdClient(result.getInt("id_client"));
+				reservation.setIdSemaine(result.getInt("id_semaine"));
+				reservation.setIdEleve(result.getInt("id_eleve"));
+				reservation.setIdCours(result.getInt("id_cours"));
+				reservation.setId(result.getInt("id_reservation"));
+				Time heure = new Time(0);
+				heure.setHours(result.getInt("heure"));
+				heure.setMinutes(result.getInt("min"));
+				reservation.setHeure(heure);
+				if(result.getInt("statut") == 1)
+					reservation.setStatut(E_Statut.Paye);
+				else
+					reservation.setStatut(E_Statut.Reserve);
+				reservation.setPrix(result.getDouble("prix"));
+				reservation.setIdMoniteur(result.getInt("id_moniteur"));
+				reservations.add(reservation);
+			}	
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		return reservations;
+	}
+	
+	@SuppressWarnings("deprecation")
+	public ArrayList<Reservation> findbyMonitor(int id){
+
+		ArrayList<Reservation> reservations = new ArrayList<Reservation>();
+		try{
+			ResultSet result = this.connect.createStatement(
+					ResultSet.TYPE_FORWARD_ONLY,
+					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Reservation where id_moniteur = " + id);
+
+			while(result.next()){
+				
+				Reservation reservation = new Reservation();
+				reservation.setIdSemaine(result.getInt("id_semaine"));
+				reservation.setIdCours(result.getInt("id_cours"));
+				Time heure = new Time(0);
+				heure.setHours(result.getInt("heure"));
+				heure.setMinutes(result.getInt("min"));
+				reservation.setHeure(heure);
 				reservations.add(reservation);
 			}	
 		}
@@ -210,4 +306,27 @@ public class ReservationDAO extends DAO<Reservation>{
 		
 		return cpt;
 	}
+	
+	//Retourne le nombre de réservation pour un cours à un date donnée.
+		public int nbrResCours(Cours cours, Semaine semaine, int heure){
+			int cpt = 0;
+			
+			try{
+				ResultSet result = this.connect.createStatement(
+						ResultSet.TYPE_FORWARD_ONLY,
+						ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Reservation"
+								+ " WHERE id_cours = " + cours.getId()
+								+ " and heure = " + heure
+								+ " and id_semaine = " + semaine.getId());
+
+				while(result.next()){
+					cpt++;
+				}	
+			}
+			catch(SQLException e){
+				e.printStackTrace();
+			}
+			
+			return cpt;
+		}
 }

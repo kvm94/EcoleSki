@@ -28,13 +28,17 @@ public class AccreditationDAO extends DAO<Accreditation>{
 		boolean check = false;
 
 		try{
-			PreparedStatement statement = connect.prepareStatement(
-					"INSERT INTO Accreditation (categorie,sport) VALUES(?,?)");
-			statement.setInt(1,obj.getCat().getValue());
-			statement.setInt(2,obj.getSport().getValue());
+			
+			if(!find(obj)){
+				PreparedStatement statement = connect.prepareStatement(
+						"INSERT INTO Accreditation (categorie,sport) VALUES(?,?)");
+				statement.setInt(1,obj.getCat().getValue());
+				statement.setInt(2,obj.getSport().getValue());
 
-			statement.executeUpdate();
-			check = true;
+				statement.executeUpdate();
+				check = true;
+			}
+			
 		}
 		catch (Exception e){
 			e.printStackTrace();  
@@ -127,19 +131,39 @@ public class AccreditationDAO extends DAO<Accreditation>{
 		return accreditation;
 	}
 	
+	public boolean find(Accreditation obj){
+		boolean check = false;
+		try{
+			
+			ResultSet result = this.connect.createStatement(
+					ResultSet.TYPE_FORWARD_ONLY,
+					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Accreditation WHERE categorie = " 
+					+ obj.getCat().getValue()
+					+ " and sport = " + obj.getSport().getValue());
+			
+			while(result.next()){
+				check = true;
+			}	
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		return check;
+	}
+	
 	/**
 	 * Récupère l'id d'une accréditation dans la base de données. 
 	 * @param L'accréditation. 
 	 * @return L'id de l'accréditation.
 	 */
-	/*public int getId(Accreditation obj){
+	public int getId(Accreditation obj){
 		int id = 0;
 		try{
 			ResultSet result = this.connect.createStatement(
 					ResultSet.TYPE_FORWARD_ONLY,
 					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT id_accreditation FROM Accreditation WHERE "
 							+ "categorie = " + obj.getCat().getValue()
-							+ "and sport = " + obj.getSport().getValue());
+							+ " and sport = " + obj.getSport().getValue());
 			
 			while(result.next()){
 				id =result.getInt("id_accreditation");
@@ -149,6 +173,6 @@ public class AccreditationDAO extends DAO<Accreditation>{
 			e.printStackTrace();
 		}
 		return id;
-	}*/
+	}
 	
 }

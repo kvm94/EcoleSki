@@ -114,6 +114,7 @@ public class WPanier extends JFrame {
 				if(reply == JOptionPane.YES_OPTION){
 					c.payerPanier();
 					wClient.setEnabled(true);
+					
 					This.dispose();
 				}
 			}
@@ -133,9 +134,12 @@ public class WPanier extends JFrame {
 				if(reply == JOptionPane.YES_OPTION){
 					c.viderPanier();
 					initDisplay(list);
+					lblPrix.setText("");
+					lblNote.setText("");
 					btnSupprimer.setEnabled(false);
 					btnAfficher.setEnabled(false);
 					btnVider.setEnabled(false);
+					btnPayer.setEnabled(false);
 				}
 			}
 		});

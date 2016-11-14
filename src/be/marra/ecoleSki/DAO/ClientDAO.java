@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
 
 import be.marra.ecoleSki.*;
 
@@ -25,8 +24,9 @@ public class ClientDAO extends DAO<Client>{
 	 * Ajoute un client dans la base de données.
 	 * @param Le client à ajouter.
 	 * @return True si l'opération c'est bien effectuée.
+	 * @throws Exception 
 	 */
-	public boolean create(Client obj){		
+	public boolean create(Client obj) throws Exception{		
 		boolean check = false;
 		ArrayList<Client> c = find(obj.getNom(), obj.getPrenom());
 		
@@ -52,7 +52,7 @@ public class ClientDAO extends DAO<Client>{
 			}
 		}
 		else
-			JOptionPane.showMessageDialog(null, "L'utilisateur existe déjà!");
+			throw new Exception("L'utilisateur existe déjà!");
 		
 		return check;
 	}

@@ -13,6 +13,7 @@ public abstract class AbstractDAOFactory {
 	public abstract DAO<Cours> getCoursDAO();
 	public abstract DAO<Accreditation> getAccreditationDAO();
 	public abstract DAO<Semaine> getSemaineDAO();
+	public abstract DAO<PAccreditation_Moniteur> getAccreditation_MoniteurDAO();
 	
 	public static AbstractDAOFactory getFactory(int type){
 		switch(type){

@@ -2,6 +2,9 @@ package be.marra.ecoleSki;
 
 import be.marra.ecoleSki.DAO.AbstractDAOFactory;
 import be.marra.ecoleSki.DAO.CoursDAO;
+
+import java.util.ArrayList;
+
 import be.marra.ecoleSki.Accreditation.E_Categorie;
 import be.marra.ecoleSki.Accreditation.E_Sport;
 
@@ -42,7 +45,6 @@ public class Cours {
 	private E_Categorie categorie;
 	private E_Sport 	sport;
 	private E_Niveaux 	niveaux;
-	private Moniteur	moniteur;
 	private int 		heure;
 	private double 		prix;
 	private int 		minEleve;
@@ -67,16 +69,14 @@ public class Cours {
 		this.minEleve = 0;
 		this.maxEleve = 0;
 		this.collectif = false;
-		moniteur = new Moniteur();
 
 		initDB();
 	}
 
-	public Cours(E_Categorie categorie, E_Sport sport, E_Niveaux niveaux, Moniteur moniteur, int heure, double prix, int minEleve, int maxEleve, boolean collectif) {
+	public Cours(E_Categorie categorie, E_Sport sport, E_Niveaux niveaux, int heure, double prix, int minEleve, int maxEleve, boolean collectif) {
 		this.categorie = categorie;
 		this.sport = sport;
 		this.niveaux = niveaux;
-		this.setMoniteur(moniteur);
 		this.heure = heure;
 		this.prix = prix;
 		this.minEleve = minEleve;
@@ -104,10 +104,6 @@ public class Cours {
 		coursDAO.delete(this);
 	}
 	
-	public void setIdMoniteur(int id){
-		moniteur.setId(id);
-	}
-	
 	public void charger(){
 		Cours temp;
 		temp = coursDAO.find(id);
@@ -117,7 +113,6 @@ public class Cours {
 		this.heure = temp.heure;
 		this.maxEleve = temp.maxEleve;
 		this.minEleve = temp.minEleve;
-		this.moniteur = temp.moniteur;
 		this.niveaux = temp.niveaux;
 		this.prix = temp.prix;
 		this.sport = temp.sport;
@@ -128,12 +123,15 @@ public class Cours {
 	 * @param a
 	 * @return true si l'accréditation est valable.
 	 */
-	public boolean checkAccreditation(Accreditation a)
+	public boolean checkAccreditation(ArrayList<Accreditation> a)
 	{
-		if ((this.categorie == a.getCat()) && (this.sport == a.getSport())) {
-			return true;
+		boolean check = false;
+		for(int i = 0 ; i< a.size() ; i++){
+			if ((this.categorie == a.get(i).getCat()) && (this.sport == a.get(i).getSport())) {
+				return true;
+			}
 		}
-		return false;
+		return check;
 	}
 
 	/**
@@ -235,6 +233,16 @@ public class Cours {
 		else
 			initParticulier();
 	}
+	
+	/*public static ArrayList<Cours> loadCoursByMonitor(int id_moniteur){
+		AbstractDAOFactory adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
+		CoursDAO coursDAO = (CoursDAO)adf.getCoursDAO();
+		
+		ArrayList<Cours> liste = null;
+		liste = coursDAO.findByMonitor(id_moniteur);
+	
+		return liste;
+	}*/
 
 
 	//[end]
@@ -303,14 +311,6 @@ public class Cours {
 
 	public void setCollectif(boolean collectif) {
 		this.collectif = collectif;
-	}
-
-	public Moniteur getMoniteur() {
-		return moniteur;
-	}
-
-	public void setMoniteur(Moniteur moniteur) {
-		this.moniteur = moniteur;
 	}
 
 	public int getId() {

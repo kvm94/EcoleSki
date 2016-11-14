@@ -84,9 +84,10 @@ public void charger(){
 	/**
 	 * Inscrit le client dans la base de données.
 	 * @return True si l'inscription c'est effectué.
+	 * @throws Exception 
 	 */
 	@Override
-	public boolean inscription(){
+	public boolean inscription() throws Exception{
 		if(clientDAO.create(this)){
 			return true;
 		}
