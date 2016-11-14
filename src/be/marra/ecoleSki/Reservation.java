@@ -102,8 +102,12 @@ public class Reservation {
 	
 	public void insertIntoDB() throws Exception{
 		cours.insertIntoDB();
-		eleve.insertIntoDB();
-		resDAO.create(this);
+		if(resDAO.nbrResCours(cours, semaine) < cours.getMaxEleve()){
+			eleve.insertIntoDB();
+			resDAO.create(this);
+		}
+		else
+			throw new Exception("Ce cours est complet!");
 	}
 	
 	public void deleteFromDB(){
@@ -141,6 +145,29 @@ public class Reservation {
 		return list;
 	}
 	
+	public static ArrayList<Reservation> loadAll(){
+		ArrayList<Reservation> list = new ArrayList<Reservation>();
+		AbstractDAOFactory adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
+		ReservationDAO resDAO = (ReservationDAO)adf.getReservationDAO();
+		
+		list = resDAO.find();
+		
+		for(int i =  0 ; i< list.size() ; i++){
+			list.get(i).getClient().charger();
+			list.get(i).getCours().charger();
+			list.get(i).getEleve().charger();
+			list.get(i).getSemaine().charger();
+		}
+
+		return list;
+	}
+	
+	public static int getNbrReservationByCours(Cours cours, Semaine semaine){
+		AbstractDAOFactory adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
+		ReservationDAO resDAO = (ReservationDAO)adf.getReservationDAO();
+		
+		return resDAO.nbrResCours(cours, semaine);
+	}
 	
 	//[end]
 	

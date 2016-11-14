@@ -145,6 +145,15 @@ public class Moniteur extends Utilisateur {
 		}
 	}
 	
+	//Renvois les reservations que le moniteur peut prendre.
+	public ArrayList<Reservation> checkReservations(ArrayList<Reservation> liste){
+		ArrayList<Reservation> reservations = new ArrayList<Reservation>();
+		
+		
+		
+		return reservations;
+	}
+	
 	//[end]
 	
 	//[start]Accesseurs

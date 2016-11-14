@@ -218,6 +218,42 @@ public class ReservationDAO extends DAO<Reservation>{
 		return reservations;
 	}
 	
+	@SuppressWarnings("deprecation")
+	public ArrayList<Reservation> find(){
+
+		ArrayList<Reservation> reservations = new ArrayList<Reservation>();
+		try{
+			ResultSet result = this.connect.createStatement(
+					ResultSet.TYPE_FORWARD_ONLY,
+					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Reservation");
+
+			while(result.next()){
+				
+				Reservation reservation = new Reservation();
+				reservation.setIdClient(result.getInt("id_client"));
+				reservation.setIdSemaine(result.getInt("id_semaine"));
+				reservation.setIdEleve(result.getInt("id_eleve"));
+				reservation.setIdCours(result.getInt("id_cours"));
+				reservation.setId(result.getInt("id_reservation"));
+				Time heure = new Time(0);
+				heure.setHours(result.getInt("heure"));
+				heure.setMinutes(result.getInt("min"));
+				reservation.setHeure(heure);
+				if(result.getInt("statut") == 1)
+					reservation.setStatut(E_Statut.Paye);
+				else
+					reservation.setStatut(E_Statut.Reserve);
+				reservation.setPrix(result.getDouble("prix"));
+				
+				reservations.add(reservation);
+			}	
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		return reservations;
+	}
+	
 	//Retourne le nombre de réservation pour un cours.
 	public int nbrResCours(Cours cours){
 		int cpt = 0;
@@ -237,4 +273,26 @@ public class ReservationDAO extends DAO<Reservation>{
 		
 		return cpt;
 	}
+	
+	//Retourne le nombre de réservation pour un cours à un date donnée.
+		public int nbrResCours(Cours cours, Semaine semaine){
+			int cpt = 0;
+			
+			try{
+				ResultSet result = this.connect.createStatement(
+						ResultSet.TYPE_FORWARD_ONLY,
+						ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Reservation"
+								+ " WHERE id_cours = " + cours.getId()
+								+ " and id_semaine = " + semaine.getId());
+
+				while(result.next()){
+					cpt++;
+				}	
+			}
+			catch(SQLException e){
+				e.printStackTrace();
+			}
+			
+			return cpt;
+		}
 }

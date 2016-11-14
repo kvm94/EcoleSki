@@ -288,11 +288,11 @@ public class NewReservation extends JFrame {
 				
 					switch(choiceHeure.getSelectedItem().toString()){
 					case "9h00 -> 12h00": 
-						heure = 3;
+						heure = 9;
 						collectif = true;
 						break;
 					case "12h00 -> 13h00 (Cours particulier)": 
-						heure=1;
+						heure=12;
 						collectif = false;
 						break;
 					case "12h00 -> 14h00 (Cours particulier)": 

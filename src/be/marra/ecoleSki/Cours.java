@@ -2,6 +2,9 @@ package be.marra.ecoleSki;
 
 import be.marra.ecoleSki.DAO.AbstractDAOFactory;
 import be.marra.ecoleSki.DAO.CoursDAO;
+
+import java.util.ArrayList;
+
 import be.marra.ecoleSki.Accreditation.E_Categorie;
 import be.marra.ecoleSki.Accreditation.E_Sport;
 
@@ -234,6 +237,16 @@ public class Cours {
 			initCollectif();
 		else
 			initParticulier();
+	}
+	
+	public static ArrayList<Cours> loadCoursByMonitor(int id_moniteur){
+		AbstractDAOFactory adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
+		CoursDAO coursDAO = (CoursDAO)adf.getCoursDAO();
+		
+		ArrayList<Cours> liste = null;
+		liste = coursDAO.findByMonitor(id_moniteur);
+	
+		return liste;
 	}
 
 

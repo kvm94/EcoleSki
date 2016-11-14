@@ -65,7 +65,7 @@ public class WMoniteur extends JFrame {
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setEnabled(false);
-				GererHoraire gereH = new GererHoraire(This);
+				GererHoraire gereH = new GererHoraire(This, m);
 				gereH.setVisible(true);
 			}
 		});
