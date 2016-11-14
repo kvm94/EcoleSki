@@ -39,16 +39,12 @@ public class WMoniteur extends JFrame {
 		btnNewButton.setBounds(10, 11, 243, 23);
 		contentPane.add(btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("Consulter les cours disponibles");
-		btnNewButton_1.setBounds(10, 45, 243, 23);
-		contentPane.add(btnNewButton_1);
-		
 		JButton btnNewButton_2 = new JButton("G\u00E9rer horaire");
 		btnNewButton_2.setBounds(264, 11, 243, 23);
 		contentPane.add(btnNewButton_2);
 		
 		JCalendar calendar = new JCalendar();
-		calendar.setBounds(10, 84, 497, 257);
+		calendar.setBounds(10, 55, 497, 263);
 		contentPane.add(calendar);
 		
 		//Centre la fenêtre.
@@ -63,6 +59,14 @@ public class WMoniteur extends JFrame {
 				setEnabled(false);
 				WAccreditation wAccreditation =  new WAccreditation(This, m);
 				wAccreditation.setVisible(true);
+			}
+		});
+		
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setEnabled(false);
+				GererHoraire gereH = new GererHoraire(This);
+				gereH.setVisible(true);
 			}
 		});
 		
