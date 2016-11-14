@@ -3,6 +3,8 @@ package be.marra.ecoleSki;
 import be.marra.ecoleSki.DAO.AbstractDAOFactory;
 import be.marra.ecoleSki.DAO.CoursDAO;
 
+import java.util.ArrayList;
+
 import be.marra.ecoleSki.Accreditation.E_Categorie;
 import be.marra.ecoleSki.Accreditation.E_Sport;
 
@@ -121,12 +123,15 @@ public class Cours {
 	 * @param a
 	 * @return true si l'accréditation est valable.
 	 */
-	public boolean checkAccreditation(Accreditation a)
+	public boolean checkAccreditation(ArrayList<Accreditation> a)
 	{
-		if ((this.categorie == a.getCat()) && (this.sport == a.getSport())) {
-			return true;
+		boolean check = false;
+		for(int i = 0 ; i< a.size() ; i++){
+			if ((this.categorie == a.get(i).getCat()) && (this.sport == a.get(i).getSport())) {
+				return true;
+			}
 		}
-		return false;
+		return check;
 	}
 
 	/**

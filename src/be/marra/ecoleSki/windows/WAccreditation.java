@@ -9,6 +9,8 @@ import be.marra.ecoleSki.Accreditation;
 import be.marra.ecoleSki.Accreditation.E_Categorie;
 import be.marra.ecoleSki.Accreditation.E_Sport;
 import be.marra.ecoleSki.Moniteur;
+import be.marra.ecoleSki.Reservation;
+
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -32,6 +34,7 @@ public class WAccreditation extends JFrame {
 	private Choice choiceSport;
 	private Choice choiceCategorie;
 	private JButton btnSupprimer;
+	private ArrayList<Reservation> listeReservation;
 	/**
 	 * Create the frame.
 	 */
@@ -106,7 +109,18 @@ public class WAccreditation extends JFrame {
 		btnSupprimer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try{
+					listeReservation = m.checkReservations(m.getId());
 					m.supprimerAccreditation(list.getSelectedIndex());
+					//Supprime les cours de l'horraire qui avaient besoin de l'accreditation supprimé.	
+					ArrayList<Accreditation> listeAccre = m.getAccreditations();
+					
+					for(int i = 0 ; i< listeReservation.size() ; i ++){
+						if(!listeReservation.get(i).getCours().checkAccreditation(listeAccre)){
+							listeReservation.get(i).setIdMoniteur(0);
+							listeReservation.get(i).update();
+							JOptionPane.showMessageDialog(null, "Les cours à l'horaire nécessitant cette accréditation ont été supprimé!");
+						}
+					}
 					initList();
 				}
 				catch(Exception ex){

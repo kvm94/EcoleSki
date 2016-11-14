@@ -161,20 +161,19 @@ public class Moniteur extends Utilisateur {
 						listeReservation.get(i).getHeure().getHours()) >= listeReservation.get(i).getCours().getMinEleve()){
 
 					if(first){
-						for(int j= 0 ; j< this.accreditations.size() ; j++){
-							//Vérifie si le moniteur a l'accréditation requise.
-							if(listeReservation.get(i).getCours().checkAccreditation(this.getAcre(j))){
-								reservations.add(listeReservation.get(i));
-								first = false;
-							}
+
+						//Vérifie si le moniteur a l'accréditation requise.
+						if(listeReservation.get(i).getCours().checkAccreditation(this.getAccreditations())){
+							reservations.add(listeReservation.get(i));
+							first = false;
 						}
+
 					}else if(listeReservation.get(i).getId() != reservations.get(flag).getId()){
-						for(int j= 0 ; j< this.accreditations.size() ; j++){
-							//Vérifie si le moniteur a l'accréditation requise.
-							if(listeReservation.get(i).getCours().checkAccreditation(this.getAcre(j))){
-								reservations.add(listeReservation.get(i));
-								flag++;
-							}
+
+						if(listeReservation.get(i).getCours().checkAccreditation(this.getAccreditations())){
+							reservations.add(listeReservation.get(i));
+							flag++;
+
 						}
 					}
 				}
