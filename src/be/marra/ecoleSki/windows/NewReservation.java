@@ -99,23 +99,23 @@ public class NewReservation extends JFrame {
 		contentPane.add(lblsemaine);
 
 		JSeparator separator = new JSeparator();
-		separator.setBounds(10, 159, 414, 2);
+		separator.setBounds(10, 155, 414, 2);
 		contentPane.add(separator);
 
 		JLabel lblNewLabel_1 = new JLabel("Semaine : ");
-		lblNewLabel_1.setBounds(10, 180, 103, 14);
+		lblNewLabel_1.setBounds(10, 197, 67, 14);
 		contentPane.add(lblNewLabel_1);
 
 		JLabel lblHeure = new JLabel("Heure : ");
-		lblHeure.setBounds(10, 205, 67, 14);
+		lblHeure.setBounds(10, 222, 67, 14);
 		contentPane.add(lblHeure);
 
 		JLabel lblSport = new JLabel("Sport : ");
-		lblSport.setBounds(10, 230, 98, 14);
+		lblSport.setBounds(10, 247, 67, 14);
 		contentPane.add(lblSport);
 
 		JLabel lblNiveaux = new JLabel("Niveaux : ");
-		lblNiveaux.setBounds(10, 255, 98, 14);
+		lblNiveaux.setBounds(10, 272, 67, 14);
 		contentPane.add(lblNiveaux);
 
 		JSeparator separator_1 = new JSeparator();
@@ -185,7 +185,7 @@ public class NewReservation extends JFrame {
 		contentPane.add(checkBox);
 
 		JButton btnConfirmer = new JButton("Confirmer");
-		btnConfirmer.setBounds(213, 125, 109, 23);
+		btnConfirmer.setBounds(213, 121, 109, 23);
 		contentPane.add(btnConfirmer);
 
 		initComboBox();
@@ -337,6 +337,7 @@ public class NewReservation extends JFrame {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
 				try{
+					
 					//Creer dans la base de données ELEVE, COOURS et RESERVATION
 					//Gere les cours disponible lors de la validation (min eleve, max eleve)
 					Reservation reservation = new Reservation();
@@ -375,6 +376,7 @@ public class NewReservation extends JFrame {
 					JOptionPane.showMessageDialog(null, "Réservé!");
 					
 					wClient.setEnabled(true);
+					
 					dispose();
 					
 				}
@@ -456,13 +458,19 @@ public class NewReservation extends JFrame {
 	}
 	
 	//Crée une smeaine en fonction de la combobox
-	private Semaine getSemaine(){
+	private Semaine getSemaine() throws Exception{
 		Semaine semaine;
 		int index;
 		
 		index = this.choiceSemaine.getSelectedIndex();
 		
-		semaine = semaines.get(index);		
+		if(semaines.get(index).checkDate()){
+			semaine = semaines.get(index);	
+		}
+		else{
+			throw new Exception("Délai de réservation incorrect!");
+		}
+			
 		
 		return semaine;
 	}
@@ -475,20 +483,25 @@ public class NewReservation extends JFrame {
 		semaines = Semaine.loadSemainesFromDB();
 
 		this.choiceSemaine = new Choice();
-		choiceSemaine.setBounds(121, 180, 201, 20);
+		choiceSemaine.setBounds(77, 197, 245, 20);
 		contentPane.add(choiceSemaine);
 
 		cpt=0;
 
 		while(cpt < semaines.size()){
-			content = semaines.get(cpt).getDateDebut().toString() + " -> " + semaines.get(cpt).getDateFin().toString();
+			content = "";
+			if(semaines.get(cpt).isCongeScolaire()){
+				content += "*";
+				content += semaines.get(cpt).getDescriptif() + "* ";
+			}
+			content += semaines.get(cpt).getDateDebut().toString() + " -> " + semaines.get(cpt).getDateFin().toString();
 			choiceSemaine.add(content);
 			cpt++;
 		}
 
 
 		this.choiceHeure = new Choice();
-		choiceHeure.setBounds(121, 205, 201, 20);
+		choiceHeure.setBounds(77, 222, 245, 20);
 		contentPane.add(choiceHeure);
 		choiceHeure.add("9h00 -> 12h00");
 		choiceHeure.add("12h00 -> 13h00 (Cours particulier)");
@@ -497,7 +510,7 @@ public class NewReservation extends JFrame {
 
 
 		this.choiceSport = new Choice();
-		choiceSport.setBounds(121, 230, 201, 20);
+		choiceSport.setBounds(77, 247, 245, 20);
 		contentPane.add(choiceSport);
 		choiceSport.add("Ski");
 		choiceSport.add("Snowboard");
@@ -507,8 +520,18 @@ public class NewReservation extends JFrame {
 
 		this.choiceNiveaux = new Choice();
 		choiceNiveaux.setEnabled(false);
-		choiceNiveaux.setBounds(121, 255, 201, 20);
+		choiceNiveaux.setBounds(77, 272, 245, 20);
 		contentPane.add(choiceNiveaux);
+		
+		JLabel lblNewLabel_2 = new JLabel("Possibilit\u00E9 de r\u00E9servation 1 mois \u00E0 l\u2019avance en dehors des p\u00E9riodes ");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.ITALIC, 9));
+		lblNewLabel_2.setBounds(10, 155, 312, 14);
+		contentPane.add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_3 = new JLabel("scolaires et 1 semaine lors des p\u00E9riodes scolaires.");
+		lblNewLabel_3.setFont(new Font("Tahoma", Font.ITALIC, 9));
+		lblNewLabel_3.setBounds(10, 172, 312, 14);
+		contentPane.add(lblNewLabel_3);
 
 	}
 

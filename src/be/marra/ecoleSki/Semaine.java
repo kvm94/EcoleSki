@@ -9,7 +9,7 @@ import be.marra.ecoleSki.DAO.SemaineDAO;
 
 public class Semaine {
 
-	//-------------------------Attributs-------------------------//
+	//[start]Attributs
 	
 	private int 		id;
 	private LocalDate 	dateDebut;
@@ -21,7 +21,9 @@ public class Semaine {
 		private AbstractDAOFactory adf;
 		SemaineDAO semaineDAO;
 
-	//-------------------------Constructeurs-------------------------//
+	//[end]
+		
+	//[start]Constructeurs
 	
 	public Semaine() {
 		this.setDateDebut(null);
@@ -41,14 +43,71 @@ public class Semaine {
 		initDB();
 	}
 
+	//[end]
 	
-	//-------------------------Méthodes-------------------------//
+	//[start]Méthodes
 	
 	/**
-	 * Vérifie si les dates sont valides.
+	 * Initialise les congées scolaire.
 	 */
-	public void checkDate(){
-
+	public static void initConge(){
+		AbstractDAOFactory adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
+		SemaineDAO semaineDAO = (SemaineDAO)adf.getSemaineDAO();
+		
+		ArrayList<Semaine> semaines = loadSemainesFromDB();
+		long tempDebut;
+		long tempFin;
+		long dateDebut;
+		long dateFin;
+		
+		for(int i = 0 ; i< semaines.size() ; i++){
+			dateDebut = semaines.get(i).getDateDebut().toEpochDay();
+			dateFin = semaines.get(i).getDateFin().toEpochDay();
+			//Noël 2016
+			tempFin = LocalDate.of(2017, 1, 8).toEpochDay();
+			tempDebut = LocalDate.of(2016, 12, 24).toEpochDay();
+			if(dateDebut >= tempDebut && dateFin < tempFin){
+				semaines.get(i).setCongeScolaire(true);
+				semaines.get(i).setDescriptif("Noël");
+				semaineDAO.update(semaines.get(i));
+			}
+			else{
+				//Carnaval 2017
+				tempFin = LocalDate.of(2017, 3, 5).toEpochDay();
+				tempDebut = LocalDate.of(2017, 2, 25).toEpochDay();
+				if(dateDebut >= tempDebut && dateFin < tempFin){
+					semaines.get(i).setCongeScolaire(true);
+					semaines.get(i).setDescriptif("Carnaval");
+					semaineDAO.update(semaines.get(i));
+				}
+				else{
+					//Paquer 2017
+					tempDebut = LocalDate.of(2017, 4, 1).toEpochDay();
+					tempFin = LocalDate.of(2017, 4, 17).toEpochDay();
+					if(dateDebut >= tempDebut && dateFin < tempFin){
+						semaines.get(i).setCongeScolaire(true);
+						semaines.get(i).setDescriptif("Pâques");
+						semaineDAO.update(semaines.get(i));
+					}
+					else{
+						//Paquer 2017
+						tempDebut = LocalDate.of(2017, 7, 1).toEpochDay();
+						tempFin = LocalDate.of(2017, 8, 31).toEpochDay();
+						if(dateDebut >= tempDebut && dateFin < tempFin){
+							semaines.get(i).setCongeScolaire(true);
+							semaines.get(i).setDescriptif("Grandes vacances");
+							semaineDAO.update(semaines.get(i));
+						}
+						else{
+							semaines.get(i).setCongeScolaire(false);
+							semaines.get(i).setDescriptif("");
+							semaineDAO.update(semaines.get(i));
+						}
+					}
+				}
+			}
+		}
+		
 	}
 	
 	public void charger(){
@@ -58,6 +117,26 @@ public class Semaine {
 		this.dateFin = temp.dateFin;
 		this.congeScolaire = temp.congeScolaire;
 		this.descriptif = temp.descriptif;
+	}
+	
+	/**
+	 * Vérifie si la date données correspond pour une réservation en fonction des congées.
+	 * @return
+	 */
+	public boolean checkDate(){
+		boolean check = false;
+		//1 Semaine en long;
+		long semaine = (LocalDate.of(2016, 1, 7).toEpochDay())-(LocalDate.of(2016, 1, 1).toEpochDay());
+		
+		if(isCongeScolaire()){
+			if((dateDebut.toEpochDay() - LocalDate.now().toEpochDay()) <= semaine)
+				check = true;
+		}
+		else{
+			if((dateDebut.toEpochDay() - LocalDate.now().toEpochDay()) <= 4*semaine)
+				check = true;
+		}
+		return check;
 	}
 	
 	private void initDB(){
@@ -84,11 +163,11 @@ public class Semaine {
 			date = date.plusDays(6);
 			sem.setDateFin(date);
 			
-			//System.out.println(sem.getDateDebut() + " => " + sem.getDateFin());
 			semaineDAO.create(sem);
 			
 			date = date.plusDays(1);
 		}	
+		initConge();
 
 	}
 	
@@ -121,8 +200,9 @@ public class Semaine {
 		return semaines;
 	}
 
+	//[end]
 	
-	//-------------------------Accesseurs-------------------------//
+	//[start]Accesseurs
 	
 	
 	public String getDescriptif() {
@@ -162,4 +242,5 @@ public class Semaine {
 		this.id = id;
 	}
 
+	//[end]
 }

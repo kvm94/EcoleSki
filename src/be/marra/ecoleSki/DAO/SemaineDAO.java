@@ -22,33 +22,36 @@ public class SemaineDAO extends DAO<Semaine>{
 	public boolean create(Semaine obj){		
 		boolean check = false;
 
-		try{
-			PreparedStatement statement = connect.prepareStatement(
-					"INSERT INTO Semaine (dateDebut,dateFin, descriptif, conge) VALUES(?,?,?,?)");
+		if(!find(obj)){
+			try{
+				PreparedStatement statement = connect.prepareStatement(
+						"INSERT INTO Semaine (dateDebut,dateFin, descriptif, conge) VALUES(?,?,?,?)");
+				
+				//Conversion de la date en INTEGER pour la base de données SQLite.
+				LocalDate date = obj.getDateDebut();
+				long output = date.toEpochDay();
+				
+				statement.setLong(1, output);
+				
+				date = obj.getDateFin();
+				output = date.toEpochDay();
+				
+				statement.setLong(2, output);
+				
+				statement.setString(3,obj.getDescriptif());
+				
+				if(obj.isCongeScolaire())
+					statement.setInt(4, 1);
+				else
+					statement.setInt(4, 0);
+				
+				statement.executeUpdate();
+				check = true;
+			}
+			catch (Exception e){
+				e.printStackTrace();  
+			}
 			
-			//Conversion de la date en INTEGER pour la base de données SQLite.
-			LocalDate date = obj.getDateDebut();
-			long output = date.toEpochDay();
-			
-			statement.setLong(1, output);
-			
-			date = obj.getDateFin();
-			output = date.toEpochDay();
-			
-			statement.setLong(2, output);
-			
-			statement.setString(3,obj.getDescriptif());
-			
-			if(obj.isCongeScolaire())
-				statement.setInt(4, 1);
-			else
-				statement.setInt(4, 0);
-			
-			statement.executeUpdate();
-			check = true;
-		}
-		catch (Exception e){
-			e.printStackTrace();  
 		}
 		return check;
 	}
@@ -153,12 +156,29 @@ public class SemaineDAO extends DAO<Semaine>{
 		return semaine;
 	}
 	
+	public boolean find(Semaine semaine){
+		boolean check = false;
+		try{
+			ResultSet result = this.connect.createStatement(
+					ResultSet.TYPE_FORWARD_ONLY,
+					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Semaine WHERE dateDebut = " + semaine.getDateDebut().toEpochDay());
+			
+			while(result.next()){
+				check = true;
+			}	
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		return check;
+	}
+	
 	public ArrayList<Semaine> find(){
 		ArrayList<Semaine> semaines = new ArrayList<Semaine>();
 		try{
 			ResultSet result = this.connect.createStatement(
 					ResultSet.TYPE_FORWARD_ONLY,
-					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Semaine");
+					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Semaine order by dateDebut");
 			
 			
 			

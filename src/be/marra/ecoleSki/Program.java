@@ -13,6 +13,9 @@ public class Program
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					//Ne le lance qu'une seul fois sinon ç ralentit le démarrage du programme.
+					//Semaine.initSemaine();
+					//Semaine.initConge();
 					Authentification frame = new Authentification();
 					frame.setVisible(true);
 				} catch (Exception e) {
