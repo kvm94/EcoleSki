@@ -36,6 +36,7 @@ public class Reservation {
 	private Cours 		cours;
 	private Semaine 	semaine;
 	private Client		client;
+	private Moniteur	moniteur;
 	
 	//Base de données//
 	private AbstractDAOFactory adf;
@@ -54,6 +55,7 @@ public class Reservation {
 		this.cours = new Cours();
 		this.semaine = new Semaine();
 		this.client =  new Client();
+		this.moniteur = new Moniteur();
 		
 		initDB();
 	}
@@ -67,6 +69,7 @@ public class Reservation {
 		this.cours = new Cours();
 		this.semaine = new Semaine();
 		this.client =  new Client();
+		this.moniteur = new Moniteur();
 		
 		initDB();
 	}
@@ -80,6 +83,7 @@ public class Reservation {
 		this.cours = cours;
 		this.semaine = semaine;
 		this.client = client;
+		this.moniteur = new Moniteur();
 		
 		initDB();
 	}
@@ -100,9 +104,10 @@ public class Reservation {
 		resDAO = (ReservationDAO)adf.getReservationDAO();
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void insertIntoDB() throws Exception{
 		cours.insertIntoDB();
-		if(resDAO.nbrResCours(cours, semaine) < cours.getMaxEleve()){
+		if(resDAO.nbrResCours(cours, semaine, heure.getHours()) < cours.getMaxEleve()){
 			eleve.insertIntoDB();
 			resDAO.create(this);
 		}
@@ -145,28 +150,32 @@ public class Reservation {
 		return list;
 	}
 	
-	public static ArrayList<Reservation> loadAll(){
+	public static ArrayList<Reservation> loadByMonitor(int id_moniteur){
 		ArrayList<Reservation> list = new ArrayList<Reservation>();
 		AbstractDAOFactory adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
 		ReservationDAO resDAO = (ReservationDAO)adf.getReservationDAO();
 		
-		list = resDAO.find();
+		list = resDAO.findbyMonitor(id_moniteur);
 		
 		for(int i =  0 ; i< list.size() ; i++){
-			list.get(i).getClient().charger();
 			list.get(i).getCours().charger();
-			list.get(i).getEleve().charger();
 			list.get(i).getSemaine().charger();
 		}
 
 		return list;
 	}
 	
-	public static int getNbrReservationByCours(Cours cours, Semaine semaine){
+	public static int getNbrReservationByCours(Cours cours, Semaine semaine, int heure){
 		AbstractDAOFactory adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
 		ReservationDAO resDAO = (ReservationDAO)adf.getReservationDAO();
 		
-		return resDAO.nbrResCours(cours, semaine);
+		return resDAO.nbrResCours(cours, semaine, heure);
+	}
+	
+	public void update() throws Exception{
+		if(!resDAO.update(this))
+			throw new Exception("Erreur lors de la mise à jour de la réservation!");
+
 	}
 	
 	//[end]
@@ -187,6 +196,10 @@ public class Reservation {
 	
 	public void setIdCours(int id){
 		cours.setId(id);
+	}
+	
+	public void setIdMoniteur(int id){
+		moniteur.setId(id);
 	}
 	
 	public E_Statut getStatut()
@@ -263,6 +276,14 @@ public class Reservation {
 
 	public void setClient(Client client) {
 		this.client = client;
+	}
+
+	public Moniteur getMoniteur() {
+		return moniteur;
+	}
+
+	public void setMoniteur(Moniteur moniteur) {
+		this.moniteur = moniteur;
 	}
 	
 	//[end]

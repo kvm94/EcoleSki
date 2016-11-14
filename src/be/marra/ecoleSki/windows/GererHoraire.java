@@ -7,10 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import be.marra.ecoleSki.Cours;
 import be.marra.ecoleSki.Moniteur;
 import be.marra.ecoleSki.Reservation;
-import be.marra.ecoleSki.Semaine;
 
 import java.awt.List;
 import javax.swing.JLabel;
@@ -19,6 +17,10 @@ import javax.swing.JButton;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class GererHoraire extends JFrame {
 
@@ -29,6 +31,8 @@ public class GererHoraire extends JFrame {
 	private List listCours;
 	private List listDispo;
 	private Moniteur m;
+	private ArrayList<Reservation> listeCours;
+	private ArrayList<Reservation> listeDispo;
 
 	//[end]
 	
@@ -50,16 +54,12 @@ public class GererHoraire extends JFrame {
 		//[start]Contenus
 		
 		listCours = new List();
-		listCours.setBounds(10, 33, 185, 193);
+		listCours.setBounds(10, 33, 185, 228);
 		contentPane.add(listCours);
 		
 		listDispo = new List();
-		listDispo.setBounds(256, 33, 178, 193);
+		listDispo.setBounds(256, 33, 178, 228);
 		contentPane.add(listDispo);
-		
-		JLabel lblHeures = new JLabel("Nombre d'heures : ");
-		lblHeures.setBounds(10, 246, 195, 14);
-		contentPane.add(lblHeures);
 		
 		JLabel lblNewLabel = new JLabel("Cours \u00E0 donner :");
 		lblNewLabel.setBounds(22, 13, 136, 14);
@@ -72,10 +72,12 @@ public class GererHoraire extends JFrame {
 		JButton btnNewButton = new JButton("->");
 		btnNewButton.setBounds(205, 103, 45, 23);
 		contentPane.add(btnNewButton);
+		btnNewButton.setEnabled(false);
 		
 		JButton btnNewButton_1 = new JButton("<-");
 		btnNewButton_1.setBounds(204, 137, 45, 23);
 		contentPane.add(btnNewButton_1);
+		btnNewButton_1.setEnabled(false);
 		
 		//[end]
 		
@@ -91,49 +93,88 @@ public class GererHoraire extends JFrame {
 			}
 		});
 		
+		//Ajoute un cours à l'horaire.
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try{
+					listeDispo.get(listDispo.getSelectedIndex()).setIdMoniteur(m.getId());
+					listeDispo.get(listDispo.getSelectedIndex()).update();
+					initList();
+					btnNewButton_1.setEnabled(false);
+				}
+				catch(Exception ex){
+					JOptionPane.showMessageDialog(null, ex.getMessage());
+				}
+			}
+		});
+		
+		//Supprime un cours à l'horraire.
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try{
+					listeCours.get(listCours.getSelectedIndex()).setIdMoniteur(0);
+					listeCours.get(listCours.getSelectedIndex()).update();
+					initList();
+					btnNewButton.setEnabled(false);
+				}
+				catch(Exception ex){
+					JOptionPane.showMessageDialog(null, ex.getMessage());		
+				}
+			}
+		});
+		
+		//Active le bouton d'ajout lors d'une sélection.
+		listDispo.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				btnNewButton_1.setEnabled(true);
+			}
+		});
+		
+		//Active le bouton d'annulation lors d'une sélection.
+		listCours.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				btnNewButton.setEnabled(true);
+			}
+		});
+		
 		//[end]
 	}
 	
 	//[start]Méthodes
 	
 	private void initList(){
-		ArrayList<Semaine> semaines = Semaine.loadSemainesFromDB();
-		
-		for(int i = 0 ; i< semaines.size(); i++){
-			initListDispo(listDispo, semaines.get(i));
+		listDispo.removeAll();
+		listCours.removeAll();
+		initListDispo(listDispo);
+		initListCours(listCours);
+	}
+	
+	@SuppressWarnings("deprecation")
+	private void initListCours(List list){
+		listeCours = m.checkReservations(m.getId());
+		for(int i = 0 ; i<listeCours.size();i++){
+			String s = "";
+			s += listeCours.get(i).getSemaine().getDateDebut().toString() + "  |  ";
+			s += listeCours.get(i).getHeure().getHours()+ "h  |  ";
+			s += listeCours.get(i).getCours().getCategorie().toString() + "  |  ";
+			s += listeCours.get(i).getCours().getSport().toString() + "  |  ";
+			this.listCours.add(s);
 		}
 	}
 	
-	private void initListCours(List list, Moniteur m){
-		
-	}
-	
-	private void initListDispo(List list, Semaine semaine){
-		ArrayList<Cours> listeCours = new ArrayList<Cours>();
-		try{
-			listeCours = Cours.loadCoursByMonitor(0);
-			for(int i=0; i< listeCours.size() ; i++){
-				//Vérifie si il y a le nombre minimum de réservation pour ce cours.
-				if(Reservation.getNbrReservationByCours(listeCours.get(i), semaine) >= listeCours.get(i).getMinEleve()){
-					String s = "";
-					s += semaine.getDateDebut().toString() + "  |  ";
-					s += listeCours.get(i).getCategorie().toString() + "  |  ";
-					s += listeCours.get(i).getSport().toString() + "  |  ";
-					this.listDispo.add(s);
-				}
-			}
-		}
-		catch(Exception ex){
-			if(ex ==null)
-				JOptionPane.showMessageDialog(null, "Erreur lors du chargement de la liste des cours!");
-			else
-				JOptionPane.showMessageDialog(null, ex.getMessage());
+	@SuppressWarnings("deprecation")
+	private void initListDispo(List list){
+		listeDispo = m.checkReservations(0);
+		for(int i = 0 ; i<listeDispo.size();i++){
+			String s = "";
+			s += listeDispo.get(i).getSemaine().getDateDebut().toString() + "  |  ";
+			s += listeDispo.get(i).getHeure().getHours()+ "h  |  ";
+			s += listeDispo.get(i).getCours().getCategorie().toString() + "  |  ";
+			s += listeDispo.get(i).getCours().getSport().toString() + "  |  ";
+			this.listDispo.add(s);
 		}
 	}
 	
-	private double calculHeures(){
-		return 0;
-	}
 	
 	//[end]
 }
