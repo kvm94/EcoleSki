@@ -88,6 +88,28 @@ public class ReservationDAO extends DAO<Reservation>{
 	 * @return True si l'opération c'est bien déroulée.
 	 */
 	@SuppressWarnings("deprecation")
+	public boolean updateIdMonitor(Reservation obj){
+		boolean check = false;
+
+		try{
+			PreparedStatement statement = connect.prepareStatement(
+					"UPDATE Reservation set "
+							+ "id_moniteur = ?"
+							+ "WHERE id_semaine = " + obj.getSemaine().getId()
+							+ " and heure = " + obj.getHeure().getHours()
+							+ " and id_cours = " + obj.getCours().getId());
+			
+			statement.setInt(1,obj.getMoniteur().getId());
+			statement.executeUpdate();
+			check = true;
+		}
+		catch (Exception e){
+			e.printStackTrace();  
+		}
+		return check;
+	}
+	
+	@SuppressWarnings("deprecation")
 	public boolean update(Reservation obj){
 		boolean check = false;
 
@@ -103,9 +125,7 @@ public class ReservationDAO extends DAO<Reservation>{
 							+ "statut=?,"
 							+ "prix=? ,"
 							+ "id_moniteur = ?"
-							+ "WHERE id_semaine = " + obj.getSemaine().getId()
-							+ " and heure = " + obj.getHeure().getHours()
-							+ " and id_cours = " + obj.getCours().getId());
+							+ "WHERE id_reservation = " + obj.getId());
 
 			statement.setInt(1,obj.getClient().getId());
 			statement.setInt(2,obj.getSemaine().getId());

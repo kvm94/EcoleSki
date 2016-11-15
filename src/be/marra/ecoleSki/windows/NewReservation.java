@@ -35,6 +35,8 @@ import javax.swing.JCheckBox;
 import java.awt.Choice;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class NewReservation extends JFrame {
 
@@ -161,7 +163,7 @@ public class NewReservation extends JFrame {
 		txtJj.setColumns(10);
 
 		JLabel label = new JLabel("/");
-		label.setBounds(208, 61, 46, 14);
+		label.setBounds(213, 61, 46, 14);
 		contentPane.add(label);
 
 		txtMm = new JTextField();
@@ -193,6 +195,30 @@ public class NewReservation extends JFrame {
 		//[end]
 
 		//[start]Events
+		
+		//Vide la case lors d'une sélection.
+		txtAaaa.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				txtAaaa.setText("");
+			}
+		});
+		
+		//Vide la case lors d'une séléction.
+		txtMm.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				txtMm.setText("");
+			}
+		});
+		
+		//Vide la case lors d'une séléction.
+		txtJj.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				txtJj.setText("");
+			}
+		});
 
 		//Réactive la fenêtre précédente lors de la fermeture.
 		addWindowListener(new WindowAdapter() {
@@ -381,6 +407,7 @@ public class NewReservation extends JFrame {
 					
 				}
 				catch(Exception ex){
+					btnRserver.setEnabled(false);
 					JOptionPane.showMessageDialog(null, ex.getMessage());
 				}
 							

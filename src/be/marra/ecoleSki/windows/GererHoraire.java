@@ -98,7 +98,7 @@ public class GererHoraire extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try{
 					listeDispo.get(listDispo.getSelectedIndex()).setIdMoniteur(m.getId());
-					listeDispo.get(listDispo.getSelectedIndex()).update();
+					listeDispo.get(listDispo.getSelectedIndex()).updateIDMonitor();
 					initList();
 					btnNewButton_1.setEnabled(false);
 				}
@@ -113,7 +113,7 @@ public class GererHoraire extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try{
 					listeCours.get(listCours.getSelectedIndex()).setIdMoniteur(0);
-					listeCours.get(listCours.getSelectedIndex()).update();
+					listeCours.get(listCours.getSelectedIndex()).updateIDMonitor();
 					initList();
 					btnNewButton.setEnabled(false);
 				}

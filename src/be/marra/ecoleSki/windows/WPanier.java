@@ -149,6 +149,8 @@ public class WPanier extends JFrame {
 				int reply = JOptionPane.showConfirmDialog(null, "Voulez-vous supprimer cette réservation ?");
 				if(reply == JOptionPane.YES_OPTION){
 					p.supprimerReservation(list.getSelectedIndex());
+					lblPrix.setText("");
+					lblNote.setText("");
 					initDisplay(list);
 					btnSupprimer.setEnabled(false);
 					btnAfficher.setEnabled(false);

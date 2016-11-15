@@ -127,6 +127,10 @@ public class Reservation {
 		resDAO.update(this);
 	}
 	
+	public void updateIDMonitor(){
+		resDAO.updateIdMonitor(this);
+	}
+	
 	/**
 	 * Charge la liste des réservations par rapport au statut de payement d'un client.
 	 * @param statut Payé ou Réservé.

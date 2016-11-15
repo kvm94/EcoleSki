@@ -20,6 +20,8 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.ActionEvent;
 import java.awt.Choice;
 
@@ -146,6 +148,30 @@ public class Inscription extends JFrame {
 		//[end]
 		
 		//[start]Event
+		
+		//Vide la case lors d'une sélection.
+				textFieldJour.addFocusListener(new FocusAdapter() {
+					@Override
+					public void focusGained(FocusEvent e) {
+						textFieldJour.setText("");
+					}
+				});
+				
+				//Vide la case lors d'une séléction.
+				textFieldMois.addFocusListener(new FocusAdapter() {
+					@Override
+					public void focusGained(FocusEvent e) {
+						textFieldMois.setText("");
+					}
+				});
+				
+				//Vide la case lors d'une séléction.
+				textFieldAnnee.addFocusListener(new FocusAdapter() {
+					@Override
+					public void focusGained(FocusEvent arg0) {
+						textFieldAnnee.setText("");
+					}
+				});
 		
 		addWindowListener(new WindowAdapter() {
 			@Override
