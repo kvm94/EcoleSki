@@ -37,7 +37,7 @@ public class Cours {
 		}
 	}
 
-	//[end]
+	//[end]Enumérations
 
 	//[start]Attributs
 
@@ -52,11 +52,10 @@ public class Cours {
 	private boolean 	collectif;
 
 	//Base de données//
+	private AbstractDAOFactory 	adf;
+	private CoursDAO 			coursDAO;
 
-	private AbstractDAOFactory adf;
-	CoursDAO coursDAO;
-
-	//[end]
+	//[end]Attributs
 	
 	//[start]Constructeurs
 
@@ -86,24 +85,36 @@ public class Cours {
 		initDB();
 	}
 
-	//[end]
+	//[end]Constructeurs
 	
 	//[start]Méthodes
 
+	/**
+	 * Initialise l'accès à la base de données.
+	 */
 	private void initDB(){
 		adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
 		coursDAO = (CoursDAO)adf.getCoursDAO();
 	}
 
-	public void insertIntoDB(){
+	/**
+	 * Ajoute un cours à la base de données.
+	 */
+	public void ajouter(){
 		coursDAO.create(this);
 		coursDAO.getId(this);
 	}
 	
-	public void deleteFromDB(){
+	/**
+	 * Supprimer un cours de la base de données.
+	 */
+	public void supprimer(){
 		coursDAO.delete(this);
 	}
 	
+	/**
+	 * Charger un cours à partir de la base de données.
+	 */
 	public void charger(){
 		Cours temp;
 		temp = coursDAO.find(id);
@@ -120,8 +131,8 @@ public class Cours {
 
 	/**
 	 * Vérifie si l'accréditation requise pour le cours est ok.
-	 * @param a
-	 * @return true si l'accréditation est valable.
+	 * @param a La liste des accréditations à vérifier.
+	 * @return True si contient l'accréditation requise.
 	 */
 	public boolean checkAccreditation(ArrayList<Accreditation> a)
 	{
@@ -135,7 +146,7 @@ public class Cours {
 	}
 
 	/**
-	 * Vérifie si les conditions sont remplies et adapte le prix pour un cours particulier.
+	 * Initialise le nombre d'élève minimum et maximum ainsi que le prix si le cours est particulier.
 	 */
 	private void initParticulier() {
 		minEleve = 1;
@@ -148,7 +159,7 @@ public class Cours {
 	}
 
 	/**
-	 * Vérifie si les conditions sont remplies et adapte le prix pour un cours collectif.
+	 * Initialise le nombre d'élève minimum et maximum ainsi que le prix si le cours est collectif.
 	 */
 	private void initCollectif() {
 		if(categorie.getValue() == 1){
@@ -225,7 +236,7 @@ public class Cours {
 	}
 
 	/**
-	 * Adapte le prix en fonction du sport et du niveaux.
+	 * Initialise le prix en prennant en compte que le cours soit collectif ou non.
 	 */
 	public void initPrix() {
 		if(collectif)
@@ -233,19 +244,8 @@ public class Cours {
 		else
 			initParticulier();
 	}
-	
-	/*public static ArrayList<Cours> loadCoursByMonitor(int id_moniteur){
-		AbstractDAOFactory adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
-		CoursDAO coursDAO = (CoursDAO)adf.getCoursDAO();
-		
-		ArrayList<Cours> liste = null;
-		liste = coursDAO.findByMonitor(id_moniteur);
-	
-		return liste;
-	}*/
 
-
-	//[end]
+	//[end]Méthodes
 	
 	//[start]Accesseurs
 
@@ -321,6 +321,6 @@ public class Cours {
 		this.id = id;
 	}
 
-	//[end]
+	//[end]Accesseurs
 
 }

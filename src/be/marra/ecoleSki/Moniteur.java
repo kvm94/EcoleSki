@@ -2,8 +2,6 @@ package be.marra.ecoleSki;
 
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
-
 import be.marra.ecoleSki.DAO.AbstractDAOFactory;
 import be.marra.ecoleSki.DAO.Accreditation_MoniteurDAO;
 import be.marra.ecoleSki.DAO.MoniteurDAO;
@@ -13,15 +11,16 @@ public class Moniteur extends Utilisateur {
 
 	//[start]Attributs
 
-	private ArrayList<Accreditation> accreditations;
-	private int id;
+	private ArrayList<Accreditation>	accreditations;
+	private int 						id;
 
 	//Base de données//
-	private AbstractDAOFactory adf;
-	MoniteurDAO moniteurDAO;
-	Accreditation_MoniteurDAO accreMonDAO;
+	private AbstractDAOFactory 	adf;
+	private MoniteurDAO 		moniteurDAO;
+	//Pour l'éclatement.
+	private Accreditation_MoniteurDAO accreMonDAO;
 
-	//[end]
+	//[end]Attributs
 
 	//[start]Constructeurs
 
@@ -47,7 +46,7 @@ public class Moniteur extends Utilisateur {
 		initDB();
 	}
 
-	//[end]
+	//[end]Constructeurs
 
 	//[start]Méthodes
 
@@ -59,15 +58,11 @@ public class Moniteur extends Utilisateur {
 		moniteurDAO = (MoniteurDAO)adf.getMoniteurDAO();
 		accreMonDAO = (Accreditation_MoniteurDAO)adf.getAccreditation_MoniteurDAO();
 	}
-
-	/*public void setIdAcre(int id, int pos){
-		listeAccre.get(pos).setId(id);
-	}*/
-
+	
 	/**
-	 * Inscrit lemoniteur dans la base de données.
+	 * Inscrit le moniteur dans la base de données.
 	 * @return True si l'inscription c'est effectué.
-	 * @throws Exception 
+	 * @throws Exception Erreur lors de l'inscription dans la base de données.
 	 */
 	@Override
 	public boolean inscription() throws Exception{
@@ -78,7 +73,7 @@ public class Moniteur extends Utilisateur {
 	}
 
 	/**
-	 * Récupère les information du moniteur de la base de données.
+	 * Connecte l'utilisateur et le charger à partir de la base de données.
 	 * @return True si la connexion c'est effectué.
 	 */
 	@Override
@@ -102,11 +97,16 @@ public class Moniteur extends Utilisateur {
 		return check;
 	}
 
+	/**
+	 * Ajoute un accréditation.
+	 * @param a L'accréditation à ajouter.
+	 * @throws Exception 
+	 */
 	public void ajoutAccreditation(Accreditation a) throws Exception{
 		try{
 			PAccreditation_Moniteur temp; 
 
-			a.insertIntoDB();
+			a.ajouter();
 
 			temp = new PAccreditation_Moniteur(a.getId(), id);
 			accreMonDAO.create(temp);
@@ -117,16 +117,30 @@ public class Moniteur extends Utilisateur {
 		}
 	}
 
+	/**
+	 * Supprime un accréditation.
+	 * @param index
+	 */
 	public void supprimerAccreditation(int index){
 		PAccreditation_Moniteur temp = new 	PAccreditation_Moniteur(accreditations.get(index).getId(), id);
+
+		//Ne supprimer le accréditation que si il n'y a pas d'autre moniteur le concernant.
+		if(accreMonDAO.nbrAccreMoniteur(accreditations.get(index)) == 1)
+			accreditations.get(index).supprimer();
+		
 		accreMonDAO.delete(temp);
 
-		accreditations.get(index).deleteFromDB();
-
 		accreditations.remove(index);
+		
+		
 	}
 
-	public void initAccreditations(){
+	/**
+	 * Initialise la liste des accréditations.
+	 * @throws Exception Erreur lors de l'initialisation des accréditations!
+	 * @exception Exception  Erreur lors de l'initialisation des accréditations!
+	 */
+	public void initAccreditations() throws Exception{
 		try{
 			ArrayList<Integer> tabId = accreMonDAO.findIdAccreditation(id);
 			Accreditation a;
@@ -140,20 +154,27 @@ public class Moniteur extends Utilisateur {
 			}
 		}
 		catch(Exception ex){
-			System.out.println(ex.getMessage());
-			JOptionPane.showMessageDialog(null, "Erreur lors de l'initialisation des accréditations!");
+			throw new Exception("Erreur lors de l'initialisation des accréditations!");
 		}
 	}
 
-	//Renvois les reservations que le moniteur peut prendre.
+	/**
+	 * Génére la liste des réservations que le moniteur peut prendre.
+	 * @param id L'id du moniteur. 0 si on cherche les réservations qui n'ont pas de moniteur.
+	 * @return La liste des réservations.
+	 * @throws Exception Erreur lors de la vérifications des réservations possibles pour le moniteur!
+	 */
 	@SuppressWarnings("deprecation")
-	public ArrayList<Reservation> checkReservations(int id){
-		this.initAccreditations();
+	public ArrayList<Reservation> checkReservations(int id) throws Exception{
+		
 		ArrayList<Reservation> reservations = new ArrayList<Reservation>();
 		ArrayList<Reservation> listeReservation = new ArrayList<Reservation>();
 		int flag = 0;
 		boolean first = true;
+		
 		try{
+			this.initAccreditations();
+			//Charge la liste complète des réservations.
 			listeReservation = Reservation.loadByMonitor(id);
 			for(int i=0; i< listeReservation.size() ; i++){
 				//Vérifie si il y a le nombre minimum de réservation pour ce cours.
@@ -180,14 +201,14 @@ public class Moniteur extends Utilisateur {
 			}
 		}
 		catch(Exception ex){
-			JOptionPane.showMessageDialog(null, ex.getMessage());
+			throw new Exception("Erreur lors de la vérifications des réservations possibles pour le moniteur!");
 		}
 
 
 		return reservations;
 	}
 
-	//[end]
+	//[end]Méthodes
 
 	//[start]Accesseurs
 
@@ -213,5 +234,5 @@ public class Moniteur extends Utilisateur {
 		this.id = id;
 	}
 
-	//[end]
+	//[end]Accesseurs
 }

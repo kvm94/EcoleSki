@@ -151,27 +151,38 @@ public class GererHoraire extends JFrame {
 	
 	@SuppressWarnings("deprecation")
 	private void initListCours(List list){
-		listeCours = m.checkReservations(m.getId());
-		for(int i = 0 ; i<listeCours.size();i++){
-			String s = "";
-			s += listeCours.get(i).getSemaine().getDateDebut().toString() + "  |  ";
-			s += listeCours.get(i).getHeure().getHours()+ "h  |  ";
-			s += listeCours.get(i).getCours().getCategorie().toString() + "  |  ";
-			s += listeCours.get(i).getCours().getSport().toString() + "  |  ";
-			this.listCours.add(s);
+		try{
+			listeCours = m.checkReservations(m.getId());
+			for(int i = 0 ; i<listeCours.size();i++){
+				String s = "";
+				s += listeCours.get(i).getSemaine().getDateDebut().toString() + "  |  ";
+				s += listeCours.get(i).getHeure().getHours()+ "h  |  ";
+				s += listeCours.get(i).getCours().getCategorie().toString() + "  |  ";
+				s += listeCours.get(i).getCours().getSport().toString() + "  |  ";
+				this.listCours.add(s);
+			}
 		}
+		catch(Exception ex){
+			JOptionPane.showMessageDialog(null, ex.getMessage());
+		}
+		
 	}
 	
 	@SuppressWarnings("deprecation")
 	private void initListDispo(List list){
-		listeDispo = m.checkReservations(0);
-		for(int i = 0 ; i<listeDispo.size();i++){
-			String s = "";
-			s += listeDispo.get(i).getSemaine().getDateDebut().toString() + "  |  ";
-			s += listeDispo.get(i).getHeure().getHours()+ "h  |  ";
-			s += listeDispo.get(i).getCours().getCategorie().toString() + "  |  ";
-			s += listeDispo.get(i).getCours().getSport().toString() + "  |  ";
-			this.listDispo.add(s);
+		try{
+			listeDispo = m.checkReservations(0);
+			for(int i = 0 ; i<listeDispo.size();i++){
+				String s = "";
+				s += listeDispo.get(i).getSemaine().getDateDebut().toString() + "  |  ";
+				s += listeDispo.get(i).getHeure().getHours()+ "h  |  ";
+				s += listeDispo.get(i).getCours().getCategorie().toString() + "  |  ";
+				s += listeDispo.get(i).getCours().getSport().toString() + "  |  ";
+				this.listDispo.add(s);
+			}
+		}
+		catch(Exception ex){
+			JOptionPane.showMessageDialog(null, ex.getMessage());
 		}
 	}
 	

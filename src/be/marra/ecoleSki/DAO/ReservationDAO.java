@@ -327,6 +327,26 @@ public class ReservationDAO extends DAO<Reservation>{
 		return cpt;
 	}
 	
+	//Retourne le nombre de réservation pour un élève.
+		public int nbrResEleve(Eleve eleve){
+			int cpt = 0;
+			
+			try{
+				ResultSet result = this.connect.createStatement(
+						ResultSet.TYPE_FORWARD_ONLY,
+						ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Reservation WHERE id_eleve = " + eleve.getId());
+
+				while(result.next()){
+					cpt++;
+				}	
+			}
+			catch(SQLException e){
+				e.printStackTrace();
+			}
+			
+			return cpt;
+		}
+	
 	//Retourne le nombre de réservation pour un cours à un date donnée.
 		public int nbrResCours(Cours cours, Semaine semaine, int heure){
 			int cpt = 0;

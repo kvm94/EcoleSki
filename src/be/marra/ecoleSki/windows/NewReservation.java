@@ -397,7 +397,7 @@ public class NewReservation extends JFrame {
 					reservation.setStatut(E_Statut.Reserve);
 					reservation.setSemaine(getSemaine());
 					
-					reservation.insertIntoDB();
+					reservation.ajouter();
 					
 					JOptionPane.showMessageDialog(null, "Réservé!");
 					

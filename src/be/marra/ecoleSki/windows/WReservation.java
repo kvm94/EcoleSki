@@ -64,21 +64,8 @@ public class WReservation extends JFrame {
 		//[end]
 	}
 	
-	private void initText(){
-		String text = "";
-		
-		text += res.getEleve().getNom() + "\n";
-		text += res.getEleve().getPrenom() + "\n";
-		text += res.getEleve().getDateNaissance() + "\n";
-		text += res.getCours().getCategorie() + "\n";
-		text += res.getCours().getSport() + "\n";
-		text += res.getCours().getNiveaux() + "\n";
-		text += res.getSemaine().getDateDebut() + " -> " + res.getSemaine().getDateFin() + "\n";
-		text += res.getHeure() + "\n";
-		text += res.getPrix() + "\n";
-		text += res.getStatut() + "\n";
-		
-		this.textPane.setText(text);
+	private void initText(){		
+		this.textPane.setText(res.afficher());
 		this.textPane.setEditable(false);
 	}
 }

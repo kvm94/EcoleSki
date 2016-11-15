@@ -112,10 +112,16 @@ public class WPanier extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				int reply = JOptionPane.showConfirmDialog(null, "Voulez-vous payer?");
 				if(reply == JOptionPane.YES_OPTION){
-					c.payerPanier();
-					wClient.setEnabled(true);
+					try{
+						c.payerPanier();
+						wClient.setEnabled(true);
+						
+						This.dispose();
+					}
+					catch(Exception ex){
+						JOptionPane.showMessageDialog(null, ex.getMessage());
+					}
 					
-					This.dispose();
 				}
 			}
 		});

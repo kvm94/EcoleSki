@@ -11,10 +11,10 @@ public class Eleve extends Personne {
 	private boolean assurance;
 	
 	//Base de données//
-	private AbstractDAOFactory adf;
-	EleveDAO eleveDAO;
+	private AbstractDAOFactory 	adf;
+	private EleveDAO 			eleveDAO;
 
-	//[end]
+	//[end]Attributs
 	
 	//[start]Constructeurs
 	
@@ -39,27 +39,36 @@ public class Eleve extends Personne {
 		initDB();
 	}
 
-	//[end]
+	//[end]Constructeurs
 	
 	//[start]Méthode
 	
+	/**
+	 * initialise l'accès à la base de données.
+	 */
 	private void initDB(){
 		adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
 		eleveDAO = (EleveDAO)adf.getEleveDAO();
 	}
 	
 	/**
-	 * Fait appel à la classe DAO pour enregister un eleve dans la base de données.
+	 * Ajoute un élève à la base de données.
 	 */
-	public void insertIntoDB(){
+	public void ajouter(){
 		eleveDAO.create(this);
 		eleveDAO.getId(this);
 	}
 	
-	public void deleteFromDB(){
+	/**
+	 * Supprime un élève de la base de données.
+	 */
+	public void supprimer(){
 		eleveDAO.delete(this);
 	}
 	
+	/**
+	 * Charge un élève à partir de la base de données.
+	 */
 	public void charger(){
 		Eleve temp = eleveDAO.find(id);
 		
@@ -70,7 +79,7 @@ public class Eleve extends Personne {
 		
 	}
 	
-	//[end]
+	//[end]Méthodes
 	
 	//[start]Accesseurs
 	
@@ -92,5 +101,5 @@ public class Eleve extends Personne {
 		this.id = id;
 	}
 	
-	//[end]
+	//[end]Accesseurs
 }

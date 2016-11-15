@@ -14,14 +14,14 @@ public class Semaine {
 	private int 		id;
 	private LocalDate 	dateDebut;
 	private LocalDate 	dateFin;
-	private String 	descriptif;
-	private boolean congeScolaire;
+	private String 		descriptif;
+	private boolean 	congeScolaire;
 	
 	//Base de données//
-		private AbstractDAOFactory adf;
-		SemaineDAO semaineDAO;
+	private AbstractDAOFactory 	adf;
+	private SemaineDAO 			semaineDAO;
 
-	//[end]
+	//[end]Attributs
 		
 	//[start]Constructeurs
 	
@@ -43,14 +43,14 @@ public class Semaine {
 		initDB();
 	}
 
-	//[end]
+	//[end]Constructeurs
 	
 	//[start]Méthodes
 	
 	/**
 	 * Initialise les congées scolaire.
 	 */
-	public static void initConge(){
+	private static void initConge(){
 		AbstractDAOFactory adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
 		SemaineDAO semaineDAO = (SemaineDAO)adf.getSemaineDAO();
 		
@@ -110,6 +110,9 @@ public class Semaine {
 		
 	}
 	
+	/**
+	 * Charge une semaine de la base de données.
+	 */
 	public void charger(){
 		Semaine temp = semaineDAO.find(id);
 		
@@ -121,7 +124,7 @@ public class Semaine {
 	
 	/**
 	 * Vérifie si la date données correspond pour une réservation en fonction des congées.
-	 * @return
+	 * @return True si la date est valide.
 	 */
 	public boolean checkDate(){
 		boolean check = false;
@@ -139,11 +142,17 @@ public class Semaine {
 		return check;
 	}
 	
+	/**
+	 * Initialise l'accès à la base de données.
+	 */
 	private void initDB(){
 		adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
 		semaineDAO = (SemaineDAO)adf.getSemaineDAO();
 	}
 	
+	/**
+	 * Crée toutes les semaine du samedi 03/12/2016 au dimanche 07/05/2017 dans la base de données.
+	 */
 	public static void initSemaine(){
 		AbstractDAOFactory adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
 		SemaineDAO semaineDAO = (SemaineDAO)adf.getSemaineDAO();
@@ -167,10 +176,15 @@ public class Semaine {
 			
 			date = date.plusDays(1);
 		}	
+		//Initialise les congé et les descriptifs.
 		initConge();
 
 	}
 	
+	/**
+	 * Affiche les semaines dans la base de données.
+	 * @throws SQLException
+	 */
 	public static void afficherSemaineDB() throws SQLException{
 		AbstractDAOFactory adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
 		SemaineDAO semaineDAO = (SemaineDAO)adf.getSemaineDAO();
@@ -183,6 +197,10 @@ public class Semaine {
 		}
 	}
 	
+	/**
+	 * Génére une liste de semaine à partir de la base de données.
+	 * @return
+	 */
 	public static ArrayList<Semaine> loadSemainesFromDB(){
 		AbstractDAOFactory adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
 		SemaineDAO semaineDAO = (SemaineDAO)adf.getSemaineDAO();
@@ -200,7 +218,7 @@ public class Semaine {
 		return semaines;
 	}
 
-	//[end]
+	//[end]Méthodes
 	
 	//[start]Accesseurs
 	
@@ -242,5 +260,5 @@ public class Semaine {
 		this.id = id;
 	}
 
-	//[end]
+	//[end]Accesseurs
 }

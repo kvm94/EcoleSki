@@ -7,13 +7,15 @@ import be.marra.ecoleSki.Reservation.E_Statut;
 
 public class Panier {
 	
-	//-------------------------Attributs-------------------------//
+	//[start]Attributs
 	
-	private ArrayList<Reservation> reservations;
-	private double total;
-	private boolean reduction;
+	private ArrayList<Reservation> 	reservations;
+	private double 					total;
+	private boolean 				reduction;
 	
-	//-------------------------Constructeur-------------------------//
+	//[end]Attributs
+	
+	//[start]Constructeur
 	
 	public Panier(){
 		reservations = new ArrayList<Reservation>();
@@ -21,8 +23,13 @@ public class Panier {
 		reduction = false;
 	}
 	
-	//-------------------------Méthodes-------------------------//
+	//[end]Constructeur
 	
+	//[start]Méthodes
+	
+	/**
+	 * Initialise l'accès à la base de données.
+	 */
 	public void initTotal() {
 		this.total = 0;
 		
@@ -32,14 +39,19 @@ public class Panier {
 		checkReduction();
 	}
 	
-	public void payer(){
+	/**
+	 * Paye le contenus du panier.
+	 * @throws Exception 
+	 */
+	public void payer() throws Exception{
 		for(int i=0 ; i< reservations.size() ; i++){
 			reservations.get(i).setStatut(E_Statut.Paye);	
-			reservations.get(i).updateIntoDB();
+			reservations.get(i).update();
 		}
 
 	}
 	
+
 	/**
 	 * Vérifie si le panier a droit à 15% de réduction si une réservation a été faite le matin et l'après midi.
 	 */
@@ -69,20 +81,29 @@ public class Panier {
 	 */
 	public void vider() {
 		for(int i=0; i < reservations.size() ;i++)
-			reservations.get(i).deleteFromDB();
+			reservations.get(i).supprimer();
+		reservations.clear();
+	}
+	
+	/**
+	 * Ajoute une réservation au panier.
+	 * @param r la réservation à ajouter.
+	 */
+	public void ajouter(Reservation r){
+		reservations.add(r);
 	}
 
 	/**
 	 * Supprime une réservation.
+	 * @param index La position de la réservation dans la liste.
 	 */
 	public void supprimerReservation(int index) {
-		reservations.get(index).deleteFromDB();
+		reservations.get(index).supprimer();
 	}
-
-	/**
-	 * Consulte une réservation.
-	 */
-	public void consulterReservation() {}
+	
+	//[end]Méthodes
+	
+	//[start]Accesseurs
 	
 	public boolean isEmpty(){
 		boolean check = true;
@@ -92,8 +113,6 @@ public class Panier {
 		
 		return check;
 	}
-	
-	//[start]Accesseurs
 	
 	public ArrayList<Reservation> getReservations() {
 		return reservations;
@@ -119,7 +138,7 @@ public class Panier {
 		this.reduction = reduction;
 	}
 	
-	//[end]
+	//[end]Accesseurs
 
 
 }

@@ -14,10 +14,10 @@ public class Client extends Utilisateur {
 	private Panier 	pan;
 	
 	//Base de données//
-		private AbstractDAOFactory adf;
-		ClientDAO clientDAO;
+	private AbstractDAOFactory 	adf;
+	private ClientDAO 			clientDAO;
 	
-	//[end]
+	//[end]Attributs
 	  
 	//[start]Constructeurs
 		
@@ -44,12 +44,27 @@ public class Client extends Utilisateur {
 	    initDB();
 	}
 	
-	//[end]
+	//[end]Constructeurs
 	
 	//[start]Méthodes
 	
+	/**
+	 * Initialise l'accès à la base de données.
+	 */
+	private void initDB(){
+		adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
+		clientDAO = (ClientDAO)adf.getClientDAO();
+	}
+	
+	/**
+	 * Charge les réservations dans le panier et calcul le total.
+	 */
 	public void initPanier(){
-		pan.setReservations(Reservation.loadByIdClient(E_Statut.Reserve, id));
+		//pan.setReservations(Reservation.loadByIdClient(E_Statut.Reserve, id));
+		pan.getReservations().clear();
+		ArrayList<Reservation> reservations = Reservation.loadByIdClient(E_Statut.Reserve, id);
+		for(int i = 0 ; i< reservations.size() ; i++)
+			pan.ajouter(reservations.get(i));
 		pan.initTotal();
 	}
 	
@@ -60,11 +75,18 @@ public class Client extends Utilisateur {
 		pan.vider();
 	}
 	
-	public void payerPanier(){
+	/**
+	 * Paye les réservations du panier.
+	 * @throws Exception 
+	 */
+	public void payerPanier() throws Exception{
 		pan.payer();
 	}
 	
-public void charger(){
+	/**
+	 * Charge le client à partir de la base de données.
+	 */
+	public void charger(){
 		Client temp =  clientDAO.find(id);
 		
 		this.dateNaissance = temp.dateNaissance;
@@ -73,18 +95,9 @@ public void charger(){
 	}
 	
 	/**
-	 * Initialise l'accès à la base de données.
-	 */
-	private void initDB(){
-		adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
-		clientDAO = (ClientDAO)adf.getClientDAO();
-	}
-
-	
-	/**
 	 * Inscrit le client dans la base de données.
 	 * @return True si l'inscription c'est effectué.
-	 * @throws Exception 
+	 * @throws Exception Erreur lors de la création d'un client dans la base de données.
 	 */
 	@Override
 	public boolean inscription() throws Exception{
@@ -140,5 +153,5 @@ public void charger(){
 		this.id = id;
 	}
 
-	//[end]
+	//[end]Accesseurs
 }

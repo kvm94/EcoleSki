@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import be.marra.ecoleSki.Accreditation;
+
 public class Accreditation_MoniteurDAO extends DAO<PAccreditation_Moniteur>{
 
 	public Accreditation_MoniteurDAO(Connection conn){
@@ -103,6 +105,26 @@ public class Accreditation_MoniteurDAO extends DAO<PAccreditation_Moniteur>{
 			e.printStackTrace();
 		}
 		return check;
+	}
+	
+	//Retourne le nombre qu'une accrediation est validé pour un moniteur.
+	public int nbrAccreMoniteur(Accreditation a){
+		int cpt = 0;
+		
+		try{
+			ResultSet result = this.connect.createStatement(
+					ResultSet.TYPE_FORWARD_ONLY,
+					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Accreditation_Moniteur WHERE id_accreditation = " + a.getId());
+
+			while(result.next()){
+				cpt++;
+			}	
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		
+		return cpt;
 	}
 	
 	public ArrayList<Integer> findIdAccreditation(int id_moniteur) {

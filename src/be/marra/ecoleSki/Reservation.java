@@ -24,7 +24,7 @@ public class Reservation {
 		}
 	}
 	
-	//[end]
+	//[end]Enumération
 	
 	//[start]Attributs
 	
@@ -42,7 +42,7 @@ public class Reservation {
 	private AbstractDAOFactory adf;
 	private ReservationDAO resDAO;
 	
-	//[end]
+	//[end]Attributs
 	
 	//[start]Constructeurs
 	
@@ -88,13 +88,30 @@ public class Reservation {
 		initDB();
 	}
 
-	//[end]
+	//[end]Constrcteurs
 	
 	//[start]Méthodes
-	
-	public void appliquerReduction() {}
 
-	public void afficher() {}
+	/**
+	 * Affiche le contenu de la réservation.
+	 * @return String Le text généré de la réservation.
+	 */
+	public String afficher() {
+		String text = "";
+		
+		text += eleve.getNom() + "\n";
+		text += eleve.getPrenom() + "\n";
+		text += eleve.getDateNaissance() + "\n";
+		text += cours.getCategorie() + "\n";
+		text += cours.getSport() + "\n";
+		text += cours.getNiveaux() + "\n";
+		text += semaine.getDateDebut() + " -> " + semaine.getDateFin() + "\n";
+		text += heure + "\n";
+		text += prix + "\n";
+		text += statut + "\n";
+		
+		return text;
+	}
 	
 	/**
 	 * Initialise l'accès à la base de données.
@@ -104,29 +121,47 @@ public class Reservation {
 		resDAO = (ReservationDAO)adf.getReservationDAO();
 	}
 	
+	/**
+	 * Ajoute une réservation à la base de données.
+	 * @throws Exception Ce cours est complet!
+	 */
 	@SuppressWarnings("deprecation")
-	public void insertIntoDB() throws Exception{
-		cours.insertIntoDB();
+	public void ajouter() throws Exception{
+		cours.ajouter();
 		if(resDAO.nbrResCours(cours, semaine, heure.getHours()) < cours.getMaxEleve()){
-			eleve.insertIntoDB();
+			eleve.ajouter();
 			resDAO.create(this);
 		}
 		else
 			throw new Exception("Ce cours est complet!");
 	}
 	
-	public void deleteFromDB(){
+	/**
+	 * Supprime une réservation de la base de données.
+	 */
+	public void supprimer(){
 		//Ne supprimer le cours que si il n'y a pas d'autre réservation le concernant.
 		if(resDAO.nbrResCours(cours) == 1)
-			cours.deleteFromDB();
-		eleve.deleteFromDB();
+			cours.supprimer();
+		//Ne supprimer l'élève que si il n'y a pas d'autre réservation le concernant.
+		if(resDAO.nbrResEleve(eleve) == 1)
+			eleve.supprimer();
 		resDAO.delete(this);
 	}
 	
-	public void updateIntoDB(){
-		resDAO.update(this);
+	/**
+	 *  Met un jour l'id_moniteur de toutes les réservations à la même semaine et heure que celle-ci.
+	 * @throws Exception
+	 */
+	public void update() throws Exception{
+		if(!resDAO.update(this))
+			throw new Exception("Erreur lors de la mise à jour de la réservation!");
+
 	}
 	
+	/**
+	 * Met un jour l'id_moniteur de toutes les réservations à la même semaine et heure que celle-ci.
+	 */
 	public void updateIDMonitor(){
 		resDAO.updateIdMonitor(this);
 	}
@@ -154,6 +189,11 @@ public class Reservation {
 		return list;
 	}
 	
+	/**
+	 * Charge la liste des réservations par rappot à l'id d'un moniteur.
+	 * @param id_moniteur Id du moniteur.
+	 * @return Liste de réservations correspondantes.
+	 */
 	public static ArrayList<Reservation> loadByMonitor(int id_moniteur){
 		ArrayList<Reservation> list = new ArrayList<Reservation>();
 		AbstractDAOFactory adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
@@ -169,6 +209,13 @@ public class Reservation {
 		return list;
 	}
 	
+	/**
+	 * Renvoit le nombre de réservations correspondante à un cours précis.
+	 * @param cours
+	 * @param semaine 
+	 * @param heure
+	 * @return int
+	 */
 	public static int getNbrReservationByCours(Cours cours, Semaine semaine, int heure){
 		AbstractDAOFactory adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
 		ReservationDAO resDAO = (ReservationDAO)adf.getReservationDAO();
@@ -176,13 +223,7 @@ public class Reservation {
 		return resDAO.nbrResCours(cours, semaine, heure);
 	}
 	
-	public void update() throws Exception{
-		if(!resDAO.update(this))
-			throw new Exception("Erreur lors de la mise à jour de la réservation!");
-
-	}
-	
-	//[end]
+	//[end]Méthodes
 	
 	//[start]Accesseurs
 	
@@ -290,5 +331,5 @@ public class Reservation {
 		this.moniteur = moniteur;
 	}
 	
-	//[end]
+	//[end]Accesseurs
 }

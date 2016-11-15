@@ -6,14 +6,15 @@ import java.time.LocalDate;
 public abstract class Personne
 {
 	
-	//-------------------------Attributs-------------------------//
+	//[start]Attributs
 	
-	protected String nom;
-	protected String prenom;
+	protected String 	nom;
+	protected String 	prenom;
 	protected LocalDate dateNaissance;
 
+	//[end]Attributs
 
-	//-------------------------Constructeurs-------------------------//
+	//[start]Constructeurs
 	
 	public Personne() {
 		this.nom = null;
@@ -27,11 +28,13 @@ public abstract class Personne
 		this.setDateNaissance(LocalDate.of(annee, mois, jour));
 	}
 
-	//-------------------------Méthodes-------------------------//
+	//[end]Constructeurs
+	
+	//[start]Méthode
 	
 	/**
 	 * Calcule l'age de la personne.
-	 * @return int age
+	 * @return int L'age de la personne.
 	 */
 	public int age()
 	{
@@ -42,9 +45,10 @@ public abstract class Personne
 		}
 		return age;
 	}
-
 	
-	//-------------------------Accesseurs-------------------------//
+	//[end]Méthode
+	
+	//[start]Accesseurs
 	
 	public String getNom()
 	{
@@ -73,5 +77,6 @@ public abstract class Personne
 	public void setDateNaissance(LocalDate dateNaissance) {
 		this.dateNaissance = dateNaissance;
 	}
-
+	
+	//[end]Accesseurs
 }

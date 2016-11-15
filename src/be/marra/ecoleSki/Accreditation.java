@@ -5,7 +5,7 @@ import be.marra.ecoleSki.DAO.AccreditationDAO;
 
 public class Accreditation {
 	
-	//-------------------------Enumérations-------------------------//
+	//[start]Enumérations
 
 	public static enum E_Categorie{
 	    Enfant(0),  
@@ -40,19 +40,21 @@ public class Accreditation {
 		}
 	}
 	
+	//[end]Enumérations
 	
-	//-------------------------Attributs-------------------------//
+	//[start]Attributs
 	
 	private int 		id;
 	private E_Categorie cat;
 	private E_Sport 	sport;
 	
 	//Base de données//
-	private AbstractDAOFactory adf;
-	AccreditationDAO accreditationDAO;
+	private AbstractDAOFactory 	adf;
+	private AccreditationDAO 	accreditationDAO;
 	
+	//[end]Attributs
 	
-	//-------------------------Constructeurs-------------------------//
+	//[start]Constructeurs
 	
 	public Accreditation()
 	{
@@ -78,24 +80,41 @@ public class Accreditation {
 		initDB();
 	}
 	
-	//-------------------------Méthodes-------------------------//
+	//[end]Constructeurs
 	
+	//[start]Méthodes
+	
+	/**
+	 * Initialise l'accès à la base de données.
+	 * @return void
+	 */
 	private void initDB(){
 		adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
 		accreditationDAO = (AccreditationDAO)adf.getAccreditationDAO();
 	}
 	
-	public void insertIntoDB(){
+	/**
+	 * Ajoute une accréditation dans la base de données.
+	 * @return void
+	 */
+	public void ajouter(){
 		accreditationDAO.create(this);
 		id = accreditationDAO.getId(this);
 	}
 	
-	public void deleteFromDB(){
+	/**
+	 * Supprime une accréditation de la base de données.
+	 */
+	public void supprimer(){
 		accreditationDAO.delete(this);
 		this.cat 	= null;
 		this.sport 	= null;
 	}
 	
+	/**
+	 * Charge un accréditation à partir de la base de données.
+	 * @param id L'id de l'accréditation à charger.
+	 */
 	public void charger(int id){
 		Accreditation temp = new Accreditation();
 		temp = accreditationDAO.find(id);
@@ -105,8 +124,9 @@ public class Accreditation {
 		this.id = id;
 	}
 	
+	//[end]Méthodes
 	
-	//-------------------------Accesseurs-------------------------//
+	//[start]Accesseurs
 	
 	public E_Categorie getCat()
 	{
@@ -135,4 +155,6 @@ public class Accreditation {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	//[end]Accesseurs
 }

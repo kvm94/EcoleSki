@@ -43,7 +43,13 @@ public class WAccreditation extends JFrame {
 		setResizable(false);
 		
 		this.m = m;
-		m.initAccreditations();
+		try{
+			m.initAccreditations();
+		}
+		catch(Exception ex)
+		{
+			JOptionPane.showMessageDialog(null, ex.getMessage());
+		}
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 257, 339);
@@ -85,8 +91,14 @@ public class WAccreditation extends JFrame {
 		contentPane.add(btnSupprimer);
 
 		//[end]
+		try{
+			initList();
+		}
+		catch(Exception ex)
+		{
+			JOptionPane.showMessageDialog(null, ex.getMessage());
+		}
 		
-		initList();
 		
 		//[start]Evènements
 		
@@ -117,7 +129,7 @@ public class WAccreditation extends JFrame {
 					for(int i = 0 ; i< listeReservation.size() ; i ++){
 						if(!listeReservation.get(i).getCours().checkAccreditation(listeAccre)){
 							listeReservation.get(i).setIdMoniteur(0);
-							listeReservation.get(i).update();
+							listeReservation.get(i).updateIDMonitor();
 							JOptionPane.showMessageDialog(null, "Les cours à l'horaire nécessitant cette accréditation ont été supprimé!");
 						}
 					}
