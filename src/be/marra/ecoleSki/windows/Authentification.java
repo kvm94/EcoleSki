@@ -93,12 +93,12 @@ public class Authentification extends JFrame {
 		textField_prenom.setColumns(10);
 		
 		JButton btnInscription = new JButton("Inscription");
-		btnInscription.setFont(new Font("Segoe UI Emoji", Font.ITALIC, 12));
+		btnInscription.setFont(new Font("Segoe UI Black", Font.ITALIC, 12));
 		btnInscription.setBounds(31, 133, 103, 27);
 		contentPane.add(btnInscription);
 		
 		JButton btnConnexion = new JButton("Connexion");
-		btnConnexion.setFont(new Font("Segoe UI Emoji", Font.ITALIC, 12));
+		btnConnexion.setFont(new Font("Segoe UI Black", Font.ITALIC, 12));
 		btnConnexion.setBounds(144, 133, 103, 27);
 		contentPane.add(btnConnexion);
 		

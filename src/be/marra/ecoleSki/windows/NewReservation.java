@@ -32,11 +32,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
-import java.awt.Choice;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import javax.swing.JComboBox;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class NewReservation extends JFrame {
 
@@ -52,10 +52,10 @@ public class NewReservation extends JFrame {
 	private ArrayList<Semaine> semaines;
 	private Eleve eleve;
 	private Cours cours;
-	private Choice choiceSport;
-	private Choice choiceNiveaux;
-	private Choice choiceSemaine;
-	private Choice choiceHeure;
+	private JComboBox<String> comboBoxSport;
+	private JComboBox<String> comboBoxHeure;
+	private JComboBox<String> comboBoxSemaine;
+	private JComboBox<String> comboBoxNiveaux;
 	private boolean confirmed;
 	private double prixReservation;
 
@@ -80,18 +80,22 @@ public class NewReservation extends JFrame {
 		//[start]Contenus
 
 		JLabel lblNewLabel = new JLabel("Nom \u00E9l\u00E8ve :");
+		lblNewLabel.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
 		lblNewLabel.setBounds(10, 11, 151, 14);
 		contentPane.add(lblNewLabel);
 
 		JLabel lblPrnomlve = new JLabel("Pr\u00E9nom \u00E9l\u00E8ve : ");
+		lblPrnomlve.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
 		lblPrnomlve.setBounds(10, 36, 151, 14);
 		contentPane.add(lblPrnomlve);
 
 		JLabel lblDateDeNaissance = new JLabel("Date de naissance :");
+		lblDateDeNaissance.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
 		lblDateDeNaissance.setBounds(10, 61, 151, 14);
 		contentPane.add(lblDateDeNaissance);
 
 		JLabel lblAssurance = new JLabel("Assurance ?");
+		lblAssurance.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
 		lblAssurance.setBounds(10, 86, 151, 14);
 		contentPane.add(lblAssurance);
 
@@ -101,22 +105,26 @@ public class NewReservation extends JFrame {
 		contentPane.add(lblsemaine);
 
 		JSeparator separator = new JSeparator();
-		separator.setBounds(10, 155, 414, 2);
+		separator.setBounds(10, 145, 414, 2);
 		contentPane.add(separator);
 
 		JLabel lblNewLabel_1 = new JLabel("Semaine : ");
+		lblNewLabel_1.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
 		lblNewLabel_1.setBounds(10, 197, 67, 14);
 		contentPane.add(lblNewLabel_1);
 
 		JLabel lblHeure = new JLabel("Heure : ");
+		lblHeure.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
 		lblHeure.setBounds(10, 222, 67, 14);
 		contentPane.add(lblHeure);
 
 		JLabel lblSport = new JLabel("Sport : ");
+		lblSport.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
 		lblSport.setBounds(10, 247, 67, 14);
 		contentPane.add(lblSport);
 
 		JLabel lblNiveaux = new JLabel("Niveaux : ");
+		lblNiveaux.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
 		lblNiveaux.setBounds(10, 272, 67, 14);
 		contentPane.add(lblNiveaux);
 
@@ -125,21 +133,25 @@ public class NewReservation extends JFrame {
 		contentPane.add(separator_1);
 
 		JLabel lblPrix = new JLabel("Prix : ");
+		lblPrix.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
 		lblPrix.setBounds(10, 315, 46, 14);
 		contentPane.add(lblPrix);
 
 		JButton btnCalculPrix = new JButton("Calcul prix");
-		btnCalculPrix.setBounds(213, 311, 109, 23);
+		btnCalculPrix.setFont(new Font("Segoe UI Black", Font.ITALIC, 12));
+		btnCalculPrix.setBounds(213, 311, 109, 27);
 		contentPane.add(btnCalculPrix);
 		btnCalculPrix.setEnabled(false);
 
 		JButton btnRserver = new JButton("R\u00E9server");
-		btnRserver.setBounds(175, 356, 89, 23);
+		btnRserver.setFont(new Font("Segoe UI Black", Font.ITALIC, 12));
+		btnRserver.setBounds(175, 356, 89, 27);
 		contentPane.add(btnRserver);
 		btnRserver.setEnabled(false);
 
 		JButton btnAnnuler = new JButton("Annuler");
-		btnAnnuler.setBounds(63, 356, 89, 23);
+		btnAnnuler.setFont(new Font("Segoe UI Black", Font.ITALIC, 12));
+		btnAnnuler.setBounds(63, 356, 89, 27);
 		contentPane.add(btnAnnuler);
 
 		JLabel lblCalculPrix = new JLabel("");
@@ -147,18 +159,21 @@ public class NewReservation extends JFrame {
 		contentPane.add(lblCalculPrix);
 
 		textFieldNom = new JTextField();
-		textFieldNom.setBounds(171, 8, 151, 20);
+		textFieldNom.setFont(new Font("SansSerif", Font.ITALIC, 12));
+		textFieldNom.setBounds(171, 8, 151, 25);
 		contentPane.add(textFieldNom);
 		textFieldNom.setColumns(10);
 
 		textFieldPrenom = new JTextField();
-		textFieldPrenom.setBounds(171, 33, 151, 20);
+		textFieldPrenom.setFont(new Font("SansSerif", Font.ITALIC, 12));
+		textFieldPrenom.setBounds(171, 33, 151, 25);
 		contentPane.add(textFieldPrenom);
 		textFieldPrenom.setColumns(10);
 
 		txtJj = new JTextField();
+		txtJj.setFont(new Font("SansSerif", Font.ITALIC, 12));
 		txtJj.setText("JJ");
-		txtJj.setBounds(171, 58, 29, 20);
+		txtJj.setBounds(171, 58, 29, 25);
 		contentPane.add(txtJj);
 		txtJj.setColumns(10);
 
@@ -167,8 +182,9 @@ public class NewReservation extends JFrame {
 		contentPane.add(label);
 
 		txtMm = new JTextField();
+		txtMm.setFont(new Font("SansSerif", Font.ITALIC, 12));
 		txtMm.setText("MM");
-		txtMm.setBounds(218, 58, 29, 20);
+		txtMm.setBounds(218, 58, 30, 25);
 		contentPane.add(txtMm);
 		txtMm.setColumns(10);
 
@@ -177,17 +193,19 @@ public class NewReservation extends JFrame {
 		contentPane.add(label_1);
 
 		txtAaaa = new JTextField();
+		txtAaaa.setFont(new Font("SansSerif", Font.ITALIC, 12));
 		txtAaaa.setText("AAAA");
-		txtAaaa.setBounds(264, 58, 58, 20);
+		txtAaaa.setBounds(264, 58, 58, 25);
 		contentPane.add(txtAaaa);
 		txtAaaa.setColumns(10);
 
 		JCheckBox checkBox = new JCheckBox("");
-		checkBox.setBounds(167, 91, 97, 23);
+		checkBox.setBounds(173, 86, 97, 23);
 		contentPane.add(checkBox);
 
 		JButton btnConfirmer = new JButton("Confirmer");
-		btnConfirmer.setBounds(213, 121, 109, 23);
+		btnConfirmer.setFont(new Font("Segoe UI Black", Font.ITALIC, 12));
+		btnConfirmer.setBounds(213, 115, 109, 27);
 		contentPane.add(btnConfirmer);
 
 		initComboBox();
@@ -245,10 +263,10 @@ public class NewReservation extends JFrame {
 						categorie = E_Categorie.Enfant;
 
 					if(categorie == E_Categorie.Adulte){
-						switch(choiceSport.getSelectedItem().toString()){
+						switch(comboBoxSport.getSelectedItem().toString()){
 						case "Ski" : 
 							sport = E_Sport.Ski;
-							switch(choiceNiveaux.getSelectedItem().toString()){
+							switch(comboBoxNiveaux.getSelectedItem().toString()){
 							case "Niveaux 1 à 4":  niveaux = E_Niveaux.nv1_nv4; break;
 							case "Hors-piste": niveaux = E_Niveaux.HorsPiste ; break;  
 							case "Compétition": niveaux = E_Niveaux.Competition; break; 
@@ -257,7 +275,7 @@ public class NewReservation extends JFrame {
 							break;
 						case "Snowboard": 
 							sport = E_Sport.Snowboard;
-							switch(choiceNiveaux.getSelectedItem().toString()){
+							switch(comboBoxNiveaux.getSelectedItem().toString()){
 							case "Niveaux 1 à 4": niveaux = E_Niveaux.nv1_nv4; break;	
 							case "Hors-piste": niveaux = E_Niveaux.HorsPiste; break;
 							default:niveaux =null; break;
@@ -275,10 +293,10 @@ public class NewReservation extends JFrame {
 						}
 					}
 					else{ //l'élève est mineur.
-						switch(choiceSport.getSelectedItem().toString()){
+						switch(comboBoxSport.getSelectedItem().toString()){
 						case "Ski" :  
 							sport = E_Sport.Ski;
-							switch(choiceNiveaux.getSelectedItem().toString()){
+							switch(comboBoxNiveaux.getSelectedItem().toString()){
 							case "Petit Spirou": niveaux = E_Niveaux.PetitSpirou; break;
 							case "Bronze": niveaux = E_Niveaux.Bronze; break;
 							case "Argent": niveaux = E_Niveaux.Argent; break; 
@@ -292,7 +310,7 @@ public class NewReservation extends JFrame {
 							break;
 						case "Snowboard": 
 							sport = E_Sport.Snowboard;
-							switch(choiceNiveaux.getSelectedItem().toString()){
+							switch(comboBoxNiveaux.getSelectedItem().toString()){
 							case "Niveaux 1": niveaux = E_Niveaux.nv1; break;	
 							case "Niveaux 1 à 4": niveaux = E_Niveaux.nv1_nv4; break;	
 							case "Hors-piste": niveaux = E_Niveaux.HorsPiste; break;	
@@ -312,7 +330,7 @@ public class NewReservation extends JFrame {
 
 					}
 				
-					switch(choiceHeure.getSelectedItem().toString()){
+					switch(comboBoxHeure.getSelectedItem().toString()){
 					case "9h00 -> 12h00": 
 						heure = 9;
 						collectif = true;
@@ -370,7 +388,7 @@ public class NewReservation extends JFrame {
 					Time heure = new Time(0);
 					heure.setMinutes(0);
 					
-					switch(choiceHeure.getSelectedItem().toString()){
+					switch(comboBoxHeure.getSelectedItem().toString()){
 					case "9h00 -> 12h00": 
 						heure.setHours(9);
 						break;
@@ -421,6 +439,17 @@ public class NewReservation extends JFrame {
 				dispose();
 			}
 		});
+		
+		comboBoxSport.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				if(confirmed){
+					if(eleve.age() < 18)
+						initChoiceNiveaux(0);
+					else
+						initChoiceNiveaux(1);
+				}
+			}
+		});
 
 		//Valide l'élève.
 		btnConfirmer.addActionListener(new ActionListener() {
@@ -468,18 +497,6 @@ public class NewReservation extends JFrame {
 			}
 		});
 
-		//Charge la combobox des niveaux au changement de sport.
-		choiceSport.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent arg0) {
-				if(confirmed){
-					if(eleve.age() < 18)
-						initChoiceNiveaux(0);
-					else
-						initChoiceNiveaux(1);
-				}
-			}
-		});
-
 		//[end]
 
 	}
@@ -489,7 +506,7 @@ public class NewReservation extends JFrame {
 		Semaine semaine;
 		int index;
 		
-		index = this.choiceSemaine.getSelectedIndex();
+		index = this.comboBoxSemaine.getSelectedIndex();
 		
 		if(semaines.get(index).checkDate()){
 			semaine = semaines.get(index);	
@@ -507,11 +524,10 @@ public class NewReservation extends JFrame {
 
 		int cpt;
 		String content;
+		comboBoxSemaine = new JComboBox<String>();
+		comboBoxSemaine.setBounds(75, 191, 247, 25);
+		contentPane.add(comboBoxSemaine);
 		semaines = Semaine.loadSemainesFromDB();
-
-		this.choiceSemaine = new Choice();
-		choiceSemaine.setBounds(77, 197, 245, 20);
-		contentPane.add(choiceSemaine);
 
 		cpt=0;
 
@@ -522,33 +538,25 @@ public class NewReservation extends JFrame {
 				content += semaines.get(cpt).getDescriptif() + "* ";
 			}
 			content += semaines.get(cpt).getDateDebut().toString() + " -> " + semaines.get(cpt).getDateFin().toString();
-			choiceSemaine.add(content);
+			comboBoxSemaine.addItem(content);
 			cpt++;
 		}
 
+		comboBoxHeure = new JComboBox<String>();
+		comboBoxHeure.setBounds(75, 217, 247, 25);
+		contentPane.add(comboBoxHeure);
+		comboBoxHeure.addItem("9h00 -> 12h00");
+		comboBoxHeure.addItem("12h00 -> 13h00 (Cours particulier)");
+		comboBoxHeure.addItem("12h00 -> 14h00 (Cours particulier)");
+		comboBoxHeure.addItem("14h00 -> 17h00");
 
-		this.choiceHeure = new Choice();
-		choiceHeure.setBounds(77, 222, 245, 20);
-		contentPane.add(choiceHeure);
-		choiceHeure.add("9h00 -> 12h00");
-		choiceHeure.add("12h00 -> 13h00 (Cours particulier)");
-		choiceHeure.add("12h00 -> 14h00 (Cours particulier)");
-		choiceHeure.add("14h00 -> 17h00");
-
-
-		this.choiceSport = new Choice();
-		choiceSport.setBounds(77, 247, 245, 20);
-		contentPane.add(choiceSport);
-		choiceSport.add("Ski");
-		choiceSport.add("Snowboard");
-		choiceSport.add("Télémark");
-		choiceSport.add("Ski de fond");
-
-
-		this.choiceNiveaux = new Choice();
-		choiceNiveaux.setEnabled(false);
-		choiceNiveaux.setBounds(77, 272, 245, 20);
-		contentPane.add(choiceNiveaux);
+		comboBoxSport = new JComboBox<String>();
+		comboBoxSport.setBounds(77, 247, 245, 20);
+		contentPane.add(comboBoxSport);
+		comboBoxSport.addItem("Ski");
+		comboBoxSport.addItem("Snowboard");
+		comboBoxSport.addItem("Télémark");
+		comboBoxSport.addItem("Ski de fond");
 		
 		JLabel lblNewLabel_2 = new JLabel("Possibilit\u00E9 de r\u00E9servation 1 mois \u00E0 l\u2019avance en dehors des p\u00E9riodes ");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.ITALIC, 9));
@@ -559,7 +567,14 @@ public class NewReservation extends JFrame {
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.ITALIC, 9));
 		lblNewLabel_3.setBounds(10, 172, 312, 14);
 		contentPane.add(lblNewLabel_3);
-
+		
+		comboBoxSport.setBounds(75, 241, 247, 25);
+		contentPane.add(comboBoxSport);
+		
+		comboBoxNiveaux = new JComboBox<String>();
+		comboBoxNiveaux.setEnabled(false);
+		comboBoxNiveaux.setBounds(75, 266, 247, 26);
+		contentPane.add(comboBoxNiveaux);
 	}
 
 	/**
@@ -568,50 +583,50 @@ public class NewReservation extends JFrame {
 	 */
 	private void initChoiceNiveaux(int flag){
 
-		this.choiceNiveaux.setEnabled(true);
-		this.choiceNiveaux.removeAll();
+		this.comboBoxNiveaux.setEnabled(true);
+		this.comboBoxNiveaux.removeAllItems();;
 
 		if(flag == 1){
-			switch(this.choiceSport.getSelectedItem().toString()){
+			switch(this.comboBoxSport.getSelectedItem().toString()){
 			case "Ski" :  
-				this.choiceNiveaux.add("Niveaux 1 à 4");
-				this.choiceNiveaux.add("Hors-piste");
-				this.choiceNiveaux.add("Compétition");
+				this.comboBoxNiveaux.addItem("Niveaux 1 à 4");
+				this.comboBoxNiveaux.addItem("Hors-piste");
+				this.comboBoxNiveaux.addItem("Compétition");
 				break;
 			case "Snowboard": 
-				this.choiceNiveaux.add("Niveaux 1 à 4");
-				this.choiceNiveaux.add("Hors-piste");
+				this.comboBoxNiveaux.addItem("Niveaux 1 à 4");
+				this.comboBoxNiveaux.addItem("Hors-piste");
 				break;
 			case "Télémark" : 
-				this.choiceNiveaux.add("Niveaux 1 à 4");
+				this.comboBoxNiveaux.addItem("Niveaux 1 à 4");
 				break;
 			case "Ski de fond" : 
-				this.choiceNiveaux.add("Niveaux 1 à 4");
+				this.comboBoxNiveaux.addItem("Niveaux 1 à 4");
 				break;
 			}
 		}
 		else{ //l'élève est mineur.
-			switch(this.choiceSport.getSelectedItem().toString()){
+			switch(this.comboBoxSport.getSelectedItem().toString()){
 			case "Ski" : 
-				this.choiceNiveaux.add("Petit Spirou");
-				this.choiceNiveaux.add("Bronze");
-				this.choiceNiveaux.add("Argent");
-				this.choiceNiveaux.add("Or");
-				this.choiceNiveaux.add("Platine");
-				this.choiceNiveaux.add("Diamant");
-				this.choiceNiveaux.add("Compétition");
-				this.choiceNiveaux.add("Hors-piste");
+				this.comboBoxNiveaux.addItem("Petit Spirou");
+				this.comboBoxNiveaux.addItem("Bronze");
+				this.comboBoxNiveaux.addItem("Argent");
+				this.comboBoxNiveaux.addItem("Or");
+				this.comboBoxNiveaux.addItem("Platine");
+				this.comboBoxNiveaux.addItem("Diamant");
+				this.comboBoxNiveaux.addItem("Compétition");
+				this.comboBoxNiveaux.addItem("Hors-piste");
 				break;
 			case "Snowboard":
-				this.choiceNiveaux.add("Niveaux 1");
-				this.choiceNiveaux.add("Niveaux 2 à 4");
-				this.choiceNiveaux.add("Hors-piste");
+				this.comboBoxNiveaux.addItem("Niveaux 1");
+				this.comboBoxNiveaux.addItem("Niveaux 2 à 4");
+				this.comboBoxNiveaux.addItem("Hors-piste");
 				break;
 			case "Télémark" : 
-				this.choiceNiveaux.add("Niveaux 1 à 4");
+				this.comboBoxNiveaux.addItem("Niveaux 1 à 4");
 				break;
 			case "Ski de fond" : 
-				this.choiceNiveaux.add("Niveaux 1 à 4");
+				this.comboBoxNiveaux.addItem("Niveaux 1 à 4");
 				break;
 			}
 		}

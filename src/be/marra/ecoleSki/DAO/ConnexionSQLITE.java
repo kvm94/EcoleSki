@@ -26,10 +26,10 @@ public class ConnexionSQLITE {
         }
     }
 
-    public void finalize()
-    {
-      disconnect();
-    }
+    //public void finalize()
+    //{
+    //  disconnect();
+    //}
     
     public static Connection getInstance() {
         if (snglConnection == null) {
