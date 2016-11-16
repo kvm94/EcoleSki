@@ -6,14 +6,14 @@ public abstract class AbstractDAOFactory {
 	public static final int DAO_FACTORY = 0;
 	public static final int XML_DAO_FACTORY = 1;
 	
-	public abstract DAO<Eleve> getEleveDAO();
-	public abstract DAO<Moniteur> getMoniteurDAO();
-	public abstract DAO<Client> getClientDAO();
-	public abstract DAO<Reservation> getReservationDAO();
-	public abstract DAO<Cours> getCoursDAO();
-	public abstract DAO<Accreditation> getAccreditationDAO();
-	public abstract DAO<Semaine> getSemaineDAO();
-	public abstract DAO<PAccreditation_Moniteur> getAccreditation_MoniteurDAO();
+	public abstract DAO<Eleve> 						getEleveDAO();
+	public abstract DAO<Moniteur> 					getMoniteurDAO();
+	public abstract DAO<Client> 					getClientDAO();
+	public abstract DAO<Reservation> 				getReservationDAO();
+	public abstract DAO<Cours> 						getCoursDAO();
+	public abstract DAO<Accreditation> 				getAccreditationDAO();
+	public abstract DAO<Semaine> 					getSemaineDAO();
+	public abstract DAO<PAccreditation_Moniteur> 	getAccreditation_MoniteurDAO();
 	
 	public static AbstractDAOFactory getFactory(int type){
 		switch(type){

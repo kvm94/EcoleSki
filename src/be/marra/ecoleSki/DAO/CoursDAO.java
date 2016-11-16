@@ -21,7 +21,6 @@ public class CoursDAO extends DAO<Cours>{
 	 * @param Le cours à ajouter.
 	 * @return True si l'opération c'est bien effectuée.
 	 */
-
 	public boolean create(Cours obj){		
 		boolean check = false;
 
@@ -82,7 +81,6 @@ public class CoursDAO extends DAO<Cours>{
 	 * @param Le cours à mettre à jour.
 	 * @return True si l'opération c'est bien déroulée.
 	 */
-
 	public boolean update(Cours obj){
 		boolean check = false;
 
@@ -127,7 +125,6 @@ public class CoursDAO extends DAO<Cours>{
 	 * @param L'id du cours.
 	 * @return Le cours recherchée.
 	 */
-
 	public Cours find(int id){
 		Cours cours = new Cours();
 		try{
@@ -198,6 +195,11 @@ public class CoursDAO extends DAO<Cours>{
 		return cours;
 	}
 	
+	/**
+	 * Vérifie si un cours existe dans la table Cours.
+	 * @param cours Le cours à chercher.
+	 * @return True si le cours est trouvé.
+	 */
 	public boolean find(Cours cours){
 		boolean check = false;
 		try{
@@ -223,6 +225,11 @@ public class CoursDAO extends DAO<Cours>{
 		return check;
 	}
 	
+	/**
+	 * Récupère l'id d'un cours récherché.
+	 * @param cours le cours que l'on recherche l'id.
+	 * @return l'id du cours.
+	 */
 	public void getId(Cours cours){
 		try{
 			ResultSet result = this.connect.createStatement(

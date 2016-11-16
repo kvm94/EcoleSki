@@ -1,5 +1,10 @@
 package be.marra.ecoleSki.DAO;
 
+/**
+ * Classe d'instance pour l'éclatement Accreditation_Moniteur de la base de données.
+ * @author Kevin
+ *
+ */
 public class PAccreditation_Moniteur {
 
 	private int id_accreditation;

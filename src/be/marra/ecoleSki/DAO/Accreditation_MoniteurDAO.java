@@ -10,15 +10,28 @@ import be.marra.ecoleSki.Accreditation;
 
 public class Accreditation_MoniteurDAO extends DAO<PAccreditation_Moniteur>{
 
+	//[start]Constructeur
+	
 	public Accreditation_MoniteurDAO(Connection conn){
 		super(conn);
 	}
+	
+	//[end] Constructeur
 
+	
+	//[start]Méthodes
+	
+	/**
+	 * Crée un enregistrement dans la table Accreditation_Moniteur.
+	 * @param obj L'objet contenant l'id du moniteur et de l'accréditation.
+	 * @return True si l'opération c'est bien déroulé et que l'enregistrement n'éxiste pas déjà.
+	 * @Exception Exception Vous possédez déjà cette accréditation!
+	 */
 	public boolean create(PAccreditation_Moniteur obj) throws Exception {
 		boolean check = false;
 
 		try{
-			
+			//Vérifie que l'enregistrement n'éxiste pas déjà.
 			if(!find(obj)){
 				PreparedStatement statement = connect.prepareStatement(
 						"INSERT INTO Accreditation_Moniteur (id_accreditation, id_moniteur) VALUES(?,?)");
@@ -37,6 +50,12 @@ public class Accreditation_MoniteurDAO extends DAO<PAccreditation_Moniteur>{
 		return check;
 	}
 
+	/**
+	 * Supprime un enregistrement de la table Accreditation_Moniteur.
+	 * @param obj L'objet à supprimer.
+	 * @return True si l'opération c'est bien déroulé.
+	 * 
+	 */
 	public boolean delete(PAccreditation_Moniteur obj) {
 		boolean check = false;
 
@@ -53,6 +72,11 @@ public class Accreditation_MoniteurDAO extends DAO<PAccreditation_Moniteur>{
 		return check;
 	}
 
+	/**
+	 * Met à jour un enregistrement de la table Accreditation_Moniteur.
+	 * @param obj L'objet à mettre à jour
+	 * @return True si l'opération c'est bien déroulé.
+	 */
 	public boolean update(PAccreditation_Moniteur obj) {
 		boolean check = false;
 
@@ -71,6 +95,11 @@ public class Accreditation_MoniteurDAO extends DAO<PAccreditation_Moniteur>{
 		return check;
 	}
 
+	/**
+	 * Cherche l'objet dans la table Accréditation_Moniteur.
+	 * @param id L'id de l'objet.
+	 * @return L'objet PAccréeditation_Moniteur trouvé.
+	 */
 	public PAccreditation_Moniteur find(int id) {
 		PAccreditation_Moniteur accreMon = null;
 		try{
@@ -88,6 +117,11 @@ public class Accreditation_MoniteurDAO extends DAO<PAccreditation_Moniteur>{
 		return accreMon;
 	}
 	
+	/**
+	 * Vérifie si l'enregistrement n'éxiste pas déjà.
+	 * @param obj l'enregistrement à vérifier.
+	 * @return True si l'enregistrement éxiste.
+	 */
 	public Boolean find(PAccreditation_Moniteur obj) {
 		boolean check = false;
 		try{
@@ -107,7 +141,11 @@ public class Accreditation_MoniteurDAO extends DAO<PAccreditation_Moniteur>{
 		return check;
 	}
 	
-	//Retourne le nombre qu'une accrediation est validé pour un moniteur.
+	/**
+	 * Retourne le nombre qu'une accrediation est validé pour un moniteur.
+	 * @param a L'accréditation à compter.
+	 * @return int le nombre d'enregisrements correspondant à cette accréditation.
+	 */
 	public int nbrAccreMoniteur(Accreditation a){
 		int cpt = 0;
 		
@@ -127,6 +165,11 @@ public class Accreditation_MoniteurDAO extends DAO<PAccreditation_Moniteur>{
 		return cpt;
 	}
 	
+	/**
+	 * Récupère tous les id des accréditations que possède un moniteur.
+	 * @param id_moniteur L'id du moniteur.
+	 * @return Uns liste d'entier contenant les id des accréditations. 
+	 */
 	public ArrayList<Integer> findIdAccreditation(int id_moniteur) {
 		ArrayList<Integer> tabId = null;
 		try{
@@ -145,4 +188,6 @@ public class Accreditation_MoniteurDAO extends DAO<PAccreditation_Moniteur>{
 		}
 		return tabId;
 	}
+	
+	//[end]Méthodes
 }

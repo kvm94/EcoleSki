@@ -11,16 +11,18 @@ import be.marra.ecoleSki.Accreditation.E_Sport;
 
 public class AccreditationDAO extends DAO<Accreditation>{
 
-	//-------------------------Constructeur-------------------------//
+	//[start]Constructeur
 	
 	public AccreditationDAO(Connection conn){
 		super(conn);
 	}
 
-	//-------------------------Méthodes-------------------------//
+	//[end]Constructeurs
+
+	//[start]Méthodes
 	
 	/**
-	 * Ajoute une accréditation dans la base de données.
+	 * Ajoute une accréditation dans la la table Accreditation.
 	 * @param L'accréditation à ajouter.
 	 * @return True si l'opération c'est bien effectuée.
 	 */
@@ -47,7 +49,7 @@ public class AccreditationDAO extends DAO<Accreditation>{
 	}
 
 	/**
-	 * Supprime une accréditation de la base de données.
+	 * Supprime une accréditation de la table Accreditation.
 	 * @param L'accréditation à supprimer.
 	 * @return True si l'opération c'est bien déroulée.
 	 */
@@ -69,7 +71,7 @@ public class AccreditationDAO extends DAO<Accreditation>{
 	}
 
 	/**
-	 * Met à jour une accréditation de la base de données.
+	 * Met à jour une accréditation de la table Accreditation.
 	 * @param L'accréditation à mettre à jour.
 	 * @return True si l'opération c'est bien déroulée.
 	 */
@@ -92,7 +94,7 @@ public class AccreditationDAO extends DAO<Accreditation>{
 	}
 
 	/**
-	 * Cherche une accréditation dans la base de données.
+	 * Cherche une accréditation dans table Accréditation.
 	 * @param L'id de l'accréditation.
 	 * @return L'accréditation recherchée.
 	 */
@@ -131,6 +133,11 @@ public class AccreditationDAO extends DAO<Accreditation>{
 		return accreditation;
 	}
 	
+	/**
+	 * Vérifie si l'enregistrement correspondant a un accréditaion éxiste déjà.
+	 * @param obj L'accréditation à vérifier.
+	 * @return True si un enregistrement correspondant est trouvé.
+	 */
 	public boolean find(Accreditation obj){
 		boolean check = false;
 		try{
@@ -174,5 +181,7 @@ public class AccreditationDAO extends DAO<Accreditation>{
 		}
 		return id;
 	}
+	
+	//[end]Méthodes
 	
 }

@@ -9,6 +9,9 @@ import javax.swing.JOptionPane;
 public class ConnexionSQLITE {
     private static Connection snglConnection = null;
 
+    /**
+     * Se connecte à la base de données SQLITE du dossier /data.
+     */
     private ConnexionSQLITE() {
         try {
             Class.forName("org.sqlite.JDBC");
@@ -26,11 +29,18 @@ public class ConnexionSQLITE {
         }
     }
 
+    /**
+     * Désctructeur qui ferme la connexion à la base de données.
+     */
     public void finalize()
     {
       disconnect();
     }
     
+    /**
+     * Récupère l'instance de la classe pour le Singleton.
+     * @return La connexion.
+     */
     public static Connection getInstance() {
         if (snglConnection == null) {
             new ConnexionSQLITE();
@@ -39,6 +49,10 @@ public class ConnexionSQLITE {
         return snglConnection;
     }
     
+    /**
+     * Se déconnecte de la base de données.
+     * @return Tur si la base de données à bien été déconnecté.
+     */
     static public boolean disconnect()
     {
       try

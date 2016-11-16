@@ -10,10 +10,14 @@ import java.util.ArrayList;
 
 public class SemaineDAO extends DAO<Semaine>{
 	
+	//[start]Constructeur
+	
 	public SemaineDAO(Connection conn){
 		super(conn);
 	}
 
+	//[end]Constructeur
+	
 	/**
 	 * Ajoute une semaine dans la base de données.
 	 * @param La semaine à ajouter.
@@ -156,6 +160,11 @@ public class SemaineDAO extends DAO<Semaine>{
 		return semaine;
 	}
 	
+	/**
+	 * Vérifie si une semaine est présente dans la table Semaine
+	 * @param semaine
+	 * @return
+	 */
 	public boolean find(Semaine semaine){
 		boolean check = false;
 		try{
@@ -173,6 +182,10 @@ public class SemaineDAO extends DAO<Semaine>{
 		return check;
 	}
 	
+	/**
+	 * Chercher toutes les semaines présente dans la table Semaine
+	 * @return
+	 */
 	public ArrayList<Semaine> find(){
 		ArrayList<Semaine> semaines = new ArrayList<Semaine>();
 		try{
@@ -212,6 +225,11 @@ public class SemaineDAO extends DAO<Semaine>{
 		return semaines;
 	}
 	
+	/**
+	 * Calcul le nombre de semaines dans la base de données.
+	 * @return
+	 * @throws SQLException
+	 */
 	public int count() throws SQLException{
 		ResultSet result = this.connect.createStatement(
 				ResultSet.TYPE_FORWARD_ONLY,

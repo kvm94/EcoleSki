@@ -172,6 +172,13 @@ public class MoniteurDAO extends DAO<Moniteur>{
 		return moniteurs;
 	}
 	
+	/**
+	 * Cherche un moniteur dans la table moniteur par rapport a son nom, prenom et mot de passe.
+	 * @param nom
+	 * @param prenom
+	 * @param mdp
+	 * @return le moniteur trouvé.
+	 */
 	public ArrayList<Moniteur> find(String nom, String prenom, String mdp){
 		ArrayList<Moniteur> moniteurs = new ArrayList<Moniteur>();
 		try{

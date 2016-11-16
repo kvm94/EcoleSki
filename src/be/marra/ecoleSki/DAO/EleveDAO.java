@@ -136,6 +136,11 @@ public class EleveDAO extends DAO<Eleve>{
 		return eleve;
 	}
 	
+	/**
+	 * Vérifie si un élève éxiste dans la table Eleve.
+	 * @param eleve
+	 * @return True si l'élève éxiste.
+	 */
 	public boolean find(Eleve eleve){
 		boolean check = false;
 		try{
@@ -153,6 +158,11 @@ public class EleveDAO extends DAO<Eleve>{
 		return check;
 	}
 
+	/**
+	 * Cherche l'id d'un élève.
+	 * @param eleve
+	 * @return l'id de l'élève.
+	 */
 	public void getId(Eleve eleve){
 		try{
 			ResultSet result = this.connect.createStatement(

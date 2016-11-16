@@ -13,10 +13,13 @@ import be.marra.ecoleSki.Reservation.E_Statut;
 
 public class ReservationDAO extends DAO<Reservation>{
 	
+	//[start]Constructeur
 	public ReservationDAO(Connection conn){
 		super(conn);
 	}
 
+	//[end]Constructeur
+	
 	/**
 	 * Ajoute une réservation dans la base de données.
 	 * @param La réservation à ajouter.
@@ -83,7 +86,7 @@ public class ReservationDAO extends DAO<Reservation>{
 	}
 
 	/**
-	 * Met à jour une réservation de la base de données.
+	 * Met à jour l'id du moniteur d'une réservation de la base de données.
 	 * @param La réservation à mettre à jour.
 	 * @return True si l'opération c'est bien déroulée.
 	 */
@@ -109,6 +112,9 @@ public class ReservationDAO extends DAO<Reservation>{
 		return check;
 	}
 	
+	/**
+	 * Met à jour uné réservation dans la table Reservation.
+	 */
 	@SuppressWarnings("deprecation")
 	public boolean update(Reservation obj){
 		boolean check = false;
@@ -187,6 +193,11 @@ public class ReservationDAO extends DAO<Reservation>{
 		return reservation;
 	}
 	
+	/**
+	 * Vérifie si une réservation n'éxiste pas déjà.
+	 * @param res
+	 * @return
+	 */
 	@SuppressWarnings("deprecation")
 	public boolean find(Reservation res){
 		boolean check=false;
@@ -208,6 +219,12 @@ public class ReservationDAO extends DAO<Reservation>{
 		return check;
 	}
 	
+	/**
+	 * Renvois une liste des Réservation recherchées par rapport à un client.
+	 * @param statut
+	 * @param id_client
+	 * @return
+	 */
 	@SuppressWarnings("deprecation")
 	public ArrayList<Reservation> find(int statut, int id_client){
 
@@ -244,6 +261,10 @@ public class ReservationDAO extends DAO<Reservation>{
 		return reservations;
 	}
 	
+	/**
+	 * Renvois une liste des Réservation recherchées.
+	 * @return
+	 */
 	@SuppressWarnings("deprecation")
 	public ArrayList<Reservation> find(){
 
@@ -280,6 +301,11 @@ public class ReservationDAO extends DAO<Reservation>{
 		return reservations;
 	}
 	
+	/**
+	 * Recherche les réservation par rapport à un moniteur.
+	 * @param id
+	 * @return
+	 */
 	@SuppressWarnings("deprecation")
 	public ArrayList<Reservation> findbyMonitor(int id){
 
@@ -307,7 +333,9 @@ public class ReservationDAO extends DAO<Reservation>{
 		return reservations;
 	}
 	
-	//Retourne le nombre de réservation pour un cours.
+	/*
+	 * Retourne le nombre de réservation pour un cours.
+	 */
 	public int nbrResCours(Cours cours){
 		int cpt = 0;
 		
@@ -327,8 +355,12 @@ public class ReservationDAO extends DAO<Reservation>{
 		return cpt;
 	}
 	
-	//Retourne le nombre de réservation pour un élève.
-		public int nbrResEleve(Eleve eleve){
+	/**
+	 * Retourne le nombre de réservation pour un élève.
+	 * @param eleve
+	 * @return
+	 */
+	public int nbrResEleve(Eleve eleve){
 			int cpt = 0;
 			
 			try{
@@ -347,7 +379,13 @@ public class ReservationDAO extends DAO<Reservation>{
 			return cpt;
 		}
 	
-	//Retourne le nombre de réservation pour un cours à un date donnée.
+	/**
+	 * Retourne le nombre de réservation pour un cours à un date donnée.
+	 * @param cours
+	 * @param semaine
+	 * @param heure
+	 * @return
+	 */
 		public int nbrResCours(Cours cours, Semaine semaine, int heure){
 			int cpt = 0;
 			

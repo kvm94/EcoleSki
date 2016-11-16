@@ -12,19 +12,21 @@ import be.marra.ecoleSki.*;
 
 public class ClientDAO extends DAO<Client>{
 	
-	//-------------------------Constructeur-------------------------//
+	//[start]Constructeur
 	
 	public ClientDAO(Connection conn){
 		super(conn);
 	}
 
-	//-------------------------Méthodes-------------------------//
+	//[end]Constructeur
+	
+	//[start]Méthodes
 	
 	/**
-	 * Ajoute un client dans la base de données.
+	 * Ajoute un client dans la table client.
 	 * @param Le client à ajouter.
 	 * @return True si l'opération c'est bien effectuée.
-	 * @throws Exception 
+	 * @throws Exception L'utilisateur existe déjà!
 	 */
 	public boolean create(Client obj) throws Exception{		
 		boolean check = false;
@@ -58,8 +60,8 @@ public class ClientDAO extends DAO<Client>{
 	}
 
 	/**
-	 * Supprime un client de la base de données.
-	 * @param Le clientn à supprimer.
+	 * Supprime un client de la table client.
+	 * @param Le client à supprimer.
 	 * @eturn True si l'opération c'est bien déroulée.
 	 */
 	public boolean delete(Client obj){
@@ -80,7 +82,7 @@ public class ClientDAO extends DAO<Client>{
 	}
 
 	/**
-	 * Met à jour un client de la base de données.
+	 * Met à jour un client de la tabel client.
 	 * @param Le client à mettre à jour.
 	 * @return True si l'opération c'est bien déroulée.
 	 */
@@ -110,7 +112,7 @@ public class ClientDAO extends DAO<Client>{
 	}
 
 	/**
-	 * Cherche un client dans la base de données.
+	 * Cherche un client dans la table Client.
 	 * @param L'id du client.
 	 * @return Le client recherchée.
 	 */
@@ -140,7 +142,7 @@ public class ClientDAO extends DAO<Client>{
 	}
 	
 	/**
-	 * Cherche un client dans la base de données.
+	 * Cherche les client dans la table Client.
 	 * @param String nom, String prenom
 	 * @return La liste des client trouvé.
 	 */
@@ -178,7 +180,6 @@ public class ClientDAO extends DAO<Client>{
 	 * @param String mdp, String nom, String prenom
 	 * @return Les clients trouvé.
 	 */
-
 	public ArrayList<Client> find(String nom, String prenom, String mdp){
 		ArrayList<Client> clients = new ArrayList<Client>();
 		try{
@@ -207,4 +208,6 @@ public class ClientDAO extends DAO<Client>{
 		}
 		return clients;
 	}
+	
+	//[end]Méthodes
 }
