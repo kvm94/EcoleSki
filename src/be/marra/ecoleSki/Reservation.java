@@ -94,21 +94,24 @@ public class Reservation {
 
 	/**
 	 * Affiche le contenu de la réservation.
-	 * @return String Le text généré de la réservation.
+	 * @return String Le text généré au format html de la réservation.
 	 */
+	@SuppressWarnings("deprecation")
 	public String afficher() {
 		String text = "";
 		
-		text += eleve.getNom() + "\n";
-		text += eleve.getPrenom() + "\n";
-		text += eleve.getDateNaissance() + "\n";
-		text += cours.getCategorie() + "\n";
-		text += cours.getSport() + "\n";
-		text += cours.getNiveaux() + "\n";
-		text += semaine.getDateDebut() + " -> " + semaine.getDateFin() + "\n";
-		text += heure + "\n";
-		text += prix + "\n";
-		text += statut + "\n";
+		text += "<table>"
+				+ "<tr><td><b>NOM : </b></td>" + 				eleve.getNom()					+ "<td</td></tr>"
+				+ "<tr><td><b>PRENOM : </b></td>" + 			eleve.getPrenom() 				+ "<td</td></tr>"
+				+ "<tr><td><b>DATE DE NAISSANCE : </b></td>" + 	eleve.getDateNaissance() 		+ "<td</td></tr>"
+				+ "<tr><td><b>CATEGORIE : </b></td>" + 			cours.getCategorie() 			+ "<td</td></tr>"
+				+ "<tr><td><b>SPORT : </b></td>" + 				cours.getSport().toString() 	+ "<td</td></tr>"
+				+ "<tr><td><b>NIVEAUX : </b></td>" + 			cours.getNiveaux().toString() 	+ "<td</td></tr>"
+				+ "<tr><td><b>DATE : </b></td>" + 				semaine.getDateDebut() + " -> " + semaine.getDateFin() + "<td</td></tr>"
+				+ "<tr><td><b>HEURE : </b></td>" + 				heure.getHours() + "h00"		+ "<td</td></tr>"
+				+ "<tr><td><b>PRIX : </b></td>" + 				prix + "€"						+ "<td</td></tr>"
+				+ "<tr><td><b>STATUS : </b></td>" + 			statut							+ "<td</td></tr>"
+				+ "</table>";
 		
 		return text;
 	}

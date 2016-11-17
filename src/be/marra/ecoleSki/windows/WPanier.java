@@ -6,6 +6,9 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
 import be.marra.ecoleSki.Client;
 import be.marra.ecoleSki.Panier;
@@ -18,13 +21,12 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
-import java.awt.List;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
 import java.awt.Font;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 
 public class WPanier extends JFrame {
 
@@ -36,8 +38,10 @@ public class WPanier extends JFrame {
 	private JLabel lblTotal;
 	private JLabel lblPrix;
 	private JButton btnVider;
-	ArrayList<Reservation> listeRes;
+	private ArrayList<Reservation> listRes;
 	private WPanier This = this;
+	private JScrollPane scrollPane;
+	private JTable tableau;
 
 	public WPanier(WClient wClient, Client c) {
 		this.c = c;
@@ -59,31 +63,32 @@ public class WPanier extends JFrame {
 		//[start]Contenus
 		
 		JButton btnSupprimer = new JButton("Supprimer");
-		btnSupprimer.setBounds(10, 237, 100, 23);
+		btnSupprimer.setFont(new Font("Segoe UI Black", Font.ITALIC, 12));
+		btnSupprimer.setBounds(10, 237, 100, 25);
 		contentPane.add(btnSupprimer);
 		btnSupprimer.setEnabled(false);
 		
 		JButton btnAfficher = new JButton("Afficher");
-		btnAfficher.setBounds(235, 237, 100, 23);
+		btnAfficher.setFont(new Font("Segoe UI Black", Font.ITALIC, 12));
+		btnAfficher.setBounds(235, 237, 100, 25);
 		contentPane.add(btnAfficher);
 		btnAfficher.setEnabled(false);
 		
 		JButton btnPayer = new JButton("Payer");
-		btnPayer.setBounds(345, 237, 89, 23);
+		btnPayer.setFont(new Font("Segoe UI Black", Font.ITALIC, 12));
+		btnPayer.setBounds(345, 237, 89, 25);
 		contentPane.add(btnPayer);
 		
 		
 		lblTotal = new JLabel("Total : ");
+		lblTotal.setFont(new Font("SansSerif", Font.BOLD, 12));
 		lblTotal.setBounds(304, 202, 46, 14);
 		contentPane.add(lblTotal);
 		
 		lblPrix = new JLabel("");
+		lblPrix.setFont(new Font("SansSerif", Font.BOLD, 12));
 		lblPrix.setBounds(360, 202, 46, 14);
 		contentPane.add(lblPrix);
-		
-		List list = new List();
-		list.setBounds(32, 10, 374, 186);
-		contentPane.add(list);
 		
 		lblNote = new JLabel("");
 		lblNote.setFont(new Font("Tahoma", Font.ITALIC, 9));
@@ -91,13 +96,35 @@ public class WPanier extends JFrame {
 		contentPane.add(lblNote);
 		
 		btnVider = new JButton("Vider");
-		btnVider.setBounds(120, 237, 105, 23);
+		btnVider.setFont(new Font("Segoe UI Black", Font.ITALIC, 12));
+		btnVider.setBounds(120, 237, 105, 25);
 		contentPane.add(btnVider);
 		btnVider.setEnabled(false);
 		
-		//[end]
+		String[] header = new String[] {"Semaine", "Heure", "El\u00E8ve", "Sport", "Niveaux"};
+		Object[][] data = initDataTable();
+		initDisplay();
 		
-		initDisplay(list);		
+		//Ajout des données dans la JTable.
+		tableau = new JTable(new DefaultTableModel(data, header){
+			private static final long serialVersionUID = 1L;
+
+			public boolean isCellEditable(int iRowIndex, int iColumnIndex)
+		    {
+		          return false;
+		    }
+		  });
+		 //Ajout de règles pour la JTable.
+		tableau.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+	    tableau.getColumnModel().getColumn(0).setMaxWidth(155);
+	    tableau.getColumnModel().getColumn(0).setMinWidth(155);
+	    tableau.getColumnModel().getColumn(1).setMinWidth(45);
+	    tableau.getColumnModel().getColumn(1).setMaxWidth(45);
+	    tableau.setRowSelectionAllowed(true);				
+		
+		scrollPane = new JScrollPane(tableau);
+		scrollPane.setBounds(12, 12, 420, 177);
+		contentPane.add(scrollPane);
 		
 		//[start]Events
 		
@@ -107,6 +134,13 @@ public class WPanier extends JFrame {
 				wClient.setEnabled(true);
 			}
 		});
+		
+		tableau.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+	        public void valueChanged(ListSelectionEvent event) {
+	            btnAfficher.setEnabled(true);
+	            btnSupprimer.setEnabled(true);
+	        }
+	    });
 		
 		btnPayer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -128,7 +162,7 @@ public class WPanier extends JFrame {
 		
 		btnAfficher.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				WReservation wReservation = new WReservation(This, listeRes.get(list.getSelectedIndex())); 
+				WReservation wReservation = new WReservation(This, listRes.get(tableau.getSelectedRow())); 
 				wReservation.setVisible(true);
 				This.setEnabled(false);
 			}
@@ -139,7 +173,24 @@ public class WPanier extends JFrame {
 				int reply = JOptionPane.showConfirmDialog(null, "Voulez-vous vider le panier ?");
 				if(reply == JOptionPane.YES_OPTION){
 					c.viderPanier();
-					initDisplay(list);
+					String[] header = new String[] {"Semaine", "Heure", "El\u00E8ve", "Sport", "Niveaux"};
+					Object[][] data = initDataTable();
+					tableau.setModel(new DefaultTableModel(data, header){
+						private static final long serialVersionUID = 1L;
+
+						public boolean isCellEditable(int iRowIndex, int iColumnIndex)
+					    {
+					          return false;
+					    }
+					  });
+					 //Ajout de règles pour la JTable.
+					tableau.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+				    tableau.getColumnModel().getColumn(0).setMaxWidth(155);
+				    tableau.getColumnModel().getColumn(0).setMinWidth(155);
+				    tableau.getColumnModel().getColumn(1).setMinWidth(45);
+				    tableau.getColumnModel().getColumn(1).setMaxWidth(45);
+				    tableau.setRowSelectionAllowed(true);
+					initDisplay();
 					lblPrix.setText("");
 					lblNote.setText("");
 					btnSupprimer.setEnabled(false);
@@ -154,35 +205,87 @@ public class WPanier extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				int reply = JOptionPane.showConfirmDialog(null, "Voulez-vous supprimer cette réservation ?");
 				if(reply == JOptionPane.YES_OPTION){
-					p.supprimerReservation(list.getSelectedIndex());
+					p.supprimerReservation(tableau.getSelectedRow());
+					String[] header = new String[] {"Semaine", "Heure", "El\u00E8ve", "Sport", "Niveaux"};
+					Object[][] data = initDataTable();
+					tableau.setModel(new DefaultTableModel(data, header){
+						private static final long serialVersionUID = 1L;
+
+						public boolean isCellEditable(int iRowIndex, int iColumnIndex)
+					    {
+					          return false;
+					    }
+					  });
+					 //Ajout de règles pour la JTable.
+					tableau.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+				    tableau.getColumnModel().getColumn(0).setMaxWidth(155);
+				    tableau.getColumnModel().getColumn(0).setMinWidth(155);
+				    tableau.getColumnModel().getColumn(1).setMinWidth(45);
+				    tableau.getColumnModel().getColumn(1).setMaxWidth(45);
+				    tableau.setRowSelectionAllowed(true);
+					initDisplay();
 					lblPrix.setText("");
 					lblNote.setText("");
-					initDisplay(list);
+					if(data == null)
+						btnPayer.setEnabled(false);
 					btnSupprimer.setEnabled(false);
 					btnAfficher.setEnabled(false);
+					btnVider.setEnabled(false);
 				}
 					
-			}
-		});
-		
-		list.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent arg0) {
-				btnSupprimer.setEnabled(true);
-				btnAfficher.setEnabled(true);
 			}
 		});
 		
 		//[end]
 	}
 	
-	private void initDisplay(List list){
+	@SuppressWarnings("deprecation")
+	private Object[][] initDataTable(){		
+		Object[][] data = null;
+		try{
+			c.initPanier();
+			
+			this.listRes = p.getReservations();
+			//Si la liste n'est pas vide.
+			if(!listRes.isEmpty()){
+				data = new Object[listRes.size()][5];
+				
+				//Récupération des données.
+				for(int i = 0 ; i < listRes.size() ; i++){
+					data[i][0] = listRes.get(i).getSemaine().toString();
+					data[i][1] = String.valueOf(listRes.get(i).getHeure().getHours()) + "h00";
+					data[i][2] = listRes.get(i).getEleve().getPrenom();
+					data[i][3] = listRes.get(i).getCours().getSport().toString();
+					data[i][4] = listRes.get(i).getCours().getNiveaux().toString();
+				}				
+			}
+			else {
+				data = new Object[0][0];
+			}
+			
+		}
+		catch(Exception ex){
+			JOptionPane.showMessageDialog(null, "Erreur lors du chargement des réservation!");
+		}
+	    
+	    return data;
+	}
+	
+	private void initDisplay(){
+		//Affiche la note et le prix du panier.
+		this.lblPrix.setText(String.valueOf(p.getTotal() + "€"));
+		if(p.isReduction())
+			this.lblNote.setText("*Réduction de 15% sur votre total!");
+		
+		this.btnVider.setEnabled(true);
+	}
+	
+	/*private void initDisplay(List list){
 		try{
 			c.initPanier();
 			
 			this.listeRes = p.getReservations();
 			Reservation temp;
-			
-			list.removeAll();
 			
 			//Charge la liste
 			if(!this.listeRes.isEmpty()){
@@ -215,5 +318,5 @@ public class WPanier extends JFrame {
 			JOptionPane.showMessageDialog(null, "Erreur lors du chargement des réservation!");
 		}
 		
-	}
+	}*/
 }

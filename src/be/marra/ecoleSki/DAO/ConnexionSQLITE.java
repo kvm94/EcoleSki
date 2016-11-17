@@ -39,7 +39,7 @@ public class ConnexionSQLITE {
         return snglConnection;
     }
     
-    static public boolean disconnect()
+    /*static public boolean disconnect()
     {
       try
       {
@@ -54,5 +54,5 @@ public class ConnexionSQLITE {
         e.printStackTrace();
       }
       return false;
-    }
+    }*/
 }

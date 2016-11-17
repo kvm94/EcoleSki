@@ -7,8 +7,6 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
 
 import be.marra.ecoleSki.Client;
 import be.marra.ecoleSki.Moniteur;
@@ -42,18 +40,6 @@ public class Authentification extends JFrame {
 		setTitle("Authentification");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 287, 213);
-		
-		//Applique le thème.
-		try {
-		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-		        if ("Nimbus".equals(info.getName())) {
-		            UIManager.setLookAndFeel(info.getClassName());
-		            break;
-		        }
-		    }
-		} catch (Exception e) {
-		   e.printStackTrace();
-		}
 		
 		//Centre la fenêtre.
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();

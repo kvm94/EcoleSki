@@ -1,5 +1,6 @@
 package be.marra.ecoleSki.windows;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.ArrayList;
@@ -85,6 +86,7 @@ public class WClient extends JFrame {
 
 	    //Ajout d'un scrollPane contenant ma JTable.
 	    scrollPane = new JScrollPane(tableau);
+	    scrollPane.setBackground(Color.WHITE);
 	    scrollPane.setLocation(6, 46);
 	    scrollPane.setSize(432, 185);
 	    this.getContentPane().add(scrollPane);
@@ -177,7 +179,7 @@ public class WClient extends JFrame {
 				//Récupération des données.
 				for(int i = 0 ; i <listRes.size() ; i++){
 					data[i][0] = listRes.get(i).getSemaine().toString();
-					data[i][1] = String.valueOf(listRes.get(i).getHeure().getHours()) + "h";
+					data[i][1] = String.valueOf(listRes.get(i).getHeure().getHours()) + "h00";
 					data[i][2] = listRes.get(i).getEleve().getPrenom();
 					data[i][3] = listRes.get(i).getCours().getSport().toString();
 					data[i][4] = listRes.get(i).getCours().getNiveaux().toString();
