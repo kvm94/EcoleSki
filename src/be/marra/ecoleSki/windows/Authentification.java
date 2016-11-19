@@ -16,7 +16,8 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
-import java.awt.Choice;
+import javax.swing.JComboBox;
+import java.awt.Font;
 
 public class Authentification extends JFrame {
 
@@ -28,6 +29,7 @@ public class Authentification extends JFrame {
 	private JTextField textField_prenom;
 	private Authentification This = this;
 	private JPasswordField passwordField;
+	private JComboBox<String> comboBox;
 	
 	//[end]
 	
@@ -37,7 +39,7 @@ public class Authentification extends JFrame {
 		setResizable(false);
 		setTitle("Authentification");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 324, 211);
+		setBounds(100, 100, 287, 213);
 		
 		//Centre la fenêtre.
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -50,48 +52,59 @@ public class Authentification extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblNom = new JLabel("Nom :");
-		lblNom.setBounds(50, 48, 89, 14);
+		lblNom.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 12));
+		lblNom.setBounds(31, 50, 89, 14);
 		contentPane.add(lblNom);
 		
 		JLabel lblPrnom = new JLabel("Pr\u00E9nom :");
-		lblPrnom.setBounds(50, 73, 89, 14);
+		lblPrnom.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 12));
+		lblPrnom.setBounds(31, 75, 89, 14);
 		contentPane.add(lblPrnom);
 		
 		JLabel lblMotDePasse = new JLabel("Mot de passe:");
-		lblMotDePasse.setBounds(50, 98, 89, 14);
+		lblMotDePasse.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 12));
+		lblMotDePasse.setBounds(31, 101, 89, 14);
 		contentPane.add(lblMotDePasse);
 		
 		textField_nom = new JTextField();
-		textField_nom.setBounds(166, 45, 100, 20);
+		textField_nom.setFont(new Font("Segoe UI", Font.ITALIC, 12));
+		textField_nom.setBounds(147, 45, 110, 25);
 		contentPane.add(textField_nom);
 		textField_nom.setColumns(10);
 		
 		textField_prenom = new JTextField();
-		textField_prenom.setBounds(166, 70, 100, 20);
+		textField_prenom.setFont(new Font("Segoe UI", Font.ITALIC, 12));
+		textField_prenom.setBounds(147, 70, 110, 25);
 		contentPane.add(textField_prenom);
 		textField_prenom.setColumns(10);
 		
 		JButton btnInscription = new JButton("Inscription");
-		btnInscription.setBounds(50, 133, 103, 23);
+		btnInscription.setFont(new Font("Segoe UI Black", Font.ITALIC, 12));
+		btnInscription.setBounds(31, 133, 103, 27);
 		contentPane.add(btnInscription);
 		
 		JButton btnConnexion = new JButton("Connexion");
-		btnConnexion.setBounds(163, 133, 103, 23);
+		btnConnexion.setFont(new Font("Segoe UI Black", Font.ITALIC, 12));
+		btnConnexion.setBounds(144, 133, 103, 27);
 		contentPane.add(btnConnexion);
 		
 		JLabel lblUtilisateur = new JLabel("Utilisateur :");
-		lblUtilisateur.setBounds(50, 23, 89, 14);
+		lblUtilisateur.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 12));
+		lblUtilisateur.setBounds(31, 21, 89, 14);
 		contentPane.add(lblUtilisateur);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(166, 95, 100, 20);
+		passwordField.setFont(new Font("Segoe UI", Font.ITALIC, 12));
+		passwordField.setBounds(147, 95, 110, 25);
 		contentPane.add(passwordField);
 		
-		Choice choice = new Choice();
-		choice.setBounds(166, 19, 100, 20);
-		contentPane.add(choice);
-		choice.add("Client");
-		choice.add("Moniteur");
+		comboBox = new JComboBox<String>();
+		comboBox.setFont(new Font("Segoe UI", Font.ITALIC, 12));
+		comboBox.setBounds(147, 17, 110, 25);
+		contentPane.add(comboBox);
+		comboBox.addItem("Client");
+		comboBox.addItem("Moniteur");
+		
 		
 		//[end]
 		
@@ -115,7 +128,7 @@ public class Authentification extends JFrame {
 					if(!textField_nom.getText().isEmpty() && !textField_prenom.getText().isEmpty() && !passwordField.getText().isEmpty()){
 						
 						//Définis le type d'utilisateur.
-						if(choice.getSelectedItem() == "Client")
+						if(comboBox.getSelectedItem() == "Client")
 							u = new Client();
 						else
 							u= new Moniteur();
@@ -153,5 +166,4 @@ public class Authentification extends JFrame {
 		});
 		//[end]
 	}
-	//[end]
 }

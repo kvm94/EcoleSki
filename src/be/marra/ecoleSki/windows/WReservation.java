@@ -30,7 +30,7 @@ public class WReservation extends JFrame {
 		
 		this.res =res;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 198, 251);
+		setBounds(100, 100, 257, 345);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -43,7 +43,8 @@ public class WReservation extends JFrame {
 		//[start]Contenus
 		
 		textPane = new JTextPane();
-		textPane.setBounds(10, 11, 172, 200);
+		textPane.setContentType("text/html");
+		textPane.setBounds(10, 11, 229, 293);
 		contentPane.add(textPane);
 		
 		//[end]

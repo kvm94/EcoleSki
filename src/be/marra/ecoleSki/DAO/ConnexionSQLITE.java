@@ -32,10 +32,11 @@ public class ConnexionSQLITE {
     /**
      * Désctructeur qui ferme la connexion à la base de données.
      */
-    public void finalize()
+    /*public void finalize()
     {
       disconnect();
     }
+*/
     
     /**
      * Récupère l'instance de la classe pour le Singleton.
@@ -53,7 +54,8 @@ public class ConnexionSQLITE {
      * Se déconnecte de la base de données.
      * @return Tur si la base de données à bien été déconnecté.
      */
-    static public boolean disconnect()
+    /*static public boolean disconnect()
+
     {
       try
       {
@@ -68,5 +70,5 @@ public class ConnexionSQLITE {
         e.printStackTrace();
       }
       return false;
-    }
+    }*/
 }

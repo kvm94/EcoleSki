@@ -21,6 +21,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+import java.awt.Font;
 
 public class GererHoraire extends JFrame {
 
@@ -41,7 +42,7 @@ public class GererHoraire extends JFrame {
 		setTitle("G\u00E9rer horaire");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 528, 316);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -54,28 +55,32 @@ public class GererHoraire extends JFrame {
 		//[start]Contenus
 		
 		listCours = new List();
-		listCours.setBounds(10, 33, 185, 228);
+		listCours.setBounds(10, 33, 215, 228);
 		contentPane.add(listCours);
 		
 		listDispo = new List();
-		listDispo.setBounds(256, 33, 178, 228);
+		listDispo.setBounds(297, 33, 215, 228);
 		contentPane.add(listDispo);
 		
 		JLabel lblNewLabel = new JLabel("Cours \u00E0 donner :");
-		lblNewLabel.setBounds(22, 13, 136, 14);
+		lblNewLabel.setFont(new Font("Segoe UI", Font.BOLD | Font.ITALIC, 12));
+		lblNewLabel.setBounds(10, 13, 136, 14);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblCoursDisponnible = new JLabel("Cours disponnible : ");
-		lblCoursDisponnible.setBounds(259, 13, 185, 14);
+		lblCoursDisponnible.setFont(new Font("Segoe UI", Font.BOLD | Font.ITALIC, 12));
+		lblCoursDisponnible.setBounds(297, 13, 185, 14);
 		contentPane.add(lblCoursDisponnible);
 		
 		JButton btnNewButton = new JButton("->");
-		btnNewButton.setBounds(205, 103, 45, 23);
+		btnNewButton.setFont(new Font("Segoe UI Black", Font.ITALIC, 12));
+		btnNewButton.setBounds(231, 96, 60, 33);
 		contentPane.add(btnNewButton);
 		btnNewButton.setEnabled(false);
 		
 		JButton btnNewButton_1 = new JButton("<-");
-		btnNewButton_1.setBounds(204, 137, 45, 23);
+		btnNewButton_1.setFont(new Font("Segoe UI Black", Font.ITALIC, 12));
+		btnNewButton_1.setBounds(231, 137, 60, 33);
 		contentPane.add(btnNewButton_1);
 		btnNewButton_1.setEnabled(false);
 		
@@ -154,8 +159,8 @@ public class GererHoraire extends JFrame {
 		try{
 			listeCours = m.checkReservations(m.getId());
 			for(int i = 0 ; i<listeCours.size();i++){
-				String s = "";
-				s += listeCours.get(i).getSemaine().getDateDebut().toString() + "  |  ";
+				String s;
+				s = listeCours.get(i).getSemaine().getDateDebut().toString() + "  |  ";
 				s += listeCours.get(i).getHeure().getHours()+ "h  |  ";
 				s += listeCours.get(i).getCours().getCategorie().toString() + "  |  ";
 				s += listeCours.get(i).getCours().getSport().toString() + "  |  ";
@@ -173,8 +178,8 @@ public class GererHoraire extends JFrame {
 		try{
 			listeDispo = m.checkReservations(0);
 			for(int i = 0 ; i<listeDispo.size();i++){
-				String s = "";
-				s += listeDispo.get(i).getSemaine().getDateDebut().toString() + "  |  ";
+				String s;
+				s = listeDispo.get(i).getSemaine().getDateDebut().toString() + "  |  ";
 				s += listeDispo.get(i).getHeure().getHours()+ "h  |  ";
 				s += listeDispo.get(i).getCours().getCategorie().toString() + "  |  ";
 				s += listeDispo.get(i).getCours().getSport().toString() + "  |  ";

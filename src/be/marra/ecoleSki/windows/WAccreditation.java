@@ -24,6 +24,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+import java.awt.Font;
 
 public class WAccreditation extends JFrame {
 
@@ -83,11 +84,13 @@ public class WAccreditation extends JFrame {
 		choiceCategorie.add("Enfant");
 		
 		JButton btnAjouter = new JButton("Ajouter");
-		btnAjouter.setBounds(134, 67, 107, 23);
+		btnAjouter.setFont(new Font("Segoe UI Black", Font.ITALIC, 12));
+		btnAjouter.setBounds(134, 67, 107, 25);
 		contentPane.add(btnAjouter);
 		
 		btnSupprimer = new JButton("Supprimer");
-		btnSupprimer.setBounds(10, 65, 107, 23);
+		btnSupprimer.setFont(new Font("Segoe UI Black", Font.ITALIC, 12));
+		btnSupprimer.setBounds(10, 65, 107, 25);
 		contentPane.add(btnSupprimer);
 
 		//[end]

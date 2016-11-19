@@ -217,6 +217,19 @@ public class Semaine {
 		
 		return semaines;
 	}
+	
+	/**
+	 * Surcharge de toString
+	 * @return String
+	 */
+	@Override
+	public String toString(){
+		String s = "";
+		
+		s += dateDebut.toString() + " -> " + dateFin.toString(); 
+		
+		return s;
+	}
 
 	//[end]Méthodes
 	

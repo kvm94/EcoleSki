@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import com.toedter.calendar.JCalendar;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
 
 public class WMoniteur extends JFrame {
 
@@ -36,10 +37,12 @@ public class WMoniteur extends JFrame {
 		contentPane.setLayout(null);
 		
 		JButton btnNewButton = new JButton("G\u00E9rer les accr\u00E9ditations");
+		btnNewButton.setFont(new Font("Segoe UI Black", Font.ITALIC, 12));
 		btnNewButton.setBounds(10, 11, 243, 23);
 		contentPane.add(btnNewButton);
 		
 		JButton btnNewButton_2 = new JButton("G\u00E9rer horaire");
+		btnNewButton_2.setFont(new Font("Segoe UI Black", Font.ITALIC, 12));
 		btnNewButton_2.setBounds(264, 11, 243, 23);
 		contentPane.add(btnNewButton_2);
 		
