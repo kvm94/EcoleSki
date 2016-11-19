@@ -153,7 +153,7 @@ public class Reservation {
 	}
 	
 	/**
-	 *  Met un jour l'id_moniteur de toutes les réservations à la même semaine et heure que celle-ci.
+	 *  Met un jour la réservation.
 	 * @throws Exception
 	 */
 	public void update() throws Exception{
@@ -164,9 +164,24 @@ public class Reservation {
 	
 	/**
 	 * Met un jour l'id_moniteur de toutes les réservations à la même semaine et heure que celle-ci.
+	 * @param id L'id du moniteur à ajouter.
 	 */
-	public void updateIDMonitor(){
+	public void updateIDMonitor(int id){
+		this.moniteur.setId(id);
 		resDAO.updateIdMonitor(this);
+	}
+	
+	/**
+	 * Vérifie si le moniteur n'a pas un cours à données au même moment que celui qu'il veut ajouter.
+	 * @param L'id du moniteur qui veut ajouter le cours.
+	 * @return True si le moniteur peut ajouter le cours.
+	 */
+	public static boolean checkAjoutMoniteur(int id_moniteur, Time heure, int id_semaine){
+		AbstractDAOFactory adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
+		ReservationDAO resDAO = (ReservationDAO)adf.getReservationDAO();
+		boolean check;
+		check = !resDAO.find(id_moniteur, heure, id_semaine);
+		return check;
 	}
 	
 	/**

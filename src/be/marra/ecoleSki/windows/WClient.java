@@ -113,7 +113,8 @@ public class WClient extends JFrame {
 			    tableau.getColumnModel().getColumn(0).setMinWidth(155);
 			    tableau.getColumnModel().getColumn(1).setMinWidth(45);
 			    tableau.getColumnModel().getColumn(1).setMaxWidth(45);
-			    tableau.setRowSelectionAllowed(true);				
+			    tableau.setRowSelectionAllowed(true);
+			    btnAfficher.setEnabled(false);
 			}
 			public void windowLostFocus(WindowEvent arg0) {
 			}
@@ -147,8 +148,9 @@ public class WClient extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				WReservation wReservation = new WReservation(This, listRes.get(tableau.getSelectedRow()));
 				wReservation.setVisible(true);
-				This.setEnabled(false);
+				tableau.clearSelection();
 				btnAfficher.setEnabled(false);
+				This.setEnabled(false);
 			}
 		});
 		

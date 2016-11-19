@@ -126,6 +126,8 @@ public class WPanier extends JFrame {
 		scrollPane.setBounds(12, 12, 420, 177);
 		contentPane.add(scrollPane);
 		
+		//[end]
+		
 		//[start]Events
 		
 		addWindowListener(new WindowAdapter() {
@@ -164,7 +166,10 @@ public class WPanier extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				WReservation wReservation = new WReservation(This, listRes.get(tableau.getSelectedRow())); 
 				wReservation.setVisible(true);
+				tableau.clearSelection();
+				btnAfficher.setEnabled(false);
 				This.setEnabled(false);
+
 			}
 		});
 		
@@ -226,7 +231,7 @@ public class WPanier extends JFrame {
 					initDisplay();
 					lblPrix.setText("");
 					lblNote.setText("");
-					if(data == null)
+					if(data.length == 0)
 						btnPayer.setEnabled(false);
 					btnSupprimer.setEnabled(false);
 					btnAfficher.setEnabled(false);

@@ -189,7 +189,7 @@ public class Moniteur extends Utilisateur {
 							first = false;
 						}
 
-					}else if(listeReservation.get(i).getId() != reservations.get(flag).getId()){
+					}else if(listeReservation.get(i).getCours().getId() != reservations.get(flag).getCours().getId()){
 
 						if(listeReservation.get(i).getCours().checkAccreditation(this.getAccreditations())){
 							reservations.add(listeReservation.get(i));
@@ -207,6 +207,7 @@ public class Moniteur extends Utilisateur {
 
 		return reservations;
 	}
+	
 
 	//[end]Méthodes
 

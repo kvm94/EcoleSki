@@ -336,15 +336,15 @@ public class NewReservation extends JFrame {
 						collectif = true;
 						break;
 					case "12h00 -> 13h00 (Cours particulier)": 
-						heure=12;
+						heure=121; //121 pour 12h -1h de cours
 						collectif = false;
 						break;
 					case "12h00 -> 14h00 (Cours particulier)": 
-						heure = 2 ; 
+						heure = 122 ; // 121 pour 12h -2h de cours
 						collectif = false;
 						break;
 					case "14h00 -> 17h00" : 
-						heure = 3;
+						heure = 14;
 						collectif = true;
 						break;
 					default: 

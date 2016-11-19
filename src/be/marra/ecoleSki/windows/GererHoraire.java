@@ -102,10 +102,17 @@ public class GererHoraire extends JFrame {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try{
-					listeDispo.get(listDispo.getSelectedIndex()).setIdMoniteur(m.getId());
-					listeDispo.get(listDispo.getSelectedIndex()).updateIDMonitor();
-					initList();
-					btnNewButton_1.setEnabled(false);
+					Reservation temp = listeDispo.get(listDispo.getSelectedIndex());
+					if(Reservation.checkAjoutMoniteur(m.getId(), temp.getHeure(), temp.getSemaine().getId())){
+						//listeDispo.get(listDispo.getSelectedIndex()).setIdMoniteur(m.getId());
+						temp.updateIDMonitor(m.getId());
+						initList();
+						btnNewButton_1.setEnabled(false);
+					}
+					else{
+						throw new Exception("Vous possèdez déjà un cours pour cette période!");
+					}
+					
 				}
 				catch(Exception ex){
 					JOptionPane.showMessageDialog(null, ex.getMessage());
@@ -117,8 +124,8 @@ public class GererHoraire extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try{
-					listeCours.get(listCours.getSelectedIndex()).setIdMoniteur(0);
-					listeCours.get(listCours.getSelectedIndex()).updateIDMonitor();
+					//listeCours.get(listCours.getSelectedIndex()).setIdMoniteur(0);
+					listeCours.get(listCours.getSelectedIndex()).updateIDMonitor(0);
 					initList();
 					btnNewButton.setEnabled(false);
 				}

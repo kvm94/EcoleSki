@@ -151,9 +151,9 @@ public class Cours {
 	private void initParticulier() {
 		minEleve = 1;
 		maxEleve = 4;
-		if(heure == 1)
+		if(heure == 121)
 			prix = 50;
-		if(heure == 2)
+		if(heure == 122)
 			prix = 80;
 		
 	}

@@ -131,8 +131,8 @@ public class WAccreditation extends JFrame {
 					
 					for(int i = 0 ; i< listeReservation.size() ; i ++){
 						if(!listeReservation.get(i).getCours().checkAccreditation(listeAccre)){
-							listeReservation.get(i).setIdMoniteur(0);
-							listeReservation.get(i).updateIDMonitor();
+							//listeReservation.get(i).setIdMoniteur(0);
+							listeReservation.get(i).updateIDMonitor(0);
 							JOptionPane.showMessageDialog(null, "Les cours à l'horaire nécessitant cette accréditation ont été supprimé!");
 						}
 					}

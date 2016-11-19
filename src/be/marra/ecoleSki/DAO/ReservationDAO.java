@@ -220,6 +220,34 @@ public class ReservationDAO extends DAO<Reservation>{
 	}
 	
 	/**
+	 * Vérifie si une réservation n'éxiste pas déjà en fonction de son moniteur, sa semaine et son heure..
+	 * @param id_moniteur Le moniteur
+	 * @param heure l'heure
+	 * @param id_smeaine la semaine
+	 * @return
+	 */
+	@SuppressWarnings("deprecation")
+	public boolean find(int id_moniteur, Time heure, int id_semaine){
+		boolean check=false;
+		try{
+			ResultSet result = this.connect.createStatement(
+					ResultSet.TYPE_FORWARD_ONLY,
+					ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Reservation WHERE "
+							+ "id_moniteur = " + id_moniteur
+							+ " and id_semaine = " + id_semaine
+							+ " and heure = " + heure.getHours());
+			
+			while(result.next()){
+				check = true;
+			}	
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		return check;
+	}
+	
+	/**
 	 * Renvois une liste des Réservation recherchées par rapport à un client.
 	 * @param statut
 	 * @param id_client
