@@ -133,6 +133,19 @@ public class Client extends Utilisateur {
 		return check;
 	}
 	
+	/**
+	 * Déconnecte le client, rénitialise ses attributs.
+	 */
+	@Override
+	public void deconnexion(){
+		setNom("");
+		setPrenom("");
+		setPasswd("");
+		setDateNaissance(null);
+		setId(0);		
+		pan = null;
+	}
+	
 	//[end]
 	
 	//[start]Accesseurs

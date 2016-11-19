@@ -90,6 +90,11 @@ public class WClient extends JFrame {
 	    scrollPane.setLocation(6, 46);
 	    scrollPane.setSize(432, 185);
 	    this.getContentPane().add(scrollPane);
+	    
+	    JButton btnDconnexion = new JButton("D\u00E9connexion");
+	    btnDconnexion.setFont(new Font("Segoe UI Black", Font.ITALIC, 12));
+	    btnDconnexion.setBounds(6, 237, 119, 28);
+	    contentPane.add(btnDconnexion);
 		
 		//[end]
 		
@@ -119,6 +124,16 @@ public class WClient extends JFrame {
 			public void windowLostFocus(WindowEvent arg0) {
 			}
 		});
+		
+		//Déconnecte le client.
+	    btnDconnexion.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    		c.deconnexion();
+	    		Authentification auth =  new Authentification();
+	    		auth.setVisible(true);
+	    		This.dispose();
+	    	}
+	    });
 		
 		//Afficher la fenêtre d'une nouvelle réservation.
 		btnNouvelleRservation.addActionListener(new ActionListener() {

@@ -38,17 +38,22 @@ public class WMoniteur extends JFrame {
 		
 		JButton btnNewButton = new JButton("G\u00E9rer les accr\u00E9ditations");
 		btnNewButton.setFont(new Font("Segoe UI Black", Font.ITALIC, 12));
-		btnNewButton.setBounds(10, 11, 243, 23);
+		btnNewButton.setBounds(10, 11, 243, 28);
 		contentPane.add(btnNewButton);
 		
 		JButton btnNewButton_2 = new JButton("G\u00E9rer horaire");
 		btnNewButton_2.setFont(new Font("Segoe UI Black", Font.ITALIC, 12));
-		btnNewButton_2.setBounds(264, 11, 243, 23);
+		btnNewButton_2.setBounds(264, 11, 243, 28);
 		contentPane.add(btnNewButton_2);
 		
 		JCalendar calendar = new JCalendar();
 		calendar.setBounds(10, 55, 497, 263);
 		contentPane.add(calendar);
+		
+		JButton btnDconnexion = new JButton("D\u00E9connexion");
+		btnDconnexion.setFont(new Font("Segoe UI Black", Font.ITALIC, 12));
+		btnDconnexion.setBounds(6, 318, 134, 28);
+		contentPane.add(btnDconnexion);
 		
 		//Centre la fenêtre.
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -70,6 +75,15 @@ public class WMoniteur extends JFrame {
 				setEnabled(false);
 				GererHoraire gereH = new GererHoraire(This, m);
 				gereH.setVisible(true);
+			}
+		});
+		
+		btnDconnexion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				m.deconnexion();
+				Authentification auth = new Authentification();
+				auth.setVisible(true);
+				dispose();
 			}
 		});
 		

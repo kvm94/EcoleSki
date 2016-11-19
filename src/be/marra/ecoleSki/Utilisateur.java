@@ -20,6 +20,7 @@ public abstract class Utilisateur extends Personne {
 	
 	abstract public boolean inscription() throws Exception;
 	abstract public boolean connexion();
+	abstract public void deconnexion();
 	
 	//[end]Méthodes
 	

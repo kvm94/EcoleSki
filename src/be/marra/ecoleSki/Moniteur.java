@@ -96,6 +96,19 @@ public class Moniteur extends Utilisateur {
 
 		return check;
 	}
+	
+	/**
+	 * Déconnecte le moniteur, rénitialise ses attributs.
+	 */
+	@Override
+	public void deconnexion(){
+		setNom("");
+		accreditations = null;
+		setPrenom("");
+		setPasswd("");
+		setDateNaissance(null);
+		setId(0);		
+	}
 
 	/**
 	 * Ajoute un accréditation.
