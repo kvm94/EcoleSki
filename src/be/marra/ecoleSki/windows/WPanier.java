@@ -168,6 +168,7 @@ public class WPanier extends JFrame {
 				wReservation.setVisible(true);
 				tableau.clearSelection();
 				btnAfficher.setEnabled(false);
+				btnSupprimer.setEnabled(false);
 				This.setEnabled(false);
 
 			}
@@ -284,44 +285,4 @@ public class WPanier extends JFrame {
 		
 		this.btnVider.setEnabled(true);
 	}
-	
-	/*private void initDisplay(List list){
-		try{
-			c.initPanier();
-			
-			this.listeRes = p.getReservations();
-			Reservation temp;
-			
-			//Charge la liste
-			if(!this.listeRes.isEmpty()){
-				String item = "";
-				for(int i=0 ; i< this.listeRes.size() ; i++){
-					temp = this.listeRes.get(i);
-					
-					item += temp.getSemaine().getDateDebut().toString() + " -> " + temp.getSemaine().getDateFin().toString() + "   |   ";
-					item += temp.getHeure().toString() + "   |   ";
-					item += temp.getCours().getSport().toString() + "   |   ";
-					item += temp.getCours().getNiveaux().toString() + "   |   ";
-					
-					list.add(item);
-					
-					item = "";
-					
-				}
-				
-				//Affiche la note et le prix du panier.
-				this.lblPrix.setText(String.valueOf(p.getTotal() + "€"));
-				if(p.isReduction())
-					this.lblNote.setText("*Réduction de 15% sur votre total!");
-				
-				this.btnVider.setEnabled(true);
-			}
-			
-			
-		}
-		catch(Exception ex){
-			JOptionPane.showMessageDialog(null, "Erreur lors du chargement des réservation!");
-		}
-		
-	}*/
 }
