@@ -31,7 +31,6 @@ public class Program
 
 					//Ne le lance qu'une seul fois sinon ça ralentit le démarrage du programme.
 					//Semaine.initSemaine();
-					//Semaine.initConge();
 					Authentification frame = new Authentification();
 					frame.setVisible(true);
 				} catch (Exception e) {

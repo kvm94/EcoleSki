@@ -42,7 +42,7 @@ public class GererHoraire extends JFrame {
 		setTitle("G\u00E9rer horaire");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 528, 316);
+		setBounds(100, 100, 602, 323);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -55,11 +55,11 @@ public class GererHoraire extends JFrame {
 		//[start]Contenus
 		
 		listCours = new List();
-		listCours.setBounds(10, 33, 215, 228);
+		listCours.setBounds(10, 33, 252, 228);
 		contentPane.add(listCours);
 		
 		listDispo = new List();
-		listDispo.setBounds(297, 33, 215, 228);
+		listDispo.setBounds(334, 33, 252, 228);
 		contentPane.add(listDispo);
 		
 		JLabel lblNewLabel = new JLabel("Cours \u00E0 donner :");
@@ -69,18 +69,18 @@ public class GererHoraire extends JFrame {
 		
 		JLabel lblCoursDisponnible = new JLabel("Cours disponnible : ");
 		lblCoursDisponnible.setFont(new Font("Segoe UI", Font.BOLD | Font.ITALIC, 12));
-		lblCoursDisponnible.setBounds(297, 13, 185, 14);
+		lblCoursDisponnible.setBounds(335, 13, 185, 14);
 		contentPane.add(lblCoursDisponnible);
 		
 		JButton btnNewButton = new JButton("->");
 		btnNewButton.setFont(new Font("Segoe UI Black", Font.ITALIC, 12));
-		btnNewButton.setBounds(231, 96, 60, 33);
+		btnNewButton.setBounds(268, 92, 60, 33);
 		contentPane.add(btnNewButton);
 		btnNewButton.setEnabled(false);
 		
 		JButton btnNewButton_1 = new JButton("<-");
 		btnNewButton_1.setFont(new Font("Segoe UI Black", Font.ITALIC, 12));
-		btnNewButton_1.setBounds(231, 137, 60, 33);
+		btnNewButton_1.setBounds(268, 137, 60, 33);
 		contentPane.add(btnNewButton_1);
 		btnNewButton_1.setEnabled(false);
 		

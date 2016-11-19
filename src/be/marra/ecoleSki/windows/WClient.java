@@ -130,6 +130,7 @@ public class WClient extends JFrame {
 	    	public void actionPerformed(ActionEvent e) {
 	    		c.deconnexion();
 	    		Authentification auth =  new Authentification();
+	    		JOptionPane.showMessageDialog(null, "Déconnecté!");
 	    		auth.setVisible(true);
 	    		This.dispose();
 	    	}
