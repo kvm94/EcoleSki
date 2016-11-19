@@ -30,7 +30,7 @@ import java.awt.Font;
 public class WClient extends JFrame {
 
 	//[start]Attributs.
-	
+
 	private static final long serialVersionUID = -58198079207033912L;
 	private JPanel contentPane;
 	private Client c;
@@ -39,13 +39,13 @@ public class WClient extends JFrame {
 	private JButton btnAfficher;
 	private JTable tableau;
 	private JScrollPane scrollPane;
-	
+
 	//[end]
-	
+
 	//[start]Création de la fenêtre.
-	
+
 	public WClient(Client c) {
-		
+
 		setResizable(false);
 		this.c = c; 
 		setTitle("Client");
@@ -54,52 +54,52 @@ public class WClient extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		
+
 		//Centre la fenêtre.
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		setLocation(dim.width/2 - getWidth()/2, dim.height/2 - getHeight()/2);
 		contentPane.setLayout(null);
-		
+
 		//[start]Contenus
-		
+
 		JButton btnPanier = new JButton("Panier");
 		btnPanier.setFont(new Font("Segoe UI Black", Font.ITALIC, 12));
 		btnPanier.setBounds(6, 12, 89, 27);
 		contentPane.add(btnPanier);
-		
+
 		JButton btnNouvelleRservation = new JButton("Nouvelle r\u00E9servation");
 		btnNouvelleRservation.setFont(new Font("Segoe UI Black", Font.ITALIC, 12));
 		btnNouvelleRservation.setBounds(270, 12, 168, 27);
 		contentPane.add(btnNouvelleRservation);
-		
+
 		btnAfficher = new JButton("Afficher");
 		btnAfficher.setFont(new Font("Segoe UI Black", Font.ITALIC, 12));
 		btnAfficher.setBounds(335, 238, 89, 27);
 		contentPane.add(btnAfficher);
 		btnAfficher.setEnabled(false);
-		
+
 		String[] header = new String[] {"Semaine", "Heure", "El\u00E8ve", "Sport", "Niveaux"};
 		Object[][] data = initDataTable();
-		
+
 		//Ajout des données dans la JTable.
 		tableau = new JTable(data, header);
 
-	    //Ajout d'un scrollPane contenant ma JTable.
-	    scrollPane = new JScrollPane(tableau);
-	    scrollPane.setBackground(Color.WHITE);
-	    scrollPane.setLocation(6, 46);
-	    scrollPane.setSize(432, 185);
-	    this.getContentPane().add(scrollPane);
-	    
-	    JButton btnDconnexion = new JButton("D\u00E9connexion");
-	    btnDconnexion.setFont(new Font("Segoe UI Black", Font.ITALIC, 12));
-	    btnDconnexion.setBounds(6, 237, 119, 28);
-	    contentPane.add(btnDconnexion);
-		
+		//Ajout d'un scrollPane contenant ma JTable.
+		scrollPane = new JScrollPane(tableau);
+		scrollPane.setBackground(Color.WHITE);
+		scrollPane.setLocation(6, 46);
+		scrollPane.setSize(432, 185);
+		this.getContentPane().add(scrollPane);
+
+		JButton btnDconnexion = new JButton("D\u00E9connexion");
+		btnDconnexion.setFont(new Font("Segoe UI Black", Font.ITALIC, 12));
+		btnDconnexion.setBounds(6, 237, 119, 28);
+		contentPane.add(btnDconnexion);
+
 		//[end]
-		
+
 		//[start]Events
-		
+
 		addWindowFocusListener(new WindowFocusListener() {
 			public void windowGainedFocus(WindowEvent arg0) {
 				String[] header = new String[] {"Semaine", "Heure", "El\u00E8ve", "Sport", "Niveaux"};
@@ -108,34 +108,36 @@ public class WClient extends JFrame {
 					private static final long serialVersionUID = 1L;
 
 					public boolean isCellEditable(int iRowIndex, int iColumnIndex)
-				    {
-				          return false;
-				    }
-				  });
-				 //Ajout de règles pour la JTable.
+					{
+						return false;
+					}
+				});
+				//Ajout de règles pour la JTable.
 				tableau.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			    tableau.getColumnModel().getColumn(0).setMaxWidth(155);
-			    tableau.getColumnModel().getColumn(0).setMinWidth(155);
-			    tableau.getColumnModel().getColumn(1).setMinWidth(45);
-			    tableau.getColumnModel().getColumn(1).setMaxWidth(45);
-			    tableau.setRowSelectionAllowed(true);
-			    btnAfficher.setEnabled(false);
+				tableau.getColumnModel().getColumn(0).setMaxWidth(155);
+				tableau.getColumnModel().getColumn(0).setMinWidth(155);
+				tableau.getColumnModel().getColumn(1).setMinWidth(45);
+				tableau.getColumnModel().getColumn(1).setMaxWidth(45);
+				tableau.setRowSelectionAllowed(true);
+				btnAfficher.setEnabled(false);
 			}
 			public void windowLostFocus(WindowEvent arg0) {
 			}
 		});
-		
+
 		//Déconnecte le client.
-	    btnDconnexion.addActionListener(new ActionListener() {
-	    	public void actionPerformed(ActionEvent e) {
-	    		c.deconnexion();
-	    		Authentification auth =  new Authentification();
-	    		JOptionPane.showMessageDialog(null, "Déconnecté!");
-	    		auth.setVisible(true);
-	    		This.dispose();
-	    	}
-	    });
-		
+		btnDconnexion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int reply = JOptionPane.showConfirmDialog(null, "Voulez-vous vous déconnecter?");
+				if(reply == JOptionPane.YES_OPTION){
+					c.deconnexion();
+					Authentification auth =  new Authentification();
+					auth.setVisible(true);
+					This.dispose();
+				}
+			}
+		});
+
 		//Afficher la fenêtre d'une nouvelle réservation.
 		btnNouvelleRservation.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -144,7 +146,7 @@ public class WClient extends JFrame {
 				This.setEnabled(false);
 			}
 		});
-		
+
 		//Affiche la fenêtre du panier.
 		btnPanier.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -158,7 +160,7 @@ public class WClient extends JFrame {
 					JOptionPane.showMessageDialog(null, "Le panier est vide!");
 			}
 		});
-		
+
 		//Affiche les détaille d'une réservation.
 		btnAfficher.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -169,31 +171,31 @@ public class WClient extends JFrame {
 				This.setEnabled(false);
 			}
 		});
-		
+
 		tableau.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-	        public void valueChanged(ListSelectionEvent event) {
-	            btnAfficher.setEnabled(true);
-	        }
-	    });
+			public void valueChanged(ListSelectionEvent event) {
+				btnAfficher.setEnabled(true);
+			}
+		});
 	}
-	
+
 	//[end]
-	
+
 	//[start]Fonctions
-	
+
 	@SuppressWarnings("deprecation")
 	private Object[][] initDataTable(){		
 		Object[][] data = null;
 		try{
 			this.listRes = new ArrayList<Reservation>();
-			
+
 			//Charge la liste des réservations d'un client, qui ont été payé.
 			this.listRes = Reservation.loadByIdClient(E_Statut.Paye, c.getId());
-			
+
 			//Si la liste n'est pas vide.
 			if(!this.listRes.isEmpty()){
 				data = new Object[listRes.size()][5];
-				
+
 				//Récupération des données.
 				for(int i = 0 ; i <listRes.size() ; i++){
 					data[i][0] = listRes.get(i).getSemaine().toString();
@@ -206,12 +208,12 @@ public class WClient extends JFrame {
 			else {
 				data = new Object[0][0];
 			}
-			
+
 		}
 		catch(Exception ex){
 			JOptionPane.showMessageDialog(null, "Erreur lors du chargement des réservation!");
 		}
-	    
-	    return data;
+
+		return data;
 	}
 }
