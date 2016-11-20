@@ -87,7 +87,7 @@ public class WPanier extends JFrame {
 		
 		lblPrix = new JLabel("");
 		lblPrix.setFont(new Font("SansSerif", Font.BOLD, 12));
-		lblPrix.setBounds(360, 202, 46, 14);
+		lblPrix.setBounds(360, 202, 74, 14);
 		contentPane.add(lblPrix);
 		
 		lblNote = new JLabel("");
@@ -229,11 +229,15 @@ public class WPanier extends JFrame {
 				    tableau.getColumnModel().getColumn(1).setMinWidth(45);
 				    tableau.getColumnModel().getColumn(1).setMaxWidth(45);
 				    tableau.setRowSelectionAllowed(true);
-					initDisplay();
 					lblPrix.setText("");
 					lblNote.setText("");
-					if(data.length == 0)
+					initDisplay();
+					if(data.length == 0){
 						btnPayer.setEnabled(false);
+						lblPrix.setText("");
+						lblNote.setText("");
+					}
+						
 					btnSupprimer.setEnabled(false);
 					btnAfficher.setEnabled(false);
 					btnVider.setEnabled(false);
